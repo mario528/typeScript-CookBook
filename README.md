@@ -26,6 +26,49 @@
 - symbel
 - any
 - void
+## 声明空间
+ - 类型声明空间
+ - 变量声明空间
+
+在typeScript中，存在两种声明空间
+``` typeScript
+    // 类型声明空间
+    interface User {
+        name: string,
+        age: number
+    }
+    type Human = {}
+    let user: User;
+    let men: Human
+    // 变量声明空间
+    class User {
+    constructor () {
+        console.log('User')
+    }
+}
+    let Human = User;
+    let men = new Human(); // User
+```
+## 模块 - typeScript中的模块
+    在typeScript中，推荐使用ES模块语法
+``` typeScript
+// a.ts 导出
+export let a = 10;
+// or 
+let a:number = 10;
+let b:string = 'mario528@163.com'
+export { a, b as emailAddress }
+// or 整体导出
+let a: number
+export default a = 100;
+// b.ts 引入
+impost { a, emailAddress } from './a'
+console.log(a , emailAddress)  // 10 mario528@163.com 
+// 整体引入
+import * as A from './a';
+console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
+```
+## 命名空间
 ### keyof在TypeScript中
 ``` typeScript
     interface Person {
