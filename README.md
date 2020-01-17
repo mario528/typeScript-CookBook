@@ -1,6 +1,7 @@
 # TypeScript学习笔记
 #### TypeScript是JavaScript的超集
-## TypeScript的基本类型
+## 类型
+> ### TypeScript的基本类型
 - number  浮点数 
 - string  字符串 
 - object 
@@ -29,19 +30,43 @@ example[3] = 'jia'  // success 越界根据类型联合查询判断
 - symbel
 - any      关闭类型检查
 - void     空值返回
-## 联合查询
+> ### 类型别名
+类型注解
+``` typeScript
+type UserAccount = string | number;
+let userAccount: UserAccount;
+userAccount = 10;     // true
+userAccount = '10';   // true
+userAccount = false;  // Error
+```
+> ### 联合查询
 当希望一个变量用户多个类型可能时 即使用类型的联合查询
 ``` typeScript
 let idCount: string | number;
 idCount = 10;
 idCount = '10'
 ```
-## 交叉类型
+> ### 交叉类型
 从两个对象中创建一个新对象，新对象会拥有着两个对象所有的功能 类似于继承的含义
 ``` typeScript
-function TypeExtend <T, U> (userName: T, userCount: N): T & N {
-
+function fusionFun <T, U> (argA: T, argB: U): (T & U) {
+  let fusionObj = <T & U>{};
+  for (let item in argA) {
+    (<T>fusionObj)[item] = argA[item]
+  }
+  for (let item in argB) {
+    if (!fusionObj[item]) {
+      (<U>fusionObj)[item] = argB[item]
+    }
+  }
+  return fusionObj;
 }
+let user = fusionFun({
+  userName: 'majiaao'
+}, {
+  age: 20
+});
+console.log(user); // { userName: 'majiaao', age: 20 }
 ```
 ## 泛型
 ``` TypeScript
@@ -82,8 +107,8 @@ console.log(a) // 'ao', 'jia', 'ma'
     let Human = User;
     let men = new Human(); // User
 ```
-## 模块 - typeScript中的模块
-    在typeScript中，推荐使用ES模块语法
+## 模块
+typeScript中的模块 在typeScript中，推荐使用ES模块语法
 ``` typeScript
 // a.ts 导出
 export let a = 10;
