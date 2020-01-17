@@ -19,11 +19,11 @@ example[3] = 'jia'  // success 越界根据类型联合查询判断
 ```
 - enum     枚举
 ``` typeScript
-  enum Color {
-      first: 1,
-      second,
-      third
-  }
+enum Color {
+    first: 1,
+    second,
+    third
+}
 ```
 - null
 - undefined
@@ -90,22 +90,22 @@ console.log(a) // 'ao', 'jia', 'ma'
 
 在typeScript中，存在两种声明空间
 ``` typeScript
-    // 类型声明空间
-    interface User {
-        name: string,
-        age: number
-    }
-    type Human = {}
-    let user: User;
-    let men: Human
-    // 变量声明空间
-    class User {
+// 类型声明空间
+interface User {
+    name: string,
+    age: number
+}
+type Human = {}
+let user: User;
+let men: Human
+// 变量声明空间
+class User {
     constructor () {
         console.log('User')
     }
 }
-    let Human = User;
-    let men = new Human(); // User
+let Human = User;
+let men = new Human(); // User
 ```
 ## 模块
 typeScript中的模块 在typeScript中，推荐使用ES模块语法
@@ -129,10 +129,10 @@ console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
 ## 命名空间
 ### keyof在TypeScript中
 ``` typeScript
-    interface Person {
-        userName: string,
-        age: Number,
-        sex: string
-    }
-    type men = keyof Person
+interface Person {
+    userName: string,
+    age: Number,
+    sex: string
+}
+type men = keyof Person
 ```
