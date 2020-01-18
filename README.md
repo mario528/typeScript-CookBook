@@ -248,7 +248,39 @@ ___
 ## 命名空间
 在 TypeScript 中,现在的版本推荐我们使用命名空间。首先，让我们来看看下面的这段代码，本章命名空间相关的学习我们都会围绕着这段代码和它的“升级版来展开
 ``` TypeScript
+// checkIn.ts
+const globalPassword = '528528'
+let globalPhoneREG = /^1[34578]\d{9}$/
 interface PhoneNumber {
-  phoneNumber: number
+    phoneNumber: string
 }
+interface Password {
+    password: string | number
+}
+interface UserFunc {
+    isAvailable (): boolean
+}
+
+class checkPhoneAvailbale implements PhoneNumber,UserFunc {
+    phoneNumber: string
+    constructor (phoneNumber: string) {
+        this.phoneNumber = phoneNumber
+    }
+    isAvailable () {
+        return globalPhoneREG.test(this.phoneNumber)
+    }
+}
+
+class checkPasswordAvailable implements Password,UserFunc {
+    password: number | string;
+    constructor (password: string | number) {
+        this.password = password;
+    }
+    isAvailable () {
+        return this.password == globalPassword
+    }
+}
+let passTemp = new checkPasswordAvailable('528528')
+console.log(passTemp.isAvailable())
 ```
+上面这段代码很简单，我们在 checkIn.ts 中粗略的实现了用户的手机号、密码校验。但随着需求中越来越多的校验器需求，可能 checkIn.ts文件会越来越庞大。因此我们需要对代码进行模块化分割。
