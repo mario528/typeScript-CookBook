@@ -27,7 +27,8 @@ let tBoolean: boolean = false;
 ```
 - null
 - undefined
-- symbol
+- symbol  
+
 在平时的开发中，可能对于我来说，symbel的使用机会比较少,但es6引入symbel还是有其原因的:
 > 本段源自阮一峰大大的 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门")
 >
