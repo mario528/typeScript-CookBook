@@ -22,3 +22,4 @@
 
 let userAge = 22;
 console.log(userAge)
+console.log(Foo)

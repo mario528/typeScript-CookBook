@@ -1,10 +1,14 @@
 # TypeScript学习笔记
 ## 前言
-本仓库为笔者的ypeScript学习笔记，在学习过程中，会将概念或者问题记录在本仓库中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢issues指出🙏。
+本仓库为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本仓库中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出🙏。
 ___
 ## 开始
 ### 什么是TypeScript ?
-TypeScript是JavaScript的超集, TypeScript主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为JavaScript弱类型特性导致的bug。
+TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为 JavaScript弱类型特性导致的bug。
+### 开发前
+对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。
+
+  好了，现在开始我们的TypeScript学习吧 `:heart_eyes:`
 ___
 ## 类型
 > ### TypeScript中的数据类型
@@ -29,9 +33,9 @@ let tBoolean: boolean = false;
 >
 >ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。
 
-在TypeScript中, symbol是通过Symbol函数创建的。但需要注意的是，Symbol并不是类方法。生成的symbol并不是对象，而是**原始类型**。并且，Symbol类型也不可以与其他类型进行运算，否则会有错误抛出。
-Symbol类型可以转化为Boolean或者String类型。但无法转化为数字类型。
-在ES2019中，Symbol返回值具有description属性
+在 TypeScript 中, symbol 是通过 Symbol 函数创建的。但需要注意的是，Symbol 并不是类方法。生成的 symbol 并不是对象，而是**原始类型**。并且，Symbol 类型也不可以与其他类型进行运算，否则会有错误抛出。
+Symbol 类型可以转化为 Boolean 或者 String 类型。但无法转化为数字类型。
+在ES2019中，Symbol 返回值具有 description 属性
 ``` TypeScript
 let symA = Symbol('mario');
 symA.description // mario
@@ -45,7 +49,7 @@ obj.paramB = 'jia'
 obj     //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.keys(obj)  // ['paramB']
 ```
-从上面的代码可以看出，属性名中类型为Symbol的在Object.keys、JSON.stringify()、for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在Object下有getOwnPropertySymbols API可以获取所有Symbol类型属性名。另外，一个新的API可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
+从上面的代码可以看出，属性名中类型为Symbol的在 Object.keys、JSON.stringify()、for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
 ``` TypeScript
 let a = {};
 let paramA = Symbol('firstName')
@@ -55,11 +59,11 @@ obj     //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.getOwnPropertySymbols(obj)  // [ Symbol(firstName) ]
 Reflect.ownKeys(obj) // [ 'paramB', Symbol(firstName) ]
 ```
-若想使用同一个Symbol值 可以使用Symbol.for方法。如果调用时，有该Symbol值,则直接返回该symbol值，若没有，则创建一个新的。
+若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
 
 | Symbol() | Symbol.for() | Symbol.keyFor
 |--|--|--
-| 无论何时调用，均创建一个新的Symbol | 当传入一个参数时,首先全局搜索是否有该该symbol,如果有，则返回该symbol值。若没有，则创建一个新的symbol,在全局登记 | 当传入symbol类型的参数在全局登记过，则返回该Symbol值的key,若传入值在全局未登记，则返回undefined。
+| 无论何时调用，均创建一个新的 Symbol | 当传入一个参数时,首先全局搜索是否有该该 symbol,如果有，则返回该 symbol 值。若没有，则创建一个新的 symbol,在全局登记 | 当传入 symbol 类型的参数在全局登记过，则返回该 Symbol 值的 key ,若传入值在全局未登记，则返回undefined。
 ``` TypeScript
 let paramA = Symbol('paramA');
 let paramB = Symbol.for('b');
@@ -97,7 +101,7 @@ let something <=> let something:any
 ```
 - void     空值返回
 > ### 类型推断
-在TypeScript中，对于为明确指出类型的代码，TypeScipt编译器会智能的推断出该变量的类型。
+在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类型。
 > ### 类型别名
 类型注解
 ``` typeScript
@@ -114,7 +118,7 @@ let idCount: string | number;
 idCount = 10;
 idCount = '10'
 ```
-当TypeScript不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共有的属性或方法,否则抛出异常。
+当 TypeScript 不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共有的属性或方法,否则抛出异常。
 ``` TypeScript
 let userAccount: string | number
 userAccount = 'mario'           // TypeScript将userAccount类型推断为string
@@ -144,7 +148,7 @@ let user = fusionFun({
 console.log(user); // { userName: 'majiaao', age: 20 }
 ```
 > ### 类型断言
-typeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制
+TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制
 被成为类型断言。
 
 首先 让我们看一下下面的代码:
@@ -152,7 +156,7 @@ typeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类�
 let user = {}
 user.name = 'mario';
 ```
-上面的代码,在JavaScript中，我们可以轻松的给对象user赋予name属性。但在TypeScript中，会触发'类型“{}”上不存在属性“name”。'的错误警告。原因就在于在创建user的同时 TypeScript编译器就将user的类型推断为空对象{}。因此无法再在user上赋值。此时, 我们便需要使用类型断言来覆盖TypeScript的类型推断:
+上面的代码,在 JavaScript 中，我们可以轻松的给对象 user 赋予 name 属性。但在 TypeScript 中，会触发'类型“{}”上不存在属性“ name ”。'的错误警告。原因就在于在创建 user 的同时 TypeScript 编译器就将 user 的类型推断为空对象{}。因此无法再在 user 上赋值。此时, 我们便需要使用类型断言来覆盖 TypeScript 的类型推断:
 ``` TypeScript
 interface User {
     name: string,
@@ -165,7 +169,11 @@ user.name = 'mario'
 > ### 双重断言
 ___
 ## 环境声明文件
-我们在TypeScript项目中，例如使用Jquery这样的第三方库时
+我们在 TypeScript 项目中，例如使用 Jquery 这样的第三方库时
+___
+## 接口
+___
+## 类
 ___
 ## 泛型
 ``` TypeScript
@@ -188,7 +196,7 @@ ___
  - 类型声明空间
  - 变量声明空间
 
-在typeScript中，存在两种声明空间:
+在 TypeScript 中，存在两种声明空间:
 ``` typeScript
 // 类型声明空间
 interface User {
@@ -209,7 +217,7 @@ let men = new Human(); // User
 ```
 ___
 ## 模块
-typeScript中的模块 在typeScript中，推荐使用ES模块语法
+typeScript 中的模块 在 TypeScript 中，推荐使用ES模块语法
 ``` typeScript
 // a.ts 导出
 export let a = 10;
@@ -227,5 +235,19 @@ console.log(a , emailAddress)  // 10 mario528@163.com
 import * as A from './a';
 console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
 ```
+### 文件模块的动态查找
+如果了解Node的模块解析策略的话,会很容易理解 TypeScript 的文件模块动态查找策略。如果不了解也没有关系,下面我们再次回顾一下:    
+当我们在模块中引入: import express from 'express'时
+* './node_modules/express'
+    * '../node_modules/express'
+        * ../../node_modules/express
+          * ......
+            * 直到查找到项目的rootpath 
 ___
 ## 命名空间
+在 TypeScript 中,现在的版本推荐我们使用命名空间。首先，让我们来看看下面的这段代码，本章命名空间相关的学习我们都会围绕着这段代码和它的“升级版来展开
+``` TypeScript
+interface PhoneNumber {
+  phoneNumber: number
+}
+```
