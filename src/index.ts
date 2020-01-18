@@ -20,5 +20,5 @@
 // } as Foo;
 // console.log(foo)
 
-a = 10;
-console.log(a)
+let userAge = 22;
+console.log(userAge)
