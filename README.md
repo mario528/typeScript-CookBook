@@ -27,7 +27,7 @@ let tBoolean: boolean = false;
 >
 >ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。
 
-在TypeScript中, symbol是通过Symbol函数创建的。但需要注意的是，Symbol并不是类方法。生成的symbol并不是对象，而是***原始类型***。并且，Symbol类型也不可以与其他类型进行运算，否则会有错误抛出。
+在TypeScript中, symbol是通过Symbol函数创建的。但需要注意的是，Symbol并不是类方法。生成的symbol并不是对象，而是**原始类型**。并且，Symbol类型也不可以与其他类型进行运算，否则会有错误抛出。
 Symbol类型可以转化为Boolean或者String类型。但无法转化为数字类型。
 在ES2019中，Symbol返回值具有description属性
 ``` TypeScript
@@ -88,7 +88,11 @@ enum Color {
     third      // 3
 }
 ```
-- any      关闭类型检查 兼容所有类型
+- any   
+关闭类型检查 兼容所有类型 当声明了一个变量的类型为any后，之后对他的任何操作，返回值的内容均为any类型。
+``` TypeScript
+let something <=> let something:any
+```
 - void     空值返回
 > ### 类型推断
 在TypeScript中，对于为明确指出类型的代码，TypeScipt编译器会智能的推断出该变量的类型。
@@ -107,6 +111,13 @@ userAccount = false;  // Error
 let idCount: string | number;
 idCount = 10;
 idCount = '10'
+```
+当TypeScript不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共有的属性或方法,否则抛出异常。
+``` TypeScript
+let userAccount: string | number
+userAccount = 'mario'           // TypeScript将userAccount类型推断为string
+console.log(userAccount.length) // success : 5
+const getUserAccountLength = (userAccount: string | number):number => userAccount.length  // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
 ```
 > ### 交叉类型
 从两个对象中创建一个新对象，新对象会拥有着两个对象所有的功能 类似于继承的含义
