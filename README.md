@@ -1,5 +1,9 @@
 # TypeScript学习笔记
-TypeScript是JavaScript的超集
+## 前言
+本仓库为笔者的ypeScript学习笔记，在学习过程中，会将概念或者问题记录在本仓库中。
+## 开始
+### 什么是TypeScript ?
+TypeScript是JavaScript的超集, TypeScript主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为JavaScript弱类型特性导致的bug。
 ## 类型
 > ### TypeScript的基本类型
 - number  浮点数 
