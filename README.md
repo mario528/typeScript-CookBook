@@ -4,7 +4,7 @@
 > ### TypeScript的基本类型
 - number  浮点数 
 - string  字符串 
-- object 
+- object  对象类型
 - boolean 布尔值
 - array   数组
 ``` TypeScript
@@ -20,9 +20,9 @@ example[3] = 'jia'  // success 越界根据类型联合查询判断
 - enum     枚举
 ``` typeScript
 enum Color {
-    first: 1,
-    second,
-    third
+    first: 1,  // 1
+    second,    // 2
+    third      // 3
 }
 ```
 - null
@@ -68,6 +68,25 @@ let user = fusionFun({
 });
 console.log(user); // { userName: 'majiaao', age: 20 }
 ```
+>### 类型断言
+    typeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制被成为类型断言。首先 让我们看一下下面的代码:
+``` TypeScript
+let user = {}
+user.name = 'mario';
+```
+    上面的代码,在JavaScript中，我们可以轻松的给对象user赋予name属性。但在TypeScript中，会触发'类型“{}”上不存在属性“name”。'的错误警告。原因就在于在创建user的同时 TypeScript编译器就将user的类型推断为空对象{}。因此无法再在user上赋值。此时, 我们便需要使用类型断言来覆盖TypeScript的类型推断:
+``` TypeScript
+interface User {
+    name: string,
+}
+let user = {} as User;
+user.name = 'mario'
+```
+### 类型断言的根本
+
+    类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类型指示, 他的影响仅仅存在与编译语法时。
+### 双重断言
+
 ## 泛型
 ``` TypeScript
 function reverse<T> (list: T[]): T[] {
