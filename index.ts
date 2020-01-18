@@ -10,12 +10,15 @@
 // stringObj = <any>numberObj
 // console.log(stringObj)
 
-interface Foo {
-    bar: number;
-    name: string;
-}
+// interface Foo {
+//     bar: number;
+//     name: string;
+// }
   
-const foo: Foo = {
-    name: 'mario'
-} as Foo;
-console.log(foo)
+// const foo: Foo = {
+//     name: 'mario'
+// } as Foo;
+// console.log(foo)
+
+a = 10;
+console.log(a)

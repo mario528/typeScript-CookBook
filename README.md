@@ -1,5 +1,5 @@
 # TypeScript学习笔记
-#### TypeScript是JavaScript的超集
+TypeScript是JavaScript的超集
 ## 类型
 > ### TypeScript的基本类型
 - number  浮点数 
@@ -30,6 +30,8 @@ enum Color {
 - symbel
 - any      关闭类型检查
 - void     空值返回
+> ### 类型推断
+在TypeScript中，对于为明确指出类型的代码，TypeScipt编译器会智能的推断出该变量的类型。
 > ### 类型别名
 类型注解
 ``` typeScript
@@ -68,7 +70,7 @@ let user = fusionFun({
 });
 console.log(user); // { userName: 'majiaao', age: 20 }
 ```
->### 类型断言
+> ### 类型断言
 typeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制
 被成为类型断言。
 
@@ -85,9 +87,11 @@ interface User {
 let user = {} as User;
 user.name = 'mario'
 ```
-### 类型断言的根本
+> ### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类型指示, 他的影响仅仅存在与编译语法时。
-### 双重断言
+> ### 双重断言
+## 环境声明文件
+我们在TypeScript项目中，例如使用Jquery这样的第三方库时
 ## 泛型
 ``` TypeScript
 function reverse<T> (list: T[]): T[] {
@@ -108,7 +112,7 @@ console.log(a) // 'ao', 'jia', 'ma'
  - 类型声明空间
  - 变量声明空间
 
-在typeScript中，存在两种声明空间
+在typeScript中，存在两种声明空间:
 ``` typeScript
 // 类型声明空间
 interface User {
@@ -147,12 +151,3 @@ import * as A from './a';
 console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
 ```
 ## 命名空间
-### keyof在TypeScript中
-``` typeScript
-interface Person {
-    userName: string,
-    age: Number,
-    sex: string
-}
-type men = keyof Person
-```

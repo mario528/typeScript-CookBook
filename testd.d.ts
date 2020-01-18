@@ -1,1 +1,1 @@
-declare let a : number
+declare let a : number;
