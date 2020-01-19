@@ -47,7 +47,7 @@ let obj = {}
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
-obj     //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
+obj               //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.keys(obj)  // ['paramB']
 ```
 从上面的代码可以看出，属性名中类型为Symbol的在 Object.keys、JSON.stringify()、for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
@@ -56,9 +56,9 @@ let a = {};
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
-obj     //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
+obj                                //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.getOwnPropertySymbols(obj)  // [ Symbol(firstName) ]
-Reflect.ownKeys(obj) // [ 'paramB', Symbol(firstName) ]
+Reflect.ownKeys(obj)               // [ 'paramB', Symbol(firstName) ]
 ```
 若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
 
@@ -259,7 +259,7 @@ impost { a, emailAddress } from './a'
 console.log(a , emailAddress)  // 10 mario528@163.com 
 // 整体引入
 import * as A from './a';
-console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
+console.log(A)                 // { a: 10, emailAddress: 'mario528@163.com' }
 ```
 ### 文件模块的动态查找
 如果了解Node的模块解析策略的话,会很容易理解 TypeScript 的文件模块动态查找策略。如果不了解也没有关系,下面我们再次回顾一下:    
