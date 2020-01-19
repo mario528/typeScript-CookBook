@@ -14,7 +14,7 @@
 //     bar: number;
 //     name: string;
 // }
-  
+
 // const foo: Foo = {
 //     name: 'mario'
 // } as Foo;
@@ -76,10 +76,44 @@
 //     console.log(userInfo)
 //   }
 //   addNewUser({age: 22, name: 'mario'})  // success
-interface UserFunc {
-    ({userName: string, age?: number}): void
-  }
-  let addNewUser: UserFunc;
-  addNewUser = function ({ userName: 'mario', age: 22 }) {
+// interface UserFunc {
+//     (userName: string, age?: number) : void
+// }
+// let addNewUser: UserFunc;
+// addNewUser = function (name: string, age?: number) {
+//     console.log(name,age)
+// }
+// addNewUser('mario', 22)
+// interface UserList {
+//     [keyIndex: number]: string
+// }
+// let userList: UserList;
+// userList = ["ma", "jia", "ao"];
+// let firstUser: string = userList[0];
+// console.log(userList, firstUser)
 
-  }
+
+// interface UserDictionary {
+//     [userKey: string]: string;
+// }
+// let userDictionary: UserDictionary;
+// userDictionary = {
+//     '0': 'ma',
+//     '1': 'jia',
+//     '2': 'ao'
+// }
+// console.log(userDictionary)
+
+interface UserClass {
+    userName: string
+    getUserName(): string
+}
+class User implements UserClass {
+    userName: string;
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    getUserName () {
+        return 'mario'
+    }
+}

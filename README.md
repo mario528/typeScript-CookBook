@@ -198,7 +198,7 @@ createNewUser({ userName: 'mario'})           // success { userName: 'mario' }
 我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进行了类型校验,
 倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，TypeScript 类型检查器会抛出错误。
 通过了上面的学习，我们明白了如何创建一个接口去规范数据类型。
-#### 接口的只读属性
+### 接口的只读属性
 在接口中，使用 readonly，即可规定该接口参数为只读属性, 使用read-only定义的属性在第一次赋值后，就再也无法改变该值了。
 ``` TypeScript
 interface UserInfo {
@@ -209,7 +209,7 @@ let user: UserInfo = {username: 'mario', age: 0};
 user.username = 'mario' // Error Cannot assign to 'username' because it is a read-only property.
 user.age = 22           // success
 ```
-#### 接口的可选属性
+### 接口的可选属性
 在接口中，定义的属性有可能是可选的，我们可以使用':?'标志该属性是可选属性。
 ``` TypeScript
 interface User {
@@ -222,7 +222,7 @@ let user: User = {
 user.age = 22;
 user      // { userName: 'mario', age: 22 }
 ```
-#### 额外的属性检查
+### 额外的属性检查
 当我们使用了接口的可选属性后，我们很可能会遇到下面这类问题
 ``` TypeScript
 interface UserInfo {
@@ -273,8 +273,66 @@ createNewUser(user) //success  { userName: 'mario', age: 22 }
 ```
 这三种方式，添加类型断言方法通过类型断言方式通过额外的类型检查、添加字符串索引签名方法通过添加字符串索引方式兼容多余属性。而
 第三种通过对象方式传入方法，则是因为通过对象赋值给另一对象根本就不会触发额外的类型检查。
-#### 函数类型接口
-当我们期望通过接口定义函数类型时，我们便用到了函数类型接口
+### 函数类型接口
+当我们期望通过接口定义函数类型时，我们便用到了函数类型接口。值得注意的是，因为对象类型接口对于顺序没有要求，所以要求接口内类型名称
+与传入类型名称保持一致。但由于函数要求传入参数的类型顺序和定义要保持一致，因此函数类型接口并不要求参数名与接口里定义的名字相匹配。TypeScript 的类型检查器会根据函数的
+入参 一个个与接口参数进行类型比较。
+``` TypeScript
+interface UserFunc {
+    (userName: string, age?: number) : void
+}
+let addNewUser: UserFunc;
+addNewUser = function (name: string, age?: number) {
+    console.log(name,age)
+}
+addNewUser('mario', 22)
+```
+### 可索引类型
+当我们想用接口规范数组类型时，需要使用可索引类型接口。可索引类型只支持数字类型签名和字符串类型索引签名:
+``` TypeScript
+// 数字类型索引签名
+interface UserList {
+    [keyIndex: number]: string
+}
+let userList: UserList;
+userList = ["ma", "jia", "ao"];
+let firstUser: string = userList[0];
+console.log(userList, firstUser)
+
+// 字符串类型索引签名
+
+interface UserDictionary {
+  [userKey: number]: string;
+}
+let userDictionary: UserDictionary;
+userDictionary = {
+  '0': 'ma',
+  '1': 'jia',
+  '2': 'ao'
+}
+console.log(userDictionary)
+```
+> 可索引类型接口待完成
+### 类类型接口
+TypeScript 可以像 Java、 C#一样， 使用接口去规范类:
+``` TypeScript
+interface UserClass {
+    userName: string
+    getUserName(): string
+}
+class User implements UserClass {
+    userName: string;
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    getUserName () {
+        return 'mario'
+    }
+}
+```
+类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，一并需要实现该该接口定义的参数和方法，并且保持数据类型一致。
+
+接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
 ___
 ## 类
 ___
