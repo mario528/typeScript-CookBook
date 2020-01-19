@@ -4,36 +4,72 @@
 // const getUserAccountLength = (userAccount: string | number):number => userAccount.length
 
 
-const globalPassword = '528528'
-let globalPhoneREG = /^1[34578]\d{9}$/
-interface PhoneNumber {
-    phoneNumber: string
-}
-interface Password {
-    password: string | number
-}
-interface UserFunc {
-    isAvailable (): boolean
-}
+// const globalPassword = '528528'
+// let globalPhoneREG = /^1[34578]\d{9}$/
+// interface PhoneNumber {
+//     phoneNumber: string
+// }
+// interface Password {
+//     password: string | number
+// }
+// interface UserFunc {
+//     isAvailable (): boolean
+// }
 
-class checkPhoneAvailbale implements PhoneNumber,UserFunc {
-    phoneNumber: string
-    constructor (phoneNumber: string) {
-        this.phoneNumber = phoneNumber
-    }
-    isAvailable () {
-        return globalPhoneREG.test(this.phoneNumber)
-    }
-}
+// class checkPhoneAvailbale implements PhoneNumber,UserFunc {
+//     phoneNumber: string
+//     constructor (phoneNumber: string) {
+//         this.phoneNumber = phoneNumber
+//     }
+//     isAvailable () {
+//         return globalPhoneREG.test(this.phoneNumber)
+//     }
+// }
 
-class checkPasswordAvailable implements Password,UserFunc {
-    password: number | string;
-    constructor (password: string | number) {
-        this.password = password;
+// class checkPasswordAvailable implements Password,UserFunc {
+//     password: number | string;
+//     constructor (password: string | number) {
+//         this.password = password;
+//     }
+//     isAvailable () {
+//         return this.password == globalPassword
+//     }
+// }
+// let passTemp = new checkPasswordAvailable('528528')
+// console.log(passTemp.isAvailable())
+
+
+namespace Check {
+    const globalPassword = '528528'
+    let globalPhoneREG = /^1[34578]\d{9}$/
+    interface PhoneNumber {
+        phoneNumber: string
+    }   
+    interface Password {
+        password: string | number
     }
-    isAvailable () {
-        return this.password == globalPassword
+    interface UserFunc {
+        isAvailable (): boolean
+    }
+    export class checkPhoneAvailbale implements PhoneNumber,UserFunc {
+        phoneNumber: string
+        constructor (phoneNumber: string) {
+            this.phoneNumber = phoneNumber
+        }
+        isAvailable () {
+            return globalPhoneREG.test(this.phoneNumber)
+        }
+    }
+    export class checkPasswordAvailable implements Password,UserFunc {
+        password: number | string;
+        constructor (password: string | number) {
+            this.password = password;
+        }
+        isAvailable () {
+            return this.password == globalPassword
+        }
     }
 }
-let passTemp = new checkPasswordAvailable('528528')
+console.log(Check)
+let passTemp = new Check.checkPasswordAvailable('528528')
 console.log(passTemp.isAvailable())

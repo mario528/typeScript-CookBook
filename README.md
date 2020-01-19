@@ -8,7 +8,7 @@ TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**�
 ### 开发前
 对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。
 
-  好了，现在开始我们的TypeScript学习吧 `:heart_eyes:`
+  好了，现在开始我们的TypeScript学习吧 😄
 ___
 ## 类型
 > ### TypeScript中的数据类型
@@ -246,7 +246,7 @@ console.log(A) // { a: 10, emailAddress: 'mario528@163.com' }
             * 直到查找到项目的rootpath 
 ___
 ## 命名空间
-在 TypeScript 中,现在的版本推荐我们使用命名空间。首先，让我们来看看下面的这段代码，本章命名空间相关的学习我们都会围绕着这段代码和它的“升级版来展开
+在 TypeScript 中,现在的版本推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一个普通的带有名字的 JavaScrpt 对象。首先，让我们来看看下面的这段代码，本章命名空间相关的学习我们都会围绕着这段代码和它的“升级版来展开:
 ``` TypeScript
 // checkIn.ts
 const globalPassword = '528528'
@@ -283,4 +283,42 @@ class checkPasswordAvailable implements Password,UserFunc {
 let passTemp = new checkPasswordAvailable('528528')
 console.log(passTemp.isAvailable())
 ```
-上面这段代码很简单，我们在 checkIn.ts 中粗略的实现了用户的手机号、密码校验。但随着需求中越来越多的校验器需求，可能 checkIn.ts文件会越来越庞大。因此我们需要对代码进行模块化分割。
+上面这段代码很简单，我们在 checkIn.ts 中粗略的实现了用户的手机号、密码校验。但随着需求中越来越多的校验器需求，可能 checkIn.ts 文件会越来越庞大。因此我们需要对代码进行模块化分割。接下来,我们将有关用户信息验证的代码放进名为 Check 的命名空间中:
+``` TypeScript
+namespace Check {
+    // 内部执行的代码无需对外暴露
+    const globalPassword = '528528'
+    let globalPhoneREG = /^1[34578]\d{9}$/
+    // 需要外部引用的接口 类方法 需要对命名空间外暴露出。
+    interface PhoneNumber {
+        phoneNumber: string
+    }   
+    interface Password {
+        password: string | number
+    }
+    interface UserFunc {
+        isAvailable (): boolean
+    }
+    export class checkPhoneAvailbale implements PhoneNumber,UserFunc {
+        phoneNumber: string
+        constructor (phoneNumber: string) {
+            this.phoneNumber = phoneNumber
+        }
+        isAvailable () {
+            return globalPhoneREG.test(this.phoneNumber)
+        }
+    }
+    export class checkPasswordAvailable implements Password,UserFunc {
+        password: number | string;
+        constructor (password: string | number) {
+            this.password = password;
+        }
+        isAvailable () {
+            return this.password == globalPassword
+        }
+    }
+}
+let passTemp = new Check.checkPasswordAvailable('528528')
+passTemp.isAvailable() // true
+```
+在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
