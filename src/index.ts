@@ -20,6 +20,20 @@
 // } as Foo;
 // console.log(foo)
 
-let userAge = 22;
-console.log(userAge)
-console.log(Foo)
+// function createNewUser (userInfo: { userName: string }): void {
+//     console.log(userInfo)
+// }
+// createNewUser({ userName: 'mario' })
+
+interface UserInfo {
+    userName: string
+}
+function createNewUser (userInfo: UserInfo): void {
+    console.log(userInfo)
+}
+createNewUser({ userName: 'mario'})
+let user = {
+    userName: 'mario',
+    age: 22
+}
+createNewUser(user)

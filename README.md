@@ -1,12 +1,12 @@
 # TypeScript学习笔记
 ## 前言
-本仓库为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本仓库中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出🙏。
+本RP为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本RP中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出🙏
 ___
 ## 开始
 ### 什么是TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为 JavaScript弱类型特性导致的bug。
 ### 开发前
-对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。
+对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。本RP基于 TypeScript 3.7.4 版本进行开发,后续版本更新会进行相对修改。
 
   好了，现在开始我们的TypeScript学习吧 😄
 ___
@@ -173,6 +173,30 @@ ___
 我们在 TypeScript 项目中，例如使用 Jquery 这样的第三方库时
 ___
 ## 接口
+#### 如果你在大学学习或接触过 Java、C# 这类面向对象编程语言的来说, 接口一定不会陌生。但很遗憾, 由于 JavaScript 是一款弱类型的编程语言, 没有类型声明，interface 也就没有了用武之地。在 TypeScript 中总算添加了接口的定义。接下来让我们一起学习 TypeScript 的接口吧。
+其实在生活中，我们无时无刻都在接触接口。例如充电器和插线板。插线板出厂就规定了它允许哪一类充电器可以与其对接。
+在 TypeScript 中也是一样。接口(**interface**)会设定参数的数据类型。并在之后对每一次赋值进行类型检验，如果赋值与接口的规格(数据类型)相符，则赋值成功。否则，会抛出异常。
+
+  首先，让我们观察下面这段代码，它实现了一个最简单的接口并和内联式进行对比:
+``` TypeScript
+// 未使用接口进行类型规范
+function createNewUser (userInfo: { userName: string }): void {
+  console.log(userInfo)
+}
+createNewUser({ userName: 'mario' })  // { userName: 'mario' }
+// 使用接口进行类型规范
+interface UserInfo {
+    userName: string
+}
+function createNewUser (userInfo: UserInfo): void {
+    console.log(userInfo)
+}
+createNewUser({ userName: 'mario', age: 22})  // Error
+createNewUser({ userName: 'mario'})           // success { userName: 'mario' }
+```
+我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进行了类型校验,
+倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，TypeScript 类型检查器会抛出错误。
+
 ___
 ## 类
 ___
@@ -187,10 +211,10 @@ function reverse<T> (list: T[]): T[] {
 }
 let textList = [3,2,1];
 let a = reverse(textList);
-console.log(a) // 1,2,3
+a    // 1,2,3
 let textList = ['ma','jia','ao'];
 let a = reverse(textList);
-console.log(a) // 'ao', 'jia', 'ma'
+a    // 'ao', 'jia', 'ma'
 ```
 ___
 ## 声明空间
@@ -322,3 +346,5 @@ let passTemp = new Check.checkPasswordAvailable('528528')
 passTemp.isAvailable() // true
 ```
 在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
+___
+## 拓展知识点
