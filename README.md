@@ -197,7 +197,84 @@ createNewUser({ userName: 'mario'})           // success { userName: 'mario' }
 ```
 我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进行了类型校验,
 倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，TypeScript 类型检查器会抛出错误。
+通过了上面的学习，我们明白了如何创建一个接口去规范数据类型。
+#### 接口的只读属性
+在接口中，使用 readonly，即可规定该接口参数为只读属性, 使用read-only定义的属性在第一次赋值后，就再也无法改变该值了。
+``` TypeScript
+interface UserInfo {
+  readonly username: string,
+  age: number
+}
+let user: UserInfo = {username: 'mario', age: 0};
+user.username = 'mario' // Error Cannot assign to 'username' because it is a read-only property.
+user.age = 22           // success
+```
+#### 接口的可选属性
+在接口中，定义的属性有可能是可选的，我们可以使用':?'标志该属性是可选属性。
+``` TypeScript
+interface User {
+    readonly userName: string,
+    age ?: number
+}
+let user: User = {
+    userName: 'mario',
+}
+user.age = 22;
+user      // { userName: 'mario', age: 22 }
+```
+#### 额外的属性检查
+当我们使用了接口的可选属性后，我们很可能会遇到下面这类问题
+``` TypeScript
+interface UserInfo {
+  userName?: string,
+  age?: number
+}
+function addNewUser (userInfo: UserInfo): void {
+  // do something
+}
+addNewUser({ age: 22, name: 'mario' });
+```
+尽管接口定义了入参的属性和数据类型,并且{ age: 22, name: 'mario' }看似也是合乎类型的。但在 TypeScript 解释器看来，
+当赋值对象存在接口不包含的属性时，对象字面量会被特殊对待而且会经过 额外属性检查。随即抛出错。对于这种情况，我们可以使用类型断言、添加字符串索引签名解决又或者将参数赋予参数再传入:
+``` TypeScript
+// 1. 添加类型断言
+interface UserInfo {
+  userName?: string,
+  age?: number
+}
+function addNewUser (userInfo: UserInfo): void {
+  console.log(userInfo)
+}
+addNewUser({age: 22, name: 'mario'} as UserInfo)  // success
 
+// 2. 添加字符串索引签名
+interface UserInfo {
+  userName?: string,
+  age?: number,
+  [keyName: string]: any
+}
+function addNewUser (userInfo: UserInfo): void {
+  console.log(userInfo)
+}
+addNewUser({age: 22, name: 'mario'})  // success
+
+// 3. 通过对象方式传入
+interface UserInfo {
+    userName: string
+}
+function createNewUser (userInfo: UserInfo): void {
+    console.log(userInfo)
+}
+let user = {
+    userName: 'mario',
+    age: 22
+}
+createNewUser(user) //success  { userName: 'mario', age: 22 }
+```
+这三种方式，添加类型断言方法通过类型断言方式通过额外的类型检查、添加字符串索引签名方法通过添加字符串索引方式兼容多余属性。而
+第三种通过对象方式传入方法，则是因为通过对象赋值给另一对象根本就不会触发额外的类型检查。
+#### 函数类型接口
+当我们期望通过接口定义函数类型时，我们便用到了函数类型接口
 ___
 ## 类
 ___
