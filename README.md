@@ -314,7 +314,7 @@ console.log(userDictionary)
 ```
 > 可索引类型接口待完成
 ### 类类型接口
-TypeScript 可以像 Java、 C#一样， 使用接口去规范类:
+TypeScript 可以像 Java、 C#一样， 使用接口去规范类。在 TypeScript 中, 类通过 implements 实现接口:
 ``` TypeScript
 interface UserClass {
     userName: string
