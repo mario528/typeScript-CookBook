@@ -177,30 +177,45 @@
 // user.userName = 'mario'
 // user.age = 22
 
-class UserOptions {
-    public userName: string;
-    public password: string;
-    getUserName ():any {}
-    constructor (userName: string, password: string) {
+// class UserOptions {
+//     public userName: string;
+//     public password: string;
+//     getUserName ():any {}
+//     constructor (userName: string, password: string) {
+//         this.userName = userName
+//         this.password = password
+//     }
+// }
+// interface UserAccount extends UserOptions {
+//     setUserName():void;
+// }
+// class User implements UserAccount {
+//     public userName: string;
+//     public password: string;
+//     constructor (userName: string, password: string) {
+//         this.userName = userName
+//         this.password = password
+//     }
+//     setUserName () {}
+//     getUserName () {
+//         console.log(this.userName)
+//         return this.userName
+//     }
+// } 
+// let user = new User ('mario','528528')
+// user.getUserName()
+
+class User {
+    // 类的成员变量
+    public userName: string
+    // 类的构造函数
+    constructor (userName: string) {
         this.userName = userName
-        this.password = password
     }
-}
-interface UserAccount extends UserOptions {
-    setUserName():void;
-}
-class User implements UserAccount {
-    public userName: string;
-    public password: string;
-    constructor (userName: string, password: string) {
-        this.userName = userName
-        this.password = password
-    }
-    setUserName () {}
-    getUserName () {
-        console.log(this.userName)
+    // 类的方法
+    getUserName(): string {
         return this.userName
-    }
-} 
-let user = new User ('mario','528528')
-user.getUserName()
+    } 
+}
+let user = new User('mario')
+user.getUserName() 

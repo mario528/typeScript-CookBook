@@ -420,6 +420,29 @@ user.getUserName()   // success mario
 ```
 ___
 ## 类
+在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现继承的。在ES6中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接近了一些。
+
+### 基础
+首先让我们学习一下 TypeScript 中最基本的类 下面的代码会定义一个 User (用户)类:
+``` TypeScript
+class User {
+    // 类的成员变量
+    public userName: string
+    // 类的构造函数
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    // 类的方法
+    getUserName(): string {
+        return this.userName
+    } 
+}
+let user = new User('mario')
+user.getUserName()    // mario
+```
+在上面，我们定义了一个 User类， 在类中，包括三种成员，分别是：1. 类的成员变量 2. 类的构造函数 3. 类的方法。
+在类的构造函数和类的方法中， 可以使用 this 访问类的成员变量。 之后我们通过 new 实例化了 User 类。
+### 类的继承
 ___
 ## 泛型
 ``` TypeScript
