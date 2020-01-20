@@ -104,16 +104,103 @@
 // }
 // console.log(userDictionary)
 
-interface UserClass {
-    userName: string
-    getUserName(): string
-}
-class User implements UserClass {
-    userName: string;
-    constructor (userName: string) {
+// interface UserClass {
+//     userName: string
+//     getUserName(): string
+// }
+// class User implements UserClass {
+//     userName: string;
+//     constructor (userName: string) {
+//         this.userName = userName
+//     }
+//     getUserName () {
+//         return 'mario'
+//     }
+// }
+
+// interface ClockConstructor {
+//     new (hour: number, minute: number): ClockInterface;
+// }
+// interface ClockInterface {
+//     tick(): void;
+// }
+
+// function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+//     return new ctor(hour, minute);
+// }
+
+// class DigitalClock implements ClockInterface {
+//     constructor(h: number, m: number) { }
+//     tick() {
+//         console.log("beep beep");
+//     }
+// }
+// class AnalogClock implements ClockInterface {
+//     constructor(h: number, m: number) { }
+//     tick() {
+//         console.log("tick tock");
+//     }
+// }
+
+// let digital = createClock(DigitalClock, 12, 17);
+// let analog = createClock(AnalogClock, 7, 32);
+
+// // 静态类型
+// interface StaticFunc {
+//     new (name: string, age?: number): any;
+// }
+// // 实例方法
+// interface InstanceFunc {
+//     innerFunc(): void
+// }
+// function createInstance (ins: StaticFunc, name: string, age?: number) {
+//     return new ins(name, age)
+// }
+// class User implements InstanceFunc {
+//     constructor (name: string, age?: number) {
+//         console.log(name, age)
+//     }
+//     innerFunc () {
+//         console.log('innerFunction start')
+//     }
+// }
+// let ma = createInstance(User, 'mario', 22)
+// ma.innerFunc()
+
+// interface User {
+//     userName: string
+// }
+// interface UserExtend extends User {
+//     age: number
+// }
+// let user = <UserExtend>{}
+// user.userName = 'mario'
+// user.age = 22
+
+class UserOptions {
+    public userName: string;
+    public password: string;
+    getUserName ():any {}
+    constructor (userName: string, password: string) {
         this.userName = userName
-    }
-    getUserName () {
-        return 'mario'
+        this.password = password
     }
 }
+interface UserAccount extends UserOptions {
+    setUserName():void;
+}
+class User implements UserAccount {
+    public userName: string;
+    public password: string;
+    constructor (userName: string, password: string) {
+        this.userName = userName
+        this.password = password
+    }
+    setUserName () {}
+    getUserName () {
+        console.log(this.userName)
+        return this.userName
+    }
+} 
+let user = new User ('mario','528528')
+user.getUserName()

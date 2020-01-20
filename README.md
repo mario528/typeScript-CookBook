@@ -333,6 +333,91 @@ class User implements UserClass {
 类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，一并需要实现该该接口定义的参数和方法，并且保持数据类型一致。
 
 接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
+
+在类中，有两种类型，分别是静态部分的类型以及实例部分的类型:
+``` TypeScript
+// 静态类型
+interface StaticFunc {
+    new (name: string, age?: number): any;
+}
+// 实例方法
+interface InstanceFunc {
+    innerFunc(): void
+}
+function createInstance (ins: StaticFunc, name: string, age?: number) {
+    return new ins(name, age)
+}
+class User implements InstanceFunc {
+    constructor (name: string, age?: number) {
+        console.log(name, age)
+    }
+    innerFunc () {
+        console.log('innerFunction start')
+    }
+}
+let ma = createInstance(User, 'mario', 22)
+ma.innerFunc()
+```
+### 接口的继承
+和之后学习到的类一样，接口也是可以通过 extends 相互继承的, 甚至一个接口可以继承其他的多个接口,生成合成接口:
+``` TypeScript
+// 单接口继承
+interface User {
+    userName: string
+}
+interface UserExtend extends User {
+    age: number
+}
+let user = <UserExtend>{}
+user.userName = 'mario'
+user.age = 22
+// 继承多个接口
+interface Account {
+    accountNumber: number
+}
+interface Password {
+    password: string
+}
+interface LoginParams extends Account,Password {
+    loginAccount: string
+}
+let loginObj = <LoginParams>{}
+loginObj.accountNumber = 1024
+loginObj.password = '528528'
+loginObj.loginAccount = '528528'
+
+```
+### 接口继承类
+在上面，类可以实现接口。同样，接口也可以继承类。接口可以继承类的成员但不包括实现,就像我们在接口中声明了类需要拥有的成员和方法。值得注意的是，接口同样会继承类的privite成员和protect成员。这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现:
+``` TypeScript
+class UserOptions {
+    public userName: string;
+    public password: string;
+    getUserName ():any {}
+    constructor (userName: string, password: string) {
+        this.userName = userName
+        this.password = password
+    }
+}
+interface UserAccount extends UserOptions {
+    setUserName():void;
+}
+class User implements UserAccount {
+    public userName: string;
+    public password: string;
+    constructor (userName: string, password: string) {
+        this.userName = userName
+        this.password = password
+    }
+    setUserName () {}
+    getUserName () {
+        console.log(this.userName)
+        return this.userName
+    }
+} 
+let user = new User ('mario','528528')
+user.getUserName()   // success mario
+```
 ___
 ## 类
 ___
