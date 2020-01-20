@@ -1,4 +1,4 @@
-# TypeScript学习笔记
+# TypeScript CookBook
 ## 前言
 本RP为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本RP中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出🙏
 ___
@@ -443,6 +443,67 @@ user.getUserName()    // mario
 在上面，我们定义了一个 User类， 在类中，包括三种成员，分别是：1. 类的成员变量 2. 类的构造函数 3. 类的方法。
 在类的构造函数和类的方法中， 可以使用 this 访问类的成员变量。 之后我们通过 new 实例化了 User 类。
 ### 类的继承
+在 TypeScript 中，可以用继承来扩展现有的类。涉及到继承，类则分为以下几类: 基类(超类) 派生类(子类) 抽象类。 让我们来看一看下面的代码:
+``` TypeScript
+class SuperClass {
+    userName: string;
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    init (): void {
+        console.log(this.userName)
+        console.log(`${this.userName} Init from SuperClass`)
+    }
+    coverFunc (): void {
+        console.log("I'm from SuperClass")
+    }
+}
+class sonClass extends SuperClass {
+    constructor(userName: string) {
+        super(userName)
+    }
+    sonFun():void {
+        console.log(`${this.userName} log from SonClass`)
+    }
+    coverFunc (): void {
+        console.log("I'm from sonClass")
+    }
+}
+let son = new sonClass('mario')
+son.init();
+son.sonFun()
+son.coverFunc()
+```
+SonClass 作为子类，继承了超类 SuperClass 的属性和方法。在子类的构造方法中, **必须**调用super() 执行超类中的构造函数，注意，这是 TypeScript 强制要求的。继续上面这段代码，当子类继承超类后，也就拥有了超类的成员变量和方法, 同样，子类也可以重新定义超类中的方法, 比如 sonClass 类，便重写了父类的该方法。
+### 类的成员变量
+类有三种成员变量，分别是 public、private 以及protect。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
+#### public类型的成员变量
+public类型的成员变量很简单 在子类中可以任意访问
+#### private类型的成员变量
+当成员变量被标记为private时，该成员变量便不可以在声明其的类以外访问。为了方便理解，我们还是套用上一个例子的代码:
+``` TypeScript
+class SuperClass {
+    private userName: string;
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    init (): void {
+        console.log(this.userName)
+        console.log(`${this.userName} Init from SuperClass`)
+    }
+}
+class sonClass extends SuperClass {
+    constructor(userName: string) {
+        super(userName)
+    }
+    sonFun():void {
+        console.log(`${this.userName} log from SonClass`)  // Error 属性“userName”为私有属性，只能在类“SuperClass”中访问。
+    }
+}
+let son = new sonClass('mario')
+son.sonFun()
+```
+#### protect类型的成员变量
 ___
 ## 泛型
 ``` TypeScript

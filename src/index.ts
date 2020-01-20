@@ -205,17 +205,38 @@
 // let user = new User ('mario','528528')
 // user.getUserName()
 
-class User {
-    // 类的成员变量
-    public userName: string
-    // 类的构造函数
+// class User {
+//     // 类的成员变量
+//     public userName: string
+//     // 类的构造函数
+//     constructor (userName: string) {
+//         this.userName = userName
+//     }
+//     // 类的方法
+//     getUserName(): string {
+//         return this.userName
+//     } 
+// }
+// let user = new User('mario')
+// user.getUserName() 
+
+class SuperClass {
+    private userName: string;
     constructor (userName: string) {
         this.userName = userName
     }
-    // 类的方法
-    getUserName(): string {
-        return this.userName
-    } 
+    init (): void {
+        console.log(this.userName)
+        console.log(`${this.userName} Init from SuperClass`)
+    }
 }
-let user = new User('mario')
-user.getUserName() 
+class sonClass extends SuperClass {
+    constructor(userName: string) {
+        super(userName)
+    }
+    sonFun():void {
+        console.log(`${this.userName} log from SonClass`)
+    }
+}
+let son = new sonClass('mario')
+son.sonFun()
