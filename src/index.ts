@@ -220,23 +220,42 @@
 // let user = new User('mario')
 // user.getUserName() 
 
+// class SuperClass {
+//     private userName: string;
+//     constructor (userName: string) {
+//         this.userName = userName
+//     }
+//     init (): void {
+//         console.log(this.userName)
+//         console.log(`${this.userName} Init from SuperClass`)
+//     }
+// }
+// class sonClass extends SuperClass {
+//     constructor(userName: string) {
+//         super(userName)
+//     }
+//     sonFun():void {
+//         console.log(`${this.userName} log from SonClass`)
+//     }
+// }
+// let son = new sonClass('mario')
+// son.sonFun()
+
 class SuperClass {
-    private userName: string;
-    constructor (userName: string) {
+    protected userName: string;
+    constructor(userName: string) {
         this.userName = userName
     }
-    init (): void {
-        console.log(this.userName)
-        console.log(`${this.userName} Init from SuperClass`)
-    }
 }
-class sonClass extends SuperClass {
-    constructor(userName: string) {
+class SonClass extends SuperClass {
+    private age: number;
+    constructor (userName: string, age: number) {
         super(userName)
+        this.age = age
     }
-    sonFun():void {
-        console.log(`${this.userName} log from SonClass`)
+    getUserInfo (): void {
+        console.log(this.userName, this.age)
     }
 }
-let son = new sonClass('mario')
-son.sonFun()
+const user = new SonClass('mario', 22)
+user.getUserInfo()    // mario 22

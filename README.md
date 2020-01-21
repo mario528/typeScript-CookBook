@@ -476,7 +476,7 @@ son.coverFunc()
 ```
 SonClass 作为子类，继承了超类 SuperClass 的属性和方法。在子类的构造方法中, **必须**调用super() 执行超类中的构造函数，注意，这是 TypeScript 强制要求的。继续上面这段代码，当子类继承超类后，也就拥有了超类的成员变量和方法, 同样，子类也可以重新定义超类中的方法, 比如 sonClass 类，便重写了父类的该方法。
 ### 类的成员变量
-类有三种成员变量，分别是 public、private 以及protect。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
+类有三种成员变量，分别是 public、private 以及 protected。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
 #### public类型的成员变量
 public类型的成员变量很简单 在子类中可以任意访问
 #### private类型的成员变量
@@ -503,7 +503,29 @@ class sonClass extends SuperClass {
 let son = new sonClass('mario')
 son.sonFun()
 ```
-#### protect类型的成员变量
+#### protected 类型的成员变量
+protected 类型和 private 类型类似，但不同的是，protected类型还可以在派生类中访问。我们还是用一个例子来理解 protected 类型:
+``` TypeScript
+class SuperClass {
+    protected userName: string;
+    constructor(userName: string) {
+        this.userName = userName
+    }
+}
+class SonClass extends SuperClass {
+    private age: number;
+    constructor (userName: string, age: number) {
+        super(userName)
+        this.age = age
+    }
+    getUserInfo (): void {
+        console.log(this.userName, this.age)
+    }
+}
+const user = new SonClass('mario', 22)
+user.getUserInfo()    // mario 22
+```
+从上面的代码可以看出，SuperClass 定义的 protected 类型的成员变量，并不同于 private 类型的成员变量， 在它的子类 SonClass 中，也可以使用。
 ___
 ## 泛型
 ``` TypeScript
