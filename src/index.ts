@@ -241,21 +241,48 @@
 // let son = new sonClass('mario')
 // son.sonFun()
 
-class SuperClass {
-    protected userName: string;
-    constructor(userName: string) {
+// class SuperClass {
+//     protected userName: string;
+//     constructor(userName: string) {
+//         this.userName = userName
+//     }
+// }
+// class SonClass extends SuperClass {
+//     private age: number;
+//     constructor (userName: string, age: number) {
+//         super(userName)
+//         this.age = age
+//     }
+//     getUserInfo (): void {
+//         console.log(this.userName, this.age)
+//     }
+// }
+// const user = new SonClass('mario', 22)
+// user.getUserInfo()    // mario 22
+// class User {
+//     protected userName: string;
+//     protected constructor (userName: string) {
+//         this.userName = userName
+//     }
+// }
+// let user = new User()
+// class sonClass extends User {
+//     constructor (userName: string) {
+//         super(userName)
+//     }
+// }
+// let son = new sonClass('mario')
+class User {
+    readonly userName: string;   // 设置为只读属性 此时未赋值 则只能在构造函数中赋值
+    readonly age: number = 22    // 设置为只读属性 此时已赋值
+    constructor (userName: string) {
         this.userName = userName
+        this.age = 20
     }
-}
-class SonClass extends SuperClass {
-    private age: number;
-    constructor (userName: string, age: number) {
-        super(userName)
+    setUserAge (age: number) {
         this.age = age
     }
-    getUserInfo (): void {
-        console.log(this.userName, this.age)
-    }
 }
-const user = new SonClass('mario', 22)
-user.getUserInfo()    // mario 22
+let user = new User('mario')
+console.log(user)
+user.userName = 'majiaao'

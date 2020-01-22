@@ -506,12 +506,14 @@ son.sonFun()
 #### protected 类型的成员变量
 protected 类型和 private 类型类似，但不同的是，protected类型还可以在派生类中访问。我们还是用一个例子来理解 protected 类型:
 ``` TypeScript
+// 超类
 class SuperClass {
     protected userName: string;
     constructor(userName: string) {
         this.userName = userName
     }
 }
+// 子类
 class SonClass extends SuperClass {
     private age: number;
     constructor (userName: string, age: number) {
@@ -526,6 +528,49 @@ const user = new SonClass('mario', 22)
 user.getUserInfo()    // mario 22
 ```
 从上面的代码可以看出，SuperClass 定义的 protected 类型的成员变量，并不同于 private 类型的成员变量， 在它的子类 SonClass 中，也可以使用。
+
+类中也可以拥有 protected 类型的构造方法, protected 类型的构造方法不能在包含它的类外被实例化，但是可以被继承:
+``` TypeScript
+class User {
+    protected userName: string;
+    protected constructor (userName: string) {
+        this.userName = userName
+    }
+}
+let user = new User()   // Error 类“User”的构造函数是受保护的，仅可在类声明中访问。
+// 继承 User类
+class sonClass extends User {
+    constructor (userName: string) {
+        super(userName)
+    }
+}
+let son = new sonClass('mario')
+```
+#### readonly 修饰符
+和接口中的 readonly 只读属性一样，类中的成员变量也可以设置为只读属性。该成员变量的值只可以在声明或构造函数时赋值，其他情况下赋值会抛出异常:
+``` TypeScript
+class User {
+    readonly userName: string;   // 设置为只读属性 此时未赋值 则只能在构造函数中赋值
+    readonly age: number = 22    // 设置为只读属性 此时已赋值
+    constructor (userName: string) {
+        this.userName = userName
+        this.age = 20
+    }
+    setUserAge (age: number) {
+        this.age = age           // Error Cannot assign to 'age' because it is a read-only property.
+    }
+}
+let user = new User('mario')
+console.log(user)
+user.userName = 'majiaao'      // Error Cannot assign to 'userName' because it is a read-only property.
+```
+#### 存取器
+TypeScript支持通过 getters/setters 来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。提起 getters/setters 方法，很多人肯定会想起 在 Vue 老版本中使用到的 Object.defineProperty。通过这个方法，我们实现了 Model层与View层的双向绑定。
+Object.defineProperty 需要三个参数 object、 propName、 descriptor。object 负责绑定劫持的对象，propName 表示需要添加的变量名，descriptor 为一个对象，其中包括所有操作的属性:
+
+| value | enumerable | writable | configurable | get | set
+|--|--|--|--|--|--|
+| 属性值 | 是否可枚举 默认 false | 是否可以被重新赋值 默认false => 只读 | 1.属性是否可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存取器 修改值的时候的方法
 ___
 ## 泛型
 ``` TypeScript
