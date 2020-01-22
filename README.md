@@ -476,7 +476,7 @@ son.coverFunc()
 ```
 SonClass 作为子类，继承了超类 SuperClass 的属性和方法。在子类的构造方法中, **必须**调用super() 执行超类中的构造函数，注意，这是 TypeScript 强制要求的。继续上面这段代码，当子类继承超类后，也就拥有了超类的成员变量和方法, 同样，子类也可以重新定义超类中的方法, 比如 sonClass 类，便重写了父类的该方法。
 ### 类的成员变量
-类有三种成员变量，分别是 public、private 以及 protected。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
+类有三种成员变量，分别是 public、private、protected、readonly 以及 static。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
 #### public类型的成员变量
 public类型的成员变量很简单 在子类中可以任意访问
 #### private类型的成员变量
@@ -571,6 +571,70 @@ Object.defineProperty 需要三个参数 object、 propName、 descriptor。obje
 | value | enumerable | writable | configurable | get | set
 |--|--|--|--|--|--|
 | 属性值 | 是否可枚举 默认 false | 是否可以被重新赋值 默认false => 只读 | 1.属性是否可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存取器 修改值的时候的方法
+接下来，我们来学习一下 TypeScript 中 存取器:
+``` TypeScript
+let channelCode = '528528'
+class User {
+    private _userName: string;
+    constructor (userName: string) {
+        this._userName = userName
+    }
+    get userName():string {
+        console.log('get')
+        return this._userName
+    }
+    set userName(newString: string){
+        if (channelCode == '528528') {
+            console.log('set')
+            this._userName = newString
+        }else {
+            console.log('channel code error')
+        }
+    }
+}
+let user = new User('mario')
+user                    // User { _userName: 'mario' }
+user.userName           // get mario
+user.userName = 'ma'    // set
+user.userName           // get ma
+```
+### 静态类型
+不同于前面的类型存在于类的实例上，静态类型存在于类本身上。最后通过 类名称获取静态类型:
+``` TypeScript
+class User {
+    static _userName: string = 'mario'
+    constructor (public age: number) {
+        console.log(User._userName)
+    }
+}
+let men = new User(22);     // mario
+let women = new User(23);   // mario
+```
+### 抽象类
+抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员的实现细节。 abstract 关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+``` TypeScript
+abstract class User {
+    abstract setUserName (newValue: string): boolean;
+    getUserName () {
+        console.log(this._userName)
+    }
+    constructor(public _userName: string) {}
+}
+class sonClass extends User {
+    constructor(userName: string) {
+        super(userName)
+    }
+    setUserName (newValue: string) {
+        this._userName = newValue
+        console.log(this._userName)
+        return true
+    }
+}
+let user = new sonClass('mario');
+user.getUserName()
+user.setUserName('majiaao')
+```
+在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass作为子类继承了User 抽象类。在抽象类中实现了 getUserName 方法，可以供子类使用。而在抽象类中定义的 setUserName 则必须的子类中定义实现。并且，在子类可以覆盖实现抽象类中实现的方法。
 ___
 ## 泛型
 ``` TypeScript

@@ -272,17 +272,71 @@
 //     }
 // }
 // let son = new sonClass('mario')
-class User {
-    readonly userName: string;   // 设置为只读属性 此时未赋值 则只能在构造函数中赋值
-    readonly age: number = 22    // 设置为只读属性 此时已赋值
-    constructor (userName: string) {
-        this.userName = userName
-        this.age = 20
+// class User {
+//     readonly userName: string;   // 设置为只读属性 此时未赋值 则只能在构造函数中赋值
+//     readonly age: number = 22    // 设置为只读属性 此时已赋值
+//     constructor (userName: string) {
+//         this.userName = userName
+//         this.age = 20
+//     }
+//     setUserAge (age: number) {
+//         this.age = age
+//     }
+// }
+// let user = new User('mario')
+// console.log(user)
+// user.userName = 'majiaao'
+
+let channelCode = '528528'
+// class User {
+//     private _userName: string;
+//     constructor (userName: string) {
+//         this._userName = userName
+//     }
+//     get userName():string {
+//         console.log('get')
+//         return this._userName
+//     }
+//     set userName(newString: string){
+//         if (channelCode == '528528') {
+//             console.log('set')
+//             this._userName = newString
+//         }else {
+//             console.log('channel code error')
+//         }
+//     }
+// }
+// let user = new User('mario')
+// console.log(user)
+// console.log(user.userName)
+// user.userName = 'ma'
+// console.log(user.userName)
+// class User {
+//     static _userName: string = 'mario'
+//     constructor (public age: number) {
+//         console.log(User._userName)
+//     }
+// }
+// let men = new User(22);     // mario
+// let women = new User(23);   // mario
+
+abstract class User {
+    abstract setUserName (newValue: string): boolean;
+    getUserName () {
+        console.log(this._userName)
     }
-    setUserAge (age: number) {
-        this.age = age
+    constructor(public _userName: string) {}
+}
+class sonClass extends User {
+    constructor(userName: string) {
+        super(userName)
+    }
+    setUserName (newValue: string) {
+        this._userName = newValue
+        console.log(this._userName)
+        return true
     }
 }
-let user = new User('mario')
-console.log(user)
-user.userName = 'majiaao'
+let user = new sonClass('mario');
+user.getUserName()
+user.setUserName('majiaao')
