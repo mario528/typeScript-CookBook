@@ -320,23 +320,32 @@ let channelCode = '528528'
 // let men = new User(22);     // mario
 // let women = new User(23);   // mario
 
-abstract class User {
-    abstract setUserName (newValue: string): boolean;
-    getUserName () {
-        console.log(this._userName)
-    }
-    constructor(public _userName: string) {}
+// abstract class User {
+//     abstract setUserName (newValue: string): boolean;
+//     getUserName () {
+//         console.log(this._userName)
+//     }
+//     constructor(public _userName: string) {}
+// }
+// class sonClass extends User {
+//     constructor(userName: string) {
+//         super(userName)
+//     }
+//     setUserName (newValue: string) {
+//         this._userName = newValue
+//         console.log(this._userName)
+//         return true
+//     }
+// }
+// let user = new sonClass('mario');
+// user.getUserName()
+// user.setUserName('majiaao')
+// function Ttest(param: string):string {
+//     return param
+// }
+// console.log(Ttest('mario'))
+function Ttest<T>(param: T):T {
+    return param
 }
-class sonClass extends User {
-    constructor(userName: string) {
-        super(userName)
-    }
-    setUserName (newValue: string) {
-        this._userName = newValue
-        console.log(this._userName)
-        return true
-    }
-}
-let user = new sonClass('mario');
-user.getUserName()
-user.setUserName('majiaao')
+console.log(Ttest('mario'))
+console.log(Ttest(22))

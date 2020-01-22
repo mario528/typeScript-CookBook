@@ -635,8 +635,37 @@ user.getUserName()
 user.setUserName('majiaao')
 ```
 在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass作为子类继承了User 抽象类。在抽象类中实现了 getUserName 方法，可以供子类使用。而在抽象类中定义的 setUserName 则必须的子类中定义实现。并且，在子类可以覆盖实现抽象类中实现的方法。
+### 将类当作接口使用
+类也可以像接口一样使用 接口继承类，从而形成新的接口规范。
+``` TypeScript
+class Point {
+    x: number;
+    y: number;
+}
+
+interface Point3d extends Point {
+    z: number;
+}
+
+let point3d: Point3d = {x: 1, y: 2, z: 3};
+```
 ___
 ## 泛型
+在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
+``` TypeScript
+function Ttest(param: string):string {
+    return param
+}
+console.log(Ttest('mario'))
+```
+看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品经理走了过来并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 string 类型，对于 number、boolean “无能为力”。使用 any 的返回类型也显然违背了 TypeScript 对于数据类型检验的初衷。为每一个类型都重复写一个这样逻辑高度一致的方法也太过于“奢侈”。因此，这时候 我们便需要使用 TypeScript 一个新的模式:泛型。
+``` TypeScript
+function Ttest<T>(param: T):T {
+    return param
+}
+console.log(Ttest('mario'))   // mario
+console.log(Ttest(22))        // 22
+```
 ``` TypeScript
 function reverse<T> (list: T[]): T[] {
     let arr:T[] = [];
