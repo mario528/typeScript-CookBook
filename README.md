@@ -660,26 +660,54 @@ console.log(Ttest('mario'))
 ```
 看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品经理走了过来并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 string 类型，对于 number、boolean “无能为力”。使用 any 的返回类型也显然违背了 TypeScript 对于数据类型检验的初衷。为每一个类型都重复写一个这样逻辑高度一致的方法也太过于“奢侈”。因此，这时候 我们便需要使用 TypeScript 一个新的模式:泛型。
 ``` TypeScript
-function Ttest<T>(param: T):T {
+function Ttest<T>(param: T): T {
     return param
 }
-console.log(Ttest('mario'))   // mario
+console.log(Ttest<string>('mario'))   // mario
 console.log(Ttest(22))        // 22
 ```
+在上面的代码中，我们给 Ttest 方法添加了类型变量T。类型 T 会根据我们传入值的类型，定义T的类
+型，这一过程，我们甚至可以用动态模版语言的方式去理解。这样，我们即保证了对传入值返回值类型的
+判断，又省去了大量重复逻辑的代码。在定义了泛型方法后，我们可以通过明确插入泛型类型的方式通知
+泛型方法该使用何种方式，或者直接传入参数，编译器会自动根据传入的参数的类型帮助我们确定 泛型
+方法的类型。在一些复杂的情况下,编译器可能无法自动分析出传入值的类型，所以一些情况下，需要我
+们用第一种方式去定义泛型方法的类型。
+### 使用泛型变量
+在上面，我们创建了一个 Ttest 的泛型方法后，在 Ttest 方法中，TypeScript 编译器便要求我们，在该方法体中，把入参当作所有类型参数使用。还是上面的代码:
 ``` TypeScript
-function reverse<T> (list: T[]): T[] {
-    let arr:T[] = [];
-    for(let i = list.length - 1; i >= 0; i--) {
-        arr.push(list[i])
-    }
-    return arr;
+function Ttest<T>(param: T): T {
+    console.log(param.length)         // Error 类型“T”上不存在属性“length”。
+    return param
 }
-let textList = [3,2,1];
-let a = reverse(textList);
-a    // 1,2,3
-let textList = ['ma','jia','ao'];
-let a = reverse(textList);
-a    // 'ao', 'jia', 'ma'
+console.log(Ttest<string>('mario'))   // mario
+console.log(Ttest(22))                // 22
+```
+在这个时候当我们想要获取到输入参数的长度时，就算我们的本意是获取到类型是数组或者字符串类型的入参，但 TypeScript 编译器会用所有类型的语法标准去检测我们的代码。因此，在上面的代码中，倘若传入的参数是没有 length方法的 number 类型，则会出现问题。因此我们可以在声明方法时，将入参设置为**元素类型是 T 的数组**。这样.length 方法便可以在方法中是用来，这可以让我们把泛型变量 T 当做类型的一部分使用，而不是整个类型，增加了灵活性。
+``` TypeScript
+function Ttest<T>(param: T[]): T[] {
+    console.log(param.length)
+    return param
+}
+console.log(Ttest<string>(['mario']))   // mario
+```
+### 泛型类型
+泛型函数的类型与非泛型函数的类型没什么不同，只是有一个类型参数在最前面，像函数声明一样：
+``` TypeScript
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: <T>(arg: T) => T = identity;
+```
+接下来，我们来实现一个泛型接口:
+``` TypeScript
+interface UserOptions {
+    <T>(arg: T): T
+}
+function User<T>(params: T): T {
+    return params
+}
+let myIdentity: UserOptions = User;
 ```
 ___
 ## 声明空间

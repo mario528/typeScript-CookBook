@@ -344,8 +344,33 @@ let channelCode = '528528'
 //     return param
 // }
 // console.log(Ttest('mario'))
-function Ttest<T>(param: T):T {
-    return param
+// function Ttest<T>(param: T):T {
+//     return param
+// }
+// console.log(Ttest('mario'))
+// console.log(Ttest(22))
+// function Ttest<T>(param: T): T {
+//     console.log(param.length)
+//     return param
+// }
+// console.log(Ttest<string>('mario'))   // mario
+// console.log(Ttest(22))        // 22
+// function Ttest<T>(param: T[]): T[] {
+//     console.log(param.length)
+//     return param
+// }
+// console.log(Ttest<string>(['mario']))   // mario
+// console.log(Ttest(22))        // 22
+// function identity<T>(arg: T): T {
+//     return arg;
+// }
+
+// let myIdentity: <T>(arg: T[]) => T[] = identity;
+// console.log(myIdentity(['mario']))
+interface UserOptions {
+    <T>(arg: T): T
 }
-console.log(Ttest('mario'))
-console.log(Ttest(22))
+function User<T>(params: T): T {
+    return params
+}
+let myIdentity: UserOptions = User;
