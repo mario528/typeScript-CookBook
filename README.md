@@ -6,6 +6,8 @@ ___
 ### 什么是TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为 JavaScript弱类型特性导致的bug。
 ### 开发前
+本篇文章面向的是熟悉掌握 JavaScript，ES6 的开发者，若对 JavaScript 不是很了解，建议首先系统学习 JavaScript。
+### IDE
 对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。本RP基于 TypeScript 3.7.4 版本进行开发,后续版本更新会进行相对修改。
 
   好了，现在开始我们的TypeScript学习吧 😄
@@ -708,6 +710,51 @@ function User<T>(params: T): T {
     return params
 }
 let myIdentity: UserOptions = User;
+```
+接下来，我们还可以将泛型参数当作整个接口的一个参数，这样，就可以直接通过接口名来了解到具体是哪一个泛型类型了：
+``` TypeScript
+interface UserOptions<T> {
+    <T>(arg: T):void
+}
+function User<T>(param: T) {
+    // do something...    
+}
+let user: UserOptions<string> = User
+```
+### 泛型类
+泛型类和泛型接口使用类似，都是在接口名或类名后使用 <>,内添加泛型类型:
+``` TypeScript
+class User<T> {
+    constructor(public age: T) {}
+    setAge (newAgeData: T) {
+        this.age = newAgeData;
+    }
+}
+let user = new User<number>(22)
+user.age = 23
+user.setAge(24)
+```
+泛型类只可以限制实例部分的属性。
+### 泛型约束
+在上面的例子中，在一个泛型方法中，我们无法直接访问一个泛型变量的 .length 值。但想要实现希望泛型类型拥有 .length 属性，则需要使用**泛型约束**：
+``` TypeScript
+interface Constraint {
+    length: number,
+}
+function User<T extends Constraint> (userList: T): void{
+    console.log(userList.length)
+}
+User(22)             // Error
+User('22')           // Success
+User(['22'])         // Success
+User({length: 22})   // Success
+```
+### 在泛型里使用类类型
+在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如：
+``` TypeScript
+function create<T>(c: {new(): T; }): T {
+    return new c();
+}
 ```
 ___
 ## 声明空间

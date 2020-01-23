@@ -367,10 +367,38 @@ let channelCode = '528528'
 
 // let myIdentity: <T>(arg: T[]) => T[] = identity;
 // console.log(myIdentity(['mario']))
-interface UserOptions {
-    <T>(arg: T): T
+// interface UserOptions {
+//     <T>(arg: T): T
+// }
+// function User<T>(params: T): T {
+//     return params
+// }
+// let myIdentity: UserOptions = User;
+// interface UserOptions<T> {
+//     <T>(arg: T):void
+// }
+// function User<T>(param: T) {
+//     // do something...    
+// }
+// let user: UserOptions<string> = User
+
+// class User<T> {
+//     constructor(public age: T) {}
+//     setAge (newAgeData: T) {
+//         this.age = newAgeData;
+//     }
+// }
+// let user = new User<number>(22)
+// user.age = 23
+// user.setAge(24)
+ 
+interface Constraint {
+    length: number,
 }
-function User<T>(params: T): T {
-    return params
+function User<T extends Constraint> (userList: T): void{
+    console.log(userList.length)
 }
-let myIdentity: UserOptions = User;
+User(22)             // Error
+User('22')           // Success
+User(['22'])         // Success
+User({length: 22})   // Success
