@@ -411,3 +411,24 @@
 // }
 // let chunk: string = 'mario';
 // @A @B chunk
+// function getSum(paramA:number, paramB: number):number {
+//     return paramA + paramB
+// }
+// getSum(1, 2) // 3
+// function getSumByCurrying(paramA: number):any {
+//     return function (paramB:number):number {
+//         return paramA + paramB
+//     }
+// }
+// getSumByCurrying(1)(1)
+function decorationFactory(params:any):any {
+    console.log(params)
+    return function () {
+        console.log('return a new decoration function')
+    }
+}
+@decorationFactory
+class Test {
+
+}
+let test = new Test()

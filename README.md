@@ -657,19 +657,48 @@ ___
 
 ***因为装饰器目前还属于实验性语法,所以要在 TypeScript 中使用装饰器，需要在 tsconfig.json 文件中启用 experimentalDecorators 编译器选项***
 
-装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression这种形式，expression求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
+装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression 这种形式，expression 求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
 ### 我们为什么要使用装饰器?
 正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理解为对原有代码的非侵入性扩展或修改。
+### 补充 函数柯里化 Currying
+函数柯里化就是将方法接受的多参数转换为接受单一参数的一种模式: 多入参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
+
+让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单求和方法
+``` TypeScript
+// 常规模式
+function getSum(paramA:number, paramB: number):number {
+    return paramA + paramB
+}
+getSum(1, 2)              // 3
+
+// 函数柯里化模式
+function getSumByCurrying(paramA: number):any {
+    return function (paramB:number):number {
+        return paramA + paramB
+    }
+}
+getSumByCurrying(1)(1)    // 3
+```
+上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，接下来，我们继续深入了解函数柯里化。
+### 装饰器执行的时机
 ### 装饰器工厂
-如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个简单的方法，它会在方法调用时返回一个装饰器
+如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所学习到的函数柯里化。
 ``` TypeScript
 // 装饰器工厂函数
-function decoration(param: string) {
+function decorationFactory(params:any):any {
     // 返回一个装饰器
-    return function (target: any) {
+    console.log(params)   // [Function: Test]
+    return function () {
+        console.log('return a new decoration function')
         // do something with "target" and "param"...
     }
 }
+// 使用装饰器
+@decorationFactory
+class Test {
+
+}
+let test = new Test()     // return a new decoration function
 ```
 ### 装饰器组合
 就像类可以实现多个方法一样，多个装饰器可以一起应用到一个声明之上。
@@ -680,6 +709,7 @@ function decoration(param: string) {
 x            // 书写在多行
 ```
 在 TypeScript 中， 多个装饰器应用在一个声明之上时,编译器会由上至下依次对装饰器进行求值，求值的结果会被当作装饰器由下至上依次调用。
+### 类装饰器
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript
