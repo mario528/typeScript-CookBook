@@ -287,7 +287,7 @@
 // console.log(user)
 // user.userName = 'majiaao'
 
-let channelCode = '528528'
+// let channelCode = '528528'
 // class User {
 //     private _userName: string;
 //     constructor (userName: string) {
@@ -392,13 +392,22 @@ let channelCode = '528528'
 // user.age = 23
 // user.setAge(24)
  
-interface Constraint {
-    length: number,
-}
-function User<T extends Constraint> (userList: T): void{
-    console.log(userList.length)
-}
-User(22)             // Error
-User('22')           // Success
-User(['22'])         // Success
-User({length: 22})   // Success
+// interface Constraint {
+//     length: number,
+// }
+// function User<T extends Constraint> (userList: T): void{
+//     console.log(userList.length)
+// }
+// User(22)             // Error
+// User('22')           // Success
+// User(['22'])         // Success
+// User({length: 22})   // Success
+// 装饰器工厂
+// function decoration(param: string) {
+//     // 返回一个装饰器
+//     return function (target: any) {
+//         // do something with "target" and "param"...
+//     }
+// }
+// let chunk: string = 'mario';
+// @A @B chunk

@@ -652,6 +652,32 @@ interface Point3d extends Point {
 let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
 ___
+## 装饰器
+随着 TypeScript 和 ES6 里引入了类的，在一些场景下我们需要额外的特性来支持标注或修改类及其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式。
+
+***要在 TypeScript 中使用装饰器，需要在 tsconfig.json 文件中启用 experimentalDecorators 编译器选项***
+
+装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression这种形式，expression求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
+### 装饰器工厂
+如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个简单的方法，它会在方法调用时返回一个装饰器
+``` TypeScript
+// 装饰器工厂函数
+function decoration(param: string) {
+    // 返回一个装饰器
+    return function (target: any) {
+        // do something with "target" and "param"...
+    }
+}
+```
+### 装饰器组合
+就像类可以实现多个方法一样，多个装饰器可以一起应用到一个声明之上。
+``` TypeScript
+@f @g x      // 书写在同一行
+@f
+@g
+x            // 书写在多行
+```
+在 TypeScript 中， 多个装饰器应用在一个声明之上时,编译器会由上至下依次对装饰器进行求值，求值的结果会被当作装饰器由下至上依次调用。
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript
