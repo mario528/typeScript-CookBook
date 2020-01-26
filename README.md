@@ -657,11 +657,11 @@ ___
 
 ***因为装饰器目前还属于实验性语法,所以要在 TypeScript 中使用装饰器，需要在 tsconfig.json 文件中启用 experimentalDecorators 编译器选项***
 
-装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression 这种形式，expression 求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
+装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression 这种形式，expression 求值后***必须为一个函数***，它会在运行时被调用，被装饰的声明信息做为参数传入。
 ### 我们为什么要使用装饰器?
 正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理解为对原有代码的非侵入性扩展或修改。
 ### 补充 函数柯里化 Currying
-函数柯里化就是将方法接受的多参数转换为接受单一参数的一种模式: 多入参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
+函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
 
 让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单求和方法
 ``` TypeScript
@@ -680,6 +680,11 @@ function getSumByCurrying(paramA: number):any {
 getSumByCurrying(1)(1)    // 3
 ```
 上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，接下来，我们继续深入了解函数柯里化。
+
+可能有的同学在面试中，面试官会提出如何实现连续求和的面试题，这就使用到了函数柯里化。
+``` TypeScript
+问: 如何实现getSumByCurrying(1)(2)(3)(4)(5).....(n) 连续求和
+```
 ### 装饰器执行的时机
 ### 装饰器工厂
 如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所学习到的函数柯里化。
@@ -708,7 +713,36 @@ let test = new Test()     // return a new decoration function
 @g
 x            // 书写在多行
 ```
-在 TypeScript 中， 多个装饰器应用在一个声明之上时,编译器会由上至下依次对装饰器进行求值，求值的结果会被当作装饰器由下至上依次调用。
+### 装饰器执行顺序
+当多个装饰器同时存在时，执行顺序影响着代码最后返回结果，让我们看一下下面的例子，了解装饰器的执行顺序
+``` TypeScript
+function decorationFunA () {
+    console.log("decorationFunA start")
+    return function (target:any, propertyKey: string):any {
+        console.log("decoration A called")
+    }
+}
+function decorationFunB () {
+    console.log("decorationFunB start")
+    return function (target:any, propertyKey: string):any {
+        console.log("decoration B called")
+    }
+}
+class A {
+    @decorationFunA()
+    @decorationFunB()
+    test () {}
+}
+// decorationFunA start
+// decorationFunB start
+// decoration B called
+// decoration A called
+```
+由控制台输出结果，我们可以得知，在 TypeScript 中， 多个装饰器应用在一个声明时:
+
+编译器会由上至下依次对装饰器进行求值
+
+求值的结果会被当作装饰器由下至上依次调用。
 ### 类装饰器
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:

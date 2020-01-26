@@ -421,14 +421,44 @@
 //     }
 // }
 // getSumByCurrying(1)(1)
-function decorationFactory(params:any):any {
-    console.log(params)
-    return function () {
-        console.log('return a new decoration function')
+// function decorationFactory(params:any):any {
+//     console.log(params)
+//     return function () {
+//         console.log('return a new decoration function')
+//     }
+// }
+// @decorationFactory
+// class Test {
+
+// }
+// let test = new Test()
+// 柯里化函数实现
+// 第一种 递归
+// function getSumByCurrying(fn: any, ...params: number[]) :any {
+//     console.log(params.length)
+//     let paramsLen = params.length
+//     let args = fn.length
+//     return function _fn() {
+
+//     }
+// }
+// getSumByCurrying((paramA: number, paramB: number)=> {
+//     return paramA + paramB
+// }, 1,2,3,4,5)
+function decorationFunA () {
+    console.log("decorationFunA start")
+    return function (target:any, propertyKey: string):any {
+        console.log("decoration A called")
     }
 }
-@decorationFactory
-class Test {
-
+function decorationFunB () {
+    console.log("decorationFunB start")
+    return function (target:any, propertyKey: string):any {
+        console.log("decoration B called")
+    }
 }
-let test = new Test()
+class A {
+    @decorationFunA()
+    @decorationFunB()
+    test () {}
+}
