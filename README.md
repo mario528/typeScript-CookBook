@@ -1,42 +1,61 @@
 # TypeScript CookBook
 ## 前言
-本RP为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本RP中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出🙏
-___
+本RP为笔者的 TypeScript 学习笔记，在学习过程中，会将概念或者问题记录在本RP中。因为笔者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏
 ## 开始
 ### 什么是TypeScript ?
-TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**以及对**ES6**的支持,它增加了代码的可读性和可维护性,避免了一系列因为 JavaScript弱类型特性导致的bug。
+TypeScript 是 JavaScript 的超集, TypeScript 主要提供了**类型系统**以及对**ES6**的支持，它增加了代码的可读性和可维护性，避免了一系列因为 JavaScript 弱类型特性导致的 bug。
 ### 开发前
-本篇文章面向的是熟悉掌握 JavaScript，ES6 的开发者，若对 JavaScript 不是很了解，建议首先系统学习 JavaScript。
-### IDE
-对于 TypeScript 来说,最优秀的IDE可能便是 VScode 了。使用 TypeScript 编写的VScode可以我们无缝顺滑的开发TypeScript。本RP基于 TypeScript 3.7.4 版本进行开发,后续版本更新会进行相对修改。
+本书所有代码均基于ES6语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语法。若您对 JavaScript 不是很了解，建议首先系统学习 JavaScript 的相关课程。
+### 开发环境
+#### IDE
+对于 TypeScript 开发者来说，最优秀的 IDE 可能便是 VScode 了。使用 TypeScript 编写的VScode可以为我们提供无缝、顺滑的开发体验。
+#### 版本
+本RP基于 TypeScript 3.7.4 版本进行开发,后续版本更新会进行相对修改。
 
-  好了，现在开始我们的TypeScript学习吧 😄
+好了，现在开始我们的TypeScript学习吧 😄
 ___
 ## 类型
+每当我们接触到一个新的编程语言时，首先都会去学习它的数据类型。正如名字所直观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数据类型开始这一段 TypeScript 学习课程吧。
 > ### TypeScript中的数据类型
+TypeScript 支持几乎所有的 JavaScript 语言类型，并且增加了一些新的类型：枚举和元组。
 #### **原始数据类型**
-- number 浮点数  
+- number 浮点数类型  
 ``` TypeScript
 let tNumber : number = 10;
 ```
-- string 字符串 
+- string 字符串类型 
 ``` TypeScript
 let tString: string = 'mario';
 ```
-- boolean 布尔值
+- boolean 布尔值类型
 ``` TypeScript
 let tBoolean: boolean = false;
 ```
 - null
 - undefined
+##### 扩展 null 和 undefined 的区别
+有着 JavaScript 开发经验的开发者应该清楚，null 和 undefined 是一对看似亲密无间，其实
+有有很大不同的属性。当我们通过 == 运算符比较两者时，会发现返回值为 true。使用全等运算符
+时，返回false，所以可知，null 和 undefined 的类型其实是不一样的。 
+
+首先，当一个对象的值为 undefined 时，实际表示该对象已经创建，但还未赋值。当我们获取一个值
+返回值为 null 时，表示空对象指针，现在没有该对象。
+
+接着，当我们使用 typeof 获取两者的类型时，发现 undefined 返回值为 undefined，转换为浮
+点数类型后为Nan。而 null typeof 返回值为 object，转换为浮点数类型后为0。
 - symbol  
 
-在平时的开发中，可能对于我来说，symbel的使用机会比较少,但es6引入symbel还是有其原因的:
+在平时的开发中，可能对于一些开发者来说，symbol的使用机会比较少，但es6引入symbel还是有其
+原因的:
 > 本段源自阮一峰大大的 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门")
 >
->ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。
+>ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但
+又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一
+种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。
 
-在 TypeScript 中, symbol 是通过 Symbol 函数创建的。但需要注意的是，Symbol 并不是类方法。生成的 symbol 并不是对象，而是**原始类型**。并且，Symbol 类型也不可以与其他类型进行运算，否则会有错误抛出。
+在 TypeScript 中, symbol 是通过 Symbol 函数创建的。但需要注意的是，Symbol 并不是类方
+法。生成的 symbol 也并不是对象，而是**原始类型**。并且，Symbol 类型也不可以与其他类型进
+行运算，否则会有错误抛出。
 Symbol 类型可以转化为 Boolean 或者 String 类型。但无法转化为数字类型。
 在ES2019中，Symbol 返回值具有 description 属性
 ``` TypeScript
@@ -52,14 +71,17 @@ obj.paramB = 'jia'
 obj               //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.keys(obj)  // ['paramB']
 ```
-从上面的代码可以看出，属性名中类型为Symbol的在 Object.keys、JSON.stringify()、for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
+从上面的代码可以看出，属性名中类型为Symbol的在 Object.keys、JSON.stringify()、
+for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 
+Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新
+的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
 ``` TypeScript
 let a = {};
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
 obj                                //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
-Object.getOwnPropertySymbols(obj)  // [ Symbol(firstName) ]
+Object.S(obj)  // [ Symbol(firstName) ]
 Reflect.ownKeys(obj)               // [ 'paramB', Symbol(firstName) ]
 ```
 若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
@@ -170,9 +192,6 @@ user.name = 'mario'
 > ### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类型指示, 他的影响仅仅存在与编译语法时。
 > ### 双重断言
-___
-## 环境声明文件
-我们在 TypeScript 项目中，例如使用 Jquery 这样的第三方库时
 ___
 ## 接口
 如果你在大学学习或接触过 Java、C# 这类面向对象编程语言的来说, 接口一定不会陌生。但很遗憾, 由于 JavaScript 是一款弱类型的编程语言, 没有类型声明，interface 也就没有了用武之地。在 TypeScript 中总算添加了接口的定义。接下来让我们一起学习 TypeScript 的接口吧。
@@ -1158,4 +1177,6 @@ passTemp.isAvailable() // true
 ```
 在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
 ___
+## 环境声明文件
+当你已经看到本章时，相比已经对 TypeScript 的基础知识有了了解。接下来这一章。
 ## 拓展知识点
