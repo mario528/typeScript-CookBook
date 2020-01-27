@@ -445,20 +445,54 @@
 // getSumByCurrying((paramA: number, paramB: number)=> {
 //     return paramA + paramB
 // }, 1,2,3,4,5)
-function decorationFunA () {
-    console.log("decorationFunA start")
-    return function (target:any, propertyKey: string):any {
-        console.log("decoration A called")
+// function decorationFunA () {
+//     console.log("decorationFunA start")
+//     return function (target:any, propertyKey: string):any {
+//         console.log("decoration A called")
+//     }
+// }
+// function decorationFunB () {
+//     console.log("decorationFunB start")
+//     return function (target:any, propertyKey: string):any {
+//         console.log("decoration B called")
+//     }
+// }
+// class A {
+//     @decorationFunA()
+//     @decorationFunB()
+//     test () {}
+// }
+// function decorationFun (target: any):any {
+//     return class extends target {
+//         userName = 'Reload class'
+//     }
+// }
+
+// @decorationFun
+// class User {
+//     constructor( public userName: string ) {
+//     }
+//     getUserName (): string {
+//         return this.userName
+//     }
+// }
+// let user = new User('mario')
+// console.log(user.getUserName())
+
+function decorationPrototype(param: string) {
+    return function (target: any, name: string) {
+        target[name] = param
     }
 }
-function decorationFunB () {
-    console.log("decorationFunB start")
-    return function (target:any, propertyKey: string):any {
-        console.log("decoration B called")
+class User {
+    @decorationPrototype('typeScript')
+    public userName: string | undefined
+    public age?: number
+    constructor() {
+    }
+    getUserName (): string | undefined {
+        return this.userName
     }
 }
-class A {
-    @decorationFunA()
-    @decorationFunB()
-    test () {}
-}
+let user = new User()
+console.log(user.getUserName())

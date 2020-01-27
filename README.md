@@ -658,6 +658,8 @@ ___
 ***因为装饰器目前还属于实验性语法,所以要在 TypeScript 中使用装饰器，需要在 tsconfig.json 文件中启用 experimentalDecorators 编译器选项***
 
 装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression 这种形式，expression 求值后***必须为一个函数***，它会在运行时被调用，被装饰的声明信息做为参数传入。
+
+常见的装饰器有类装饰器、属性装饰器、方法装饰器、参数装饰器
 ### 我们为什么要使用装饰器?
 正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理解为对原有代码的非侵入性扩展或修改。
 ### 补充 函数柯里化 Currying
@@ -744,6 +746,74 @@ class A {
 
 求值的结果会被当作装饰器由下至上依次调用。
 ### 类装饰器
+类装饰器在类声明前被声明，类装饰器应用于类的构造函数，可以用来监控、增加、替换类的定义。
+
+类装饰器表达式会当作函数被调用，类的构造函数会作为其唯一的参数。如果类装饰器返回一个值，它会使用提供的构造函数来替换类的说明。
+``` TypeScript
+function decorationFun (params: string):Function {
+    console.log(params)            // mario
+    return function (target: any) {
+        console.log(target)        // [Function: User]
+    }
+}
+
+@decorationFun('mario')
+class User {
+    constructor(public userName: string) {
+    }
+    getUserName (): string {
+        return this.userName
+    }
+}
+let user = new User('mario')
+```
+在上面,我们学习到了类装饰器监控、增加类的定义，接下来，我们继续学习类装饰器如何实现对类的构造方法的重载：
+``` TypeScript
+function decorationFun (target: any):any {
+    return class extends target {
+        userName = 'Reload class'
+        getUserName () {
+            this.userName += ' after Reload'
+            return this.userName
+        }
+    }
+}
+
+@decorationFun
+class User {
+    constructor( public userName: string ) {
+    }
+    getUserName (): string {
+        return this.userName
+    }
+}
+let user = new User('mario')
+user.userName                // Reload class
+user.getUserName()           // Reload class after Reload 
+```
+从上面的例子我们可以看出,我们通过类装饰器实现了对类构造方法的重载。
+### 属性装饰器
+和类装饰器一样, 属性装饰器同样声明在一个属性声明之前（紧靠着属性声明）。同样类似于类装饰器，属性装饰器返回的方法也需要接收类的构造方法，但额外的，还需要传入当前的属性名称。  
+``` TypeScript
+function decorationPrototype(param: string) {
+    return function (target: any, name: string) {
+        target[name] = param
+    }
+}
+class User {
+    @decorationPrototype('typeScript')
+    public userName: string | undefined
+    public age?: number
+    constructor() {
+    }
+    getUserName (): string | undefined {
+        return this.userName
+    }
+}
+let user = new User()
+user.getUserName()           // typeScript
+```
+### 方法装饰器
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript
