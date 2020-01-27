@@ -479,20 +479,36 @@
 // let user = new User('mario')
 // console.log(user.getUserName())
 
-function decorationPrototype(param: string) {
-    return function (target: any, name: string) {
-        target[name] = param
+// function decorationPrototype(param: string) {
+//     return function (target: any, name: string) {
+//         target[name] = param
+//     }
+// }
+// class User {
+//     @decorationPrototype('typeScript')
+//     public userName: string | undefined
+//     public age?: number
+//     constructor() {
+//     }
+//     getUserName (): string | undefined {
+//         return this.userName
+//     }
+// }
+// let user = new User()
+// console.log(user.getUserName())
+function decorationMethods(params:boolean) {
+    return function(target: any, keyName: string, descriptor: PropertyDescriptor) {
+        console.log(target, keyName, descriptor)
+        descriptor.enumerable = params;
     }
 }
 class User {
-    @decorationPrototype('typeScript')
     public userName: string | undefined
     public age?: number
     constructor() {
     }
+    @decorationMethods(false)
     getUserName (): string | undefined {
         return this.userName
     }
 }
-let user = new User()
-console.log(user.getUserName())

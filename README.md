@@ -793,7 +793,10 @@ user.getUserName()           // Reload class after Reload
 ```
 从上面的例子我们可以看出,我们通过类装饰器实现了对类构造方法的重载。
 ### 属性装饰器
-和类装饰器一样, 属性装饰器同样声明在一个属性声明之前（紧靠着属性声明）。同样类似于类装饰器，属性装饰器返回的方法也需要接收类的构造方法，但额外的，还需要传入当前的属性名称。  
+和类装饰器一样, 属性装饰器同样声明在一个属性声明之前（紧靠着属性声明）。同样类似于类装饰器，属性装饰器返回的方法也需要接收2个参数:
+
+    1: 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+    2: 成员(属性)的名字。
 ``` TypeScript
 function decorationPrototype(param: string) {
     return function (target: any, name: string) {
@@ -814,6 +817,31 @@ let user = new User()
 user.getUserName()           // typeScript
 ```
 ### 方法装饰器
+方法装饰器声明在一个方法的声明之前（紧靠着方法声明）。它会被应用到方法的 属性描述符上，可以用来监视，修改或者替换方法定义。方法装饰器表达式会在运行时当作函数被调用，会接受三个参数:
+
+    1: 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+    2: 成员的名字。
+    3: 成员的属性描述符。
+我们继续使用一个例子学习方法装饰器:
+``` TypeScript
+function decorationMethods(params:string) {
+    return function(target: any, keyName: string, descriptor: PropertyDescriptor) {
+        console.log(target, keyName, descriptor)
+        descriptor.enumerable = params;
+    }
+}
+class User {
+    public userName: string | undefined
+    public age?: number
+    constructor() {
+    }
+    @decorationMethods('false')
+    getUserName (): string | undefined {
+        return this.userName
+    }
+}
+```
+我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们将方法的可枚举属性改变为true。这样我们可以使用 Object.keys() 得到该方法。
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript
