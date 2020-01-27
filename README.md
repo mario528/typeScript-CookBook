@@ -854,6 +854,75 @@ let user = new User()
 user.run()            // change methods
 ```
 我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们通过 decorationMethods 方法装饰器 将方法的可枚举属性改变为true。这样我们可以使用 Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 User 类中的 run 方法。
+### 参数装饰器
+参数装饰器声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。参数装饰器表达式会在运行时当作函数被调用，会接受三个参数：
+
+    1. 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+    2. 成员的名字。
+    3. 参数在函数参数列表中的索引。
+参数装饰器在平时应用的比较少，因此我们不做过深的研究。
+``` TypeScript
+function decorationParams(params:string) {
+    return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
+        console.log(target, propertyKey, parameterIndex)
+    }
+}
+class User {
+    public age?: number
+    constructor() {}
+    getUserName (@decorationParams('userName') userName: string): string{
+        return userName
+    }
+}
+```
+### 所有种类装饰器执行顺序
+当我们同时使用多种装饰器时，装饰器的执行顺序是怎么样的呢？我们通过一段代码就可以了解:
+``` TypeScript
+function decorationClass(params:string) {
+    return function (target: any) {
+        console.log(params)
+    }
+}
+function decorationMethod(params:string): Function {
+    return function (keyName: string, descriptor: PropertyDescriptor) {
+        console.log(params)
+    }
+}
+function decorationPrototype(params:string): Function {
+    return function (target: any, name: string) {
+        console.log(params)
+    }
+}
+function decorationParam(params:string) {
+    return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
+        console.log(params)
+    }
+}
+@decorationClass('class decoration')
+class User {
+    @decorationPrototype('prototype decoration')
+    public age?: number
+    constructor() {
+    }
+    @decorationMethod('method decoration')
+    getUserName (@decorationParam('param decoration') userName: string): string{
+        return userName
+    }
+}
+
+// prototype decoration
+// param decoration
+// method decoration
+// class decoration
+```
+在上面我们同时使用了类装饰器、方法装饰器、参数装饰器和方法装饰器。通过代码执行的输出，我们可以分析出:
+
+    1. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个实例成员。
+    2. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个静态成员。
+    3. 参数装饰器应用到构造函数。
+    4. 类装饰器应用到类。
+
+
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript

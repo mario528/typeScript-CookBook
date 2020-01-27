@@ -496,31 +496,64 @@
 // }
 // let user = new User()
 // console.log(user.getUserName())
-function decorationMethods(params:boolean) {
-    return function(target: any, keyName: string, descriptor: PropertyDescriptor) {
-        console.log(target, keyName, descriptor)
-        descriptor.enumerable = params;
+// function decorationMethods(params:boolean) {
+//     return function(target: any, keyName: string, descriptor: PropertyDescriptor) {
+//         console.log(target, keyName, descriptor)
+//         descriptor.enumerable = params;
+//     }
+// }
+// function decorationFun(params:string): Function {
+//     return function (target: any, keyName: string, descriptor: PropertyDescriptor) {
+//         let tempFun = descriptor.value
+//         descriptor.value = function () {
+//             console.log('change methods')
+//         }
+//     }
+// }
+// class User {
+//     public userName: string | undefined
+//     public age?: number
+//     constructor() {
+//     }
+//     @decorationMethods(false)
+//     getUserName (): string | undefined {
+//         return this.userName
+//     }
+//     @decorationFun('1')
+//     run () {}
+// }
+// let user = new User()
+// user.run()
+
+function decorationClass(params:string) {
+    return function (target: any) {
+        console.log(params)
     }
 }
-function decorationFun(params:string): Function {
-    return function (target: any, keyName: string, descriptor: PropertyDescriptor) {
-        let tempFun = descriptor.value
-        descriptor.value = function () {
-            console.log('change methods')
-        }
+function decorationMethod(params:string): Function {
+    return function (keyName: string, descriptor: PropertyDescriptor) {
+        console.log(params)
     }
 }
+function decorationPrototype(params:string): Function {
+    return function (target: any, name: string) {
+        console.log(params)
+    }
+}
+function decorationParam(params:string) {
+    return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
+        console.log(params)
+    }
+}
+@decorationClass('class decoration')
 class User {
-    public userName: string | undefined
+    @decorationPrototype('prototype decoration')
     public age?: number
     constructor() {
     }
-    @decorationMethods(false)
-    getUserName (): string | undefined {
-        return this.userName
+    @decorationMethod('method decoration')
+    getUserName (@decorationParam('param decoration') userName: string): string{
+        return userName
     }
-    @decorationFun('1')
-    run () {}
 }
-let user = new User()
-user.run()
+
