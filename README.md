@@ -824,10 +824,18 @@ user.getUserName()           // typeScript
     3: 成员的属性描述符。
 我们继续使用一个例子学习方法装饰器:
 ``` TypeScript
-function decorationMethods(params:string) {
+function decorationMethods(params:boolean) {
     return function(target: any, keyName: string, descriptor: PropertyDescriptor) {
         console.log(target, keyName, descriptor)
         descriptor.enumerable = params;
+    }
+}
+function decorationFun(params:string): Function {
+    return function (target: any, keyName: string, descriptor: PropertyDescriptor) {
+        let tempFun = descriptor.value
+        descriptor.value = function () {
+            console.log('change methods')
+        }
     }
 }
 class User {
@@ -835,13 +843,17 @@ class User {
     public age?: number
     constructor() {
     }
-    @decorationMethods('false')
+    @decorationMethods(false)
     getUserName (): string | undefined {
         return this.userName
     }
+    @decorationFun('1')
+    run () {}
 }
+let user = new User()
+user.run()            // change methods
 ```
-我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们将方法的可枚举属性改变为true。这样我们可以使用 Object.keys() 得到该方法。
+我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们通过 decorationMethods 方法装饰器 将方法的可枚举属性改变为true。这样我们可以使用 Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 User 类中的 run 方法。
 ## 泛型
 在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript

@@ -502,6 +502,14 @@ function decorationMethods(params:boolean) {
         descriptor.enumerable = params;
     }
 }
+function decorationFun(params:string): Function {
+    return function (target: any, keyName: string, descriptor: PropertyDescriptor) {
+        let tempFun = descriptor.value
+        descriptor.value = function () {
+            console.log('change methods')
+        }
+    }
+}
 class User {
     public userName: string | undefined
     public age?: number
@@ -511,4 +519,8 @@ class User {
     getUserName (): string | undefined {
         return this.userName
     }
+    @decorationFun('1')
+    run () {}
 }
+let user = new User()
+user.run()
