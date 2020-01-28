@@ -1240,23 +1240,42 @@ Object 对对象进行操作，那么我们为什么还需要引进一个新的 
 ``` TypeScript
 let httpOptions = {
     requestUrl:  'http://typeScript/learn',
-    methon: 'post',
+    method: 'post',
     params: {
         page: 0
     }
 }
 ```
 首先，在我们平日的开发中，可能会需要校验 httpOptions 是否含有某个属性
-``` TypeScript
+``` JavaScript
 let httpOptions = {
     requestUrl:  'http://typeScript/learn',
-    methon: 'post',
+    method: 'post',
     params: {
         page: 0
     }
 }
-'params1' in httpOptions               // true
-httpOptions.hasOwnProperty('params')   // true
-Reflect.has(httpOptions, 'params')     // true
+'params1' in httpOptions                      // true
+httpOptions.hasOwnProperty('params')          // true
+Reflect.has(httpOptions, 'params')            // true
+Reflect.get(httpOptions,'params')             // { page: 0 }
+Reflect.set(httpOptions,'params', {page: 1})  // true
+Reflect.get(httpOptions,'params')             // { page: 1 }
+
 ```
-从上面看，我们通过 Reflect.has 方法可以实现 in 方法的效果。这就体现了我们使用 Reflect 的原因之一： 将 in 操作转化为函数类型操作。
+从上面看，我们通过 Reflect.has 方法可以实现 in 方法的效果，通过
+Reflect.get 实现了获取对象参数值的效果、通过 Reflect.set 实现对对象参数数据的修改。这
+就体现了我们使用 Reflect 的原因之一： 将代码外部操作转化为函数类型操作。
+
+接下来，让我们看一下选择 Reflect 的第二个原因：
+``` JavaScript
+try {
+  Object.defineProperty(target, property, attributes);
+  // success
+} catch (e) {
+  // failure
+}
+
+Reflect.defineProperty(httpOptions, 'params', {})   // true
+```
+我们使用 Object.defineProperty 时，如果遇到错误，编译器会直接抛出错误，所以我们那必须用 try...catch 包裹住住代码。但如果我们使用了 Reflect.defineProperty。则会返回一个Boolean 值反应操作的结果。
