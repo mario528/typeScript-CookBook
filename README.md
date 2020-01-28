@@ -34,19 +34,19 @@ let tBoolean: boolean = false;
 - null
 - undefined
 ##### 扩展 null 和 undefined 的区别
-有着 JavaScript 开发经验的开发者应该清楚，null 和 undefined 是一对看似亲密无间，其实
+有 JavaScript 开发经验的开发者应该清楚，null 和 undefined 是一对看似亲密无间，其实
 有有很大不同的属性。当我们通过 == 运算符比较两者时，会发现返回值为 true。使用全等运算符
-时，返回false，所以可知，null 和 undefined 的类型其实是不一样的。 
+时，返回false。所以可知，null 和 undefined 的类型其实是不一样的：
 
 首先，当一个对象的值为 undefined 时，实际表示该对象已经创建，但还未赋值。当我们获取一个值
 返回值为 null 时，表示空对象指针，现在没有该对象。
 
 接着，当我们使用 typeof 获取两者的类型时，发现 undefined 返回值为 undefined，转换为浮
-点数类型后为Nan。而 null typeof 返回值为 object，转换为浮点数类型后为0。
+点数类型后为NaN。而 null typeof 返回值为 object，转换为浮点数类型后为0。
 - symbol  
 
-在平时的开发中，可能对于一些开发者来说，symbol的使用机会比较少，但es6引入symbel还是有其
-原因的:
+在平时的开发中，可能对于一些开发者来说，symbol的使用机会比较少，但 es6 引入 symbol 还是
+有其原因的:
 > 本段源自阮一峰大大的 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门")
 >
 >ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但
@@ -54,7 +54,7 @@ let tBoolean: boolean = false;
 种机制，保证每个属性的名字都是独一无二的就好了，这样就从根本上防止属性名的冲突。
 
 在 TypeScript 中, symbol 是通过 Symbol 函数创建的。但需要注意的是，Symbol 并不是类方
-法。生成的 symbol 也并不是对象，而是**原始类型**。并且，Symbol 类型也不可以与其他类型进
+法。生成的 symbol 也并非是对象，而是**原始类型**。并且，Symbol 类型也不可以与其他类型进
 行运算，否则会有错误抛出。
 Symbol 类型可以转化为 Boolean 或者 String 类型。但无法转化为数字类型。
 在ES2019中，Symbol 返回值具有 description 属性
@@ -68,20 +68,20 @@ let obj = {}
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
-obj               //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
+obj               // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.keys(obj)  // ['paramB']
 ```
-从上面的代码可以看出，属性名中类型为Symbol的在 Object.keys、JSON.stringify()、
+从上面的代码可以看出，属性名中键名为 Symbol 类型的在 Object.keys、JSON.stringify()、
 for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 
 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新
-的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()
+的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()。对 Reflect 类 API 不熟悉的同学可以到最后一章扩展知识中学习，里面有对 Reflect 详细的补充。
 ``` TypeScript
 let a = {};
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
-obj                                //  { paramB: 'jia', [Symbol(firstName)]: 'ma' }
-Object.S(obj)  // [ Symbol(firstName) ]
+obj                                // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
+Object.S(obj)                      // [ Symbol(firstName) ]
 Reflect.ownKeys(obj)               // [ 'paramB', Symbol(firstName) ]
 ```
 若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
@@ -1180,3 +1180,83 @@ ___
 ## 环境声明文件
 当你已经看到本章时，相比已经对 TypeScript 的基础知识有了了解。接下来这一章。
 ## 拓展知识点
+### Reflect
+在本书的数据类型章节中，因为对象中键值为 Symbol 类型的属性无法遍历得到，所以我们使用了一个新的 API: Reflect。通过Reflect的ownKeys方法获取所有属性。 
+#### 什么是 Reflect
+Reflect 是 ES6 中为操作对象提供的新的 API。
+#### 为什么要使用 Reflect
+我们已经了解到，Reflect 是一个新的操作对象的 API，但我们也清楚，在 TypeScript 中，有 
+Object 对对象进行操作，那么我们为什么还需要引进一个新的 API 呢?
+    
+    1. 将用 Object方法 报错的情况，改为返回false
+    2. 将Object对象的属于语言内部的方法放到Reflect对象上，即从Reflect对象上拿Object
+       对象内部方法。
+下面是 Reflact 的相关 API:
+- Reflect.apply()
+
+    对一个函数进行调用操作，同时可以传入一个数组作为调用参数。和 
+    Function.prototype.apply() 功能类似。
+- Reflect.construct()
+
+    对构造函数进行 new 操作，相当于执行 new target(...args)。
+- Reflect.defineProperty()
+
+    和 Object.defineProperty() 类似。
+- Reflect.deleteProperty()
+
+    作为函数的delete操作符，相当于执行 delete target[name]。
+- Reflect.get()
+
+    获取对象身上某个属性的值，类似于 target[name]。
+- Reflect.getOwnPropertyDescriptor()
+
+    类似于 Object.getOwnPropertyDescriptor()。
+- Reflect.getPrototypeOf()
+
+    类似于 Object.getPrototypeOf()。
+- Reflect.has()
+
+    判断一个对象是否存在某个属性，和 in 运算符 的功能完全相同。
+- Reflect.isExtensible()
+
+    类似于 Object.isExtensible().
+- Reflect.ownKeys()
+
+    返回一个包含所有自身属性（不包含继承属性）的数组。(类似于 Object.keys(), 但不会受
+    enumerable影响).
+- Reflect.preventExtensions()
+
+    类似于 Object.preventExtensions()。返回一个Boolean。
+- Reflect.set()
+
+    将值分配给属性的函数。返回一个Boolean，如果更新成功，则返回true。
+- Reflect.setPrototypeOf()
+
+    类似于 Object.setPrototypeOf()。
+
+下面，我们选取 Reflect 中常用的 API 进行演示:
+
+首先我们定义一个对象 requestOptions ，之后我们所有的操作都会围绕这个对象进行。
+``` TypeScript
+let httpOptions = {
+    requestUrl:  'http://typeScript/learn',
+    methon: 'post',
+    params: {
+        page: 0
+    }
+}
+```
+首先，在我们平日的开发中，可能会需要校验 httpOptions 是否含有某个属性
+``` TypeScript
+let httpOptions = {
+    requestUrl:  'http://typeScript/learn',
+    methon: 'post',
+    params: {
+        page: 0
+    }
+}
+'params1' in httpOptions               // true
+httpOptions.hasOwnProperty('params')   // true
+Reflect.has(httpOptions, 'params')     // true
+```
+从上面看，我们通过 Reflect.has 方法可以实现 in 方法的效果。这就体现了我们使用 Reflect 的原因之一： 将 in 操作转化为函数类型操作。

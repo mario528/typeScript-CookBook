@@ -525,35 +525,44 @@
 // let user = new User()
 // user.run()
 
-function decorationClass(params:string) {
-    return function (target: any) {
-        console.log(params)
+// function decorationClass(params:string) {
+//     return function (target: any) {
+//         console.log(params)
+//     }
+// }
+// function decorationMethod(params:string): Function {
+//     return function (keyName: string, descriptor: PropertyDescriptor) {
+//         console.log(params)
+//     }
+// }
+// function decorationPrototype(params:string): Function {
+//     return function (target: any, name: string) {
+//         console.log(params)
+//     }
+// }
+// function decorationParam(params:string) {
+//     return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
+//         console.log(params)
+//     }
+// }
+// @decorationClass('class decoration')
+// class User {
+//     @decorationPrototype('prototype decoration')
+//     public age?: number
+//     constructor() {
+//     }
+//     @decorationMethod('method decoration')
+//     getUserName (@decorationParam('param decoration') userName: string): string{
+//         return userName
+//     }
+// }
+let httpOptions = {
+    requestUrl:  'http://typeScript/learn',
+    methon: 'post',
+    params: {
+        page: 0
     }
 }
-function decorationMethod(params:string): Function {
-    return function (keyName: string, descriptor: PropertyDescriptor) {
-        console.log(params)
-    }
-}
-function decorationPrototype(params:string): Function {
-    return function (target: any, name: string) {
-        console.log(params)
-    }
-}
-function decorationParam(params:string) {
-    return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
-        console.log(params)
-    }
-}
-@decorationClass('class decoration')
-class User {
-    @decorationPrototype('prototype decoration')
-    public age?: number
-    constructor() {
-    }
-    @decorationMethod('method decoration')
-    getUserName (@decorationParam('param decoration') userName: string): string{
-        return userName
-    }
-}
-
+console.log('params' in httpOptions)
+console.log(httpOptions.hasOwnProperty('params'))
+Reflect.has(httpOptions, 'params')
