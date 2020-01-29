@@ -74,7 +74,8 @@ Object.keys(obj)  // ['paramB']
 从上面的代码可以看出，属性名中键名为 Symbol 类型的在 Object.keys、JSON.stringify()、
 for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 
 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新
-的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()。对 Reflect 类 API 不熟悉的同学可以到最后一章扩展知识中学习，里面有对 Reflect 详细的补充。
+的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()。对 Reflect 类 API 
+不熟悉的同学可以到最后一章扩展知识中学习，里面有对 Reflect 详细的补充。
 ``` TypeScript
 let a = {};
 let paramA = Symbol('firstName')
@@ -84,7 +85,8 @@ obj                                // { paramB: 'jia', [Symbol(firstName)]: 'ma'
 Object.S(obj)                      // [ Symbol(firstName) ]
 Reflect.ownKeys(obj)               // [ 'paramB', Symbol(firstName) ]
 ```
-若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
+若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接
+返回该 symbol 值，若没有，则创建一个新的。
 
 | Symbol() | Symbol.for() | Symbol.keyFor
 |--|--|--
@@ -120,13 +122,15 @@ enum Color {
 }
 ```
 - any   
-关闭类型检查 兼容所有类型 当声明了一个变量的类型为any后，之后对他的任何操作，返回值的内容均为any类型。
+关闭类型检查 兼容所有类型 当声明了一个变量的类型为any后，之后对他的任何操作，返回值的内容
+均为any类型。
 ``` TypeScript
 let something <=> let something:any
 ```
 - void     空值返回
 > ### 类型推断
-在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类型。
+在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类
+型。
 > ### 类型别名
 类型注解
 ``` typeScript
@@ -143,7 +147,8 @@ let idCount: string | number;
 idCount = 10;
 idCount = '10'
 ```
-当 TypeScript 不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共有的属性或方法,否则抛出异常。
+当 TypeScript 不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共
+有的属性或方法,否则抛出异常。
 ``` TypeScript
 let userAccount: string | number
 userAccount = 'mario'           // TypeScript将userAccount类型推断为string
@@ -181,7 +186,10 @@ TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类�
 let user = {}
 user.name = 'mario';
 ```
-上面的代码,在 JavaScript 中，我们可以轻松的给对象 user 赋予 name 属性。但在 TypeScript 中，会触发'类型“{}”上不存在属性“ name ”。'的错误警告。原因就在于在创建 user 的同时 TypeScript 编译器就将 user 的类型推断为空对象{}。因此无法再在 user 上赋值。此时, 我们便需要使用类型断言来覆盖 TypeScript 的类型推断:
+上面的代码,在 JavaScript 中，我们可以轻松的给对象 user 赋予 name 属性。但在 
+TypeScript 中，会触发'类型“{}”上不存在属性“ name ”。'的错误警告。原因就在于在创建 
+user 的同时 TypeScript 编译器就将 user 的类型推断为空对象{}。因此无法再在 user 上赋
+值。此时, 我们便需要使用类型断言来覆盖 TypeScript 的类型推断:
 ``` TypeScript
 interface User {
     name: string,
@@ -190,14 +198,19 @@ let user = {} as User;
 user.name = 'mario'
 ```
 > ### 类型断言的根本
-类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类型指示, 他的影响仅仅存在与编译语法时。
+类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类
+型指示, 他的影响仅仅存在与编译语法时。
 > ### 双重断言
 ___
 ## 接口
-如果你在大学学习或接触过 Java、C# 这类面向对象编程语言的来说, 接口一定不会陌生。但很遗憾, 由于 JavaScript 是一款弱类型的编程语言, 没有类型声明，interface 也就没有了用武之地。在 TypeScript 中总算添加了接口的定义。接下来让我们一起学习 TypeScript 的接口吧。
+如果你在大学学习或接触过 Java、C# 这类面向对象编程语言的来说, 接口一定不会陌生。但很遗憾,
+由于 JavaScript 是一款弱类型的编程语言, 没有类型声明，interface 也就没有了用武之地。
+在 TypeScript 中总算添加了接口的定义。接下来让我们一起学习 TypeScript 的接口吧。
 
-其实在生活中，我们无时无刻都在接触接口。例如充电器和插线板。插线板出厂就规定了它允许哪一类充电器可以与其对接。
-在 TypeScript 中也是一样。接口(**interface**)会设定参数的数据类型。并在之后对每一次赋值进行类型检验，如果赋值与接口的规格(数据类型)相符，则赋值成功。否则，会抛出异常。
+其实在生活中，我们无时无刻都在接触接口。例如充电器和插线板。插线板出厂就规定了它允许哪一类
+充电器可以与其对接。
+在 TypeScript 中也是一样。接口(**interface**)会设定参数的数据类型。并在之后对每一次赋
+值进行类型检验，如果赋值与接口的规格(数据类型)相符，则赋值成功。否则，会抛出异常。
 
   首先，让我们观察下面这段代码，它实现了一个最简单的接口并和内联式进行对比:
 ``` TypeScript
@@ -216,11 +229,14 @@ function createNewUser (userInfo: UserInfo): void {
 createNewUser({ userName: 'mario', age: 22})  // Error
 createNewUser({ userName: 'mario'})           // success { userName: 'mario' }
 ```
-我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进行了类型校验,
-倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，TypeScript 类型检查器会抛出错误。
+我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进
+行了类型校验,
+倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，
+TypeScript 类型检查器会抛出错误。
 通过了上面的学习，我们明白了如何创建一个接口去规范数据类型。
 ### 接口的只读属性
-在接口中，使用 readonly，即可规定该接口参数为只读属性, 使用read-only定义的属性在第一次赋值后，就再也无法改变该值了。
+在接口中，使用 readonly，即可规定该接口参数为只读属性, 使用read-only定义的属性在第一次
+赋值后，就再也无法改变该值了。
 ``` TypeScript
 interface UserInfo {
   readonly username: string,
@@ -255,8 +271,10 @@ function addNewUser (userInfo: UserInfo): void {
 }
 addNewUser({ age: 22, name: 'mario' });
 ```
-尽管接口定义了入参的属性和数据类型,并且{ age: 22, name: 'mario' }看似也是合乎类型的。但在 TypeScript 解释器看来，
-当赋值对象存在接口不包含的属性时，对象字面量会被特殊对待而且会经过 额外属性检查。随即抛出错。对于这种情况，我们可以使用类型断言、添加字符串索引签名解决又或者将参数赋予参数再传入:
+尽管接口定义了入参的属性和数据类型,并且{ age: 22, name: 'mario' }看似也是合乎类型的。
+但在 TypeScript 解释器看来，
+当赋值对象存在接口不包含的属性时，对象字面量会被特殊对待而且会经过 额外属性检查。随即抛出
+错。对于这种情况，我们可以使用类型断言、添加字符串索引签名解决又或者将参数赋予参数再传入:
 ``` TypeScript
 // 1. 添加类型断言
 interface UserInfo {
@@ -292,11 +310,14 @@ let user = {
 }
 createNewUser(user) //success  { userName: 'mario', age: 22 }
 ```
-这三种方式，添加类型断言方法通过类型断言方式通过额外的类型检查、添加字符串索引签名方法通过添加字符串索引方式兼容多余属性。而
+这三种方式，添加类型断言方法通过类型断言方式通过额外的类型检查、添加字符串索引签名方法通过
+添加字符串索引方式兼容多余属性。而
 第三种通过对象方式传入方法，则是因为通过对象赋值给另一对象根本就不会触发额外的类型检查。
 ### 函数类型接口
-当我们期望通过接口定义函数类型时，我们便用到了函数类型接口。值得注意的是，因为对象类型接口对于顺序没有要求，所以要求接口内类型名称
-与传入类型名称保持一致。但由于函数要求传入参数的类型顺序和定义要保持一致，因此函数类型接口并不要求参数名与接口里定义的名字相匹配。TypeScript 的类型检查器会根据函数的
+当我们期望通过接口定义函数类型时，我们便用到了函数类型接口。值得注意的是，因为对象类型接口
+对于顺序没有要求，所以要求接口内类型名称
+与传入类型名称保持一致。但由于函数要求传入参数的类型顺序和定义要保持一致，因此函数类型接口
+并不要求参数名与接口里定义的名字相匹配。TypeScript 的类型检查器会根据函数的
 入参 一个个与接口参数进行类型比较。
 ``` TypeScript
 interface UserFunc {
@@ -309,7 +330,8 @@ addNewUser = function (name: string, age?: number) {
 addNewUser('mario', 22)
 ```
 ### 可索引类型
-当我们想用接口规范数组类型时，需要使用可索引类型接口。可索引类型只支持数字类型签名和字符串类型索引签名:
+当我们想用接口规范数组类型时，需要使用可索引类型接口。可索引类型只支持数字类型签名和字符串
+类型索引签名:
 ``` TypeScript
 // 数字类型索引签名
 interface UserList {
@@ -335,7 +357,8 @@ console.log(userDictionary)
 ```
 > 可索引类型接口待完成
 ### 类类型接口
-TypeScript 可以像 Java、 C#一样， 使用接口去规范类。在 TypeScript 中, 类通过 implements 实现接口:
+TypeScript 可以像 Java、 C#一样， 使用接口去规范类。在 TypeScript 中, 类通过 
+implements 实现接口:
 ``` TypeScript
 interface UserClass {
     userName: string
@@ -351,7 +374,8 @@ class User implements UserClass {
     }
 }
 ```
-类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，一并需要实现该该接口定义的参数和方法，并且保持数据类型一致。
+类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，一并需要实现该该接口定义的参
+数和方法，并且保持数据类型一致。
 
 接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
 
@@ -380,7 +404,8 @@ let ma = createInstance(User, 'mario', 22)
 ma.innerFunc()
 ```
 ### 接口的继承
-和之后学习到的类一样，接口也是可以通过 extends 相互继承的, 甚至一个接口可以继承其他的多个接口,生成合成接口:
+和之后学习到的类一样，接口也是可以通过 extends 相互继承的, 甚至一个接口可以继承其他的多个
+接口,生成合成接口:
 ``` TypeScript
 // 单接口继承
 interface User {
@@ -409,7 +434,10 @@ loginObj.loginAccount = '528528'
 
 ```
 ### 接口继承类
-在上面，类可以实现接口。同样，接口也可以继承类。接口可以继承类的成员但不包括实现,就像我们在接口中声明了类需要拥有的成员和方法。值得注意的是，接口同样会继承类的privite成员和protect成员。这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现:
+在上面，类可以实现接口。同样，接口也可以继承类。接口可以继承类的成员但不包括实现,就像我们在
+接口中声明了类需要拥有的成员和方法。值得注意的是，接口同样会继承类的privite成员和protect
+成员。这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被
+这个类或其子类所实现:
 ``` TypeScript
 class UserOptions {
     public userName: string;
@@ -441,7 +469,9 @@ user.getUserName()   // success mario
 ```
 ___
 ## 类
-在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现继承的。在ES6中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接近了一些。
+在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现
+继承的。在ES6中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接近
+了一些。
 
 ### 基础
 首先让我们学习一下 TypeScript 中最基本的类 下面的代码会定义一个 User (用户)类:
@@ -461,10 +491,13 @@ class User {
 let user = new User('mario')
 user.getUserName()    // mario
 ```
-在上面，我们定义了一个 User类， 在类中，包括三种成员，分别是：1. 类的成员变量 2. 类的构造函数 3. 类的方法。
-在类的构造函数和类的方法中， 可以使用 this 访问类的成员变量。 之后我们通过 new 实例化了 User 类。
+在上面，我们定义了一个 User类， 在类中，包括三种成员，分别是：1. 类的成员变量 2. 类的构
+造函数 3. 类的方法。
+在类的构造函数和类的方法中， 可以使用 this 访问类的成员变量。 之后我们通过 new 实例化了 
+User 类。
 ### 类的继承
-在 TypeScript 中，可以用继承来扩展现有的类。涉及到继承，类则分为以下几类: 基类(超类) 派生类(子类) 抽象类。 让我们来看一看下面的代码:
+在 TypeScript 中，可以用继承来扩展现有的类。涉及到继承，类则分为以下几类: 基类(超类) 派
+生类(子类) 抽象类。 让我们来看一看下面的代码:
 ``` TypeScript
 class SuperClass {
     userName: string;
@@ -495,13 +528,19 @@ son.init();
 son.sonFun()
 son.coverFunc()
 ```
-SonClass 作为子类，继承了超类 SuperClass 的属性和方法。在子类的构造方法中, **必须**调用super() 执行超类中的构造函数，注意，这是 TypeScript 强制要求的。继续上面这段代码，当子类继承超类后，也就拥有了超类的成员变量和方法, 同样，子类也可以重新定义超类中的方法, 比如 sonClass 类，便重写了父类的该方法。
+SonClass 作为子类，继承了超类 SuperClass 的属性和方法。在子类的构造方法中, **必须**调
+用super() 执行超类中的构造函数，注意，这是 TypeScript 强制要求的。继续上面这段代码，当
+子类继承超类后，也就拥有了超类的成员变量和方法, 同样，子类也可以重新定义超类中的方法, 比
+如 sonClass 类，便重写了父类的该方法。
 ### 类的成员变量
-类有三种成员变量，分别是 public、private、protected、readonly 以及 static。在上面的例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
+类有三种成员变量，分别是 public、private、protected、readonly 以及 static。在上面的
+例子中, 子类可以随意的访问超类中的实例方法, 是因为当未为对成员变量类型进行声明时，会默认将
+其设置为 public 类型。说到这里，让我们首先来看一看 public 类型:
 #### public类型的成员变量
 public类型的成员变量很简单 在子类中可以任意访问
 #### private类型的成员变量
-当成员变量被标记为private时，该成员变量便不可以在声明其的类以外访问。为了方便理解，我们还是套用上一个例子的代码:
+当成员变量被标记为private时，该成员变量便不可以在声明其的类以外访问。为了方便理解，我们还
+是套用上一个例子的代码:
 ``` TypeScript
 class SuperClass {
     private userName: string;
@@ -525,7 +564,8 @@ let son = new sonClass('mario')
 son.sonFun()
 ```
 #### protected 类型的成员变量
-protected 类型和 private 类型类似，但不同的是，protected类型还可以在派生类中访问。我们还是用一个例子来理解 protected 类型:
+protected 类型和 private 类型类似，但不同的是，protected类型还可以在派生类中访问。我
+们还是用一个例子来理解 protected 类型:
 ``` TypeScript
 // 超类
 class SuperClass {
@@ -548,9 +588,11 @@ class SonClass extends SuperClass {
 const user = new SonClass('mario', 22)
 user.getUserInfo()    // mario 22
 ```
-从上面的代码可以看出，SuperClass 定义的 protected 类型的成员变量，并不同于 private 类型的成员变量， 在它的子类 SonClass 中，也可以使用。
+从上面的代码可以看出，SuperClass 定义的 protected 类型的成员变量，并不同于 private 类
+型的成员变量， 在它的子类 SonClass 中，也可以使用。
 
-类中也可以拥有 protected 类型的构造方法, protected 类型的构造方法不能在包含它的类外被实例化，但是可以被继承:
+类中也可以拥有 protected 类型的构造方法, protected 类型的构造方法不能在包含它的类外被
+实例化，但是可以被继承:
 ``` TypeScript
 class User {
     protected userName: string;
@@ -568,7 +610,8 @@ class sonClass extends User {
 let son = new sonClass('mario')
 ```
 #### readonly 修饰符
-和接口中的 readonly 只读属性一样，类中的成员变量也可以设置为只读属性。该成员变量的值只可以在声明或构造函数时赋值，其他情况下赋值会抛出异常:
+和接口中的 readonly 只读属性一样，类中的成员变量也可以设置为只读属性。该成员变量的值只可
+以在声明或构造函数时赋值，其他情况下赋值会抛出异常:
 ``` TypeScript
 class User {
     readonly userName: string;   // 设置为只读属性 此时未赋值 则只能在构造函数中赋值
@@ -586,12 +629,18 @@ console.log(user)
 user.userName = 'majiaao'      // Error Cannot assign to 'userName' because it is a read-only property.
 ```
 #### 存取器
-TypeScript支持通过 getters/setters 来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。提起 getters/setters 方法，很多人肯定会想起 在 Vue 老版本中使用到的 Object.defineProperty。通过这个方法，我们实现了 Model层与View层的双向绑定。
-Object.defineProperty 需要三个参数 object、 propName、 descriptor。object 负责绑定劫持的对象，propName 表示需要添加的变量名，descriptor 为一个对象，其中包括所有操作的属性:
+TypeScript支持通过 getters/setters 来截取对对象成员的访问。 它能帮助你有效的控制对对
+象成员的访问。提起 getters/setters 方法，很多人肯定会想起 在 Vue 老版本中使用到的 
+Object.defineProperty。通过这个方法，我们实现了 Model层与View层的双向绑定。
+Object.defineProperty 需要三个参数 object、 propName、 descriptor。object 负责绑
+定劫持的对象，propName 表示需要添加的变量名，descriptor 为一个对象，其中包括所有操作的
+属性:
 
 | value | enumerable | writable | configurable | get | set
 |--|--|--|--|--|--|
-| 属性值 | 是否可枚举 默认 false | 是否可以被重新赋值 默认false => 只读 | 1.属性是否可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存取器 修改值的时候的方法
+| 属性值 | 是否可枚举 默认 false | 是否可以被重新赋值 默认false => 只读 | 1.属性是否
+可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存
+取器 修改值的时候的方法
 接下来，我们来学习一下 TypeScript 中 存取器:
 ``` TypeScript
 let channelCode = '528528'
@@ -632,7 +681,8 @@ let men = new User(22);     // mario
 let women = new User(23);   // mario
 ```
 ### 抽象类
-抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员的实现细节。 abstract 关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员
+的实现细节。 abstract 关键字是用于定义抽象类和在抽象类内部定义抽象方法。
 ``` TypeScript
 abstract class User {
     abstract setUserName (newValue: string): boolean;
@@ -655,7 +705,9 @@ let user = new sonClass('mario');
 user.getUserName()
 user.setUserName('majiaao')
 ```
-在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass作为子类继承了User 抽象类。在抽象类中实现了 getUserName 方法，可以供子类使用。而在抽象类中定义的 setUserName 则必须的子类中定义实现。并且，在子类可以覆盖实现抽象类中实现的方法。
+在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass作为子类继承了User 抽象、
+类。在抽象类中实现了 getUserName 方法，可以供子类使用。而在抽象类中定义的 setUserName 
+则必须的子类中定义实现。并且，在子类可以覆盖实现抽象类中实现的方法。
 ### 将类当作接口使用
 类也可以像接口一样使用 接口继承类，从而形成新的接口规范。
 ``` TypeScript
@@ -672,15 +724,21 @@ let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
 ___
 ## 装饰器
-随着 TypeScript 和 ES6 里引入了类的，在一些场景下我们需要额外的特性来支持标注或修改类及其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式，用通俗的语言来解释就是在执行原有代码前，添加代码进行预先的处理逻辑。
+随着 TypeScript 和 ES6 里引入了类的，在一些场景下我们需要额外的特性来支持标注或修改类及
+其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方
+式，用通俗的语言来解释就是在执行原有代码前，添加代码进行预先的处理逻辑。
 
 ***因为装饰器目前还属于实验性语法,所以要在 TypeScript 中使用装饰器，需要在 tsconfig.json 文件中启用 experimentalDecorators 编译器选项***
 
-装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使用 @expression 这种形式，expression 求值后***必须为一个函数***，它会在运行时被调用，被装饰的声明信息做为参数传入。
+装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上。 装饰器使
+用 @expression 这种形式，expression 求值后***必须为一个函数***，它会在运行时被调用，
+被装饰的声明信息做为参数传入。
 
 常见的装饰器有类装饰器、属性装饰器、方法装饰器、参数装饰器
 ### 我们为什么要使用装饰器?
-正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理解为对原有代码的非侵入性扩展或修改。
+正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，
+涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理
+解为对原有代码的非侵入性扩展或修改。
 ### 补充 函数柯里化 Currying
 函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
 
@@ -700,7 +758,8 @@ function getSumByCurrying(paramA: number):any {
 }
 getSumByCurrying(1)(1)    // 3
 ```
-上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，接下来，我们继续深入了解函数柯里化。
+上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，接下来，我
+们继续深入了解函数柯里化。
 
 可能有的同学在面试中，面试官会提出如何实现连续求和的面试题，这就使用到了函数柯里化。
 ``` TypeScript
@@ -708,7 +767,8 @@ getSumByCurrying(1)(1)    // 3
 ```
 ### 装饰器执行的时机
 ### 装饰器工厂
-如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所学习到的函数柯里化。
+如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个
+简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所学习到的函数柯里化。
 ``` TypeScript
 // 装饰器工厂函数
 function decorationFactory(params:any):any {
@@ -735,7 +795,8 @@ let test = new Test()     // return a new decoration function
 x            // 书写在多行
 ```
 ### 装饰器执行顺序
-当多个装饰器同时存在时，执行顺序影响着代码最后返回结果，让我们看一下下面的例子，了解装饰器的执行顺序
+当多个装饰器同时存在时，执行顺序影响着代码最后返回结果，让我们看一下下面的例子，了解装饰器
+的执行顺序
 ``` TypeScript
 function decorationFunA () {
     console.log("decorationFunA start")
@@ -767,7 +828,8 @@ class A {
 ### 类装饰器
 类装饰器在类声明前被声明，类装饰器应用于类的构造函数，可以用来监控、增加、替换类的定义。
 
-类装饰器表达式会当作函数被调用，类的构造函数会作为其唯一的参数。如果类装饰器返回一个值，它会使用提供的构造函数来替换类的说明。
+类装饰器表达式会当作函数被调用，类的构造函数会作为其唯一的参数。如果类装饰器返回一个值，它
+会使用提供的构造函数来替换类的说明。
 ``` TypeScript
 function decorationFun (params: string):Function {
     console.log(params)            // mario
@@ -786,7 +848,8 @@ class User {
 }
 let user = new User('mario')
 ```
-在上面,我们学习到了类装饰器监控、增加类的定义，接下来，我们继续学习类装饰器如何实现对类的构造方法的重载：
+在上面,我们学习到了类装饰器监控、增加类的定义，接下来，我们继续学习类装饰器如何实现对类的构
+造方法的重载：
 ``` TypeScript
 function decorationFun (target: any):any {
     return class extends target {
@@ -812,7 +875,8 @@ user.getUserName()           // Reload class after Reload
 ```
 从上面的例子我们可以看出,我们通过类装饰器实现了对类构造方法的重载。
 ### 属性装饰器
-和类装饰器一样, 属性装饰器同样声明在一个属性声明之前（紧靠着属性声明）。同样类似于类装饰器，属性装饰器返回的方法也需要接收2个参数:
+和类装饰器一样, 属性装饰器同样声明在一个属性声明之前（紧靠着属性声明）。同样类似于类装饰
+器，属性装饰器返回的方法也需要接收2个参数:
 
     1: 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
     2: 成员(属性)的名字。
@@ -836,7 +900,8 @@ let user = new User()
 user.getUserName()           // typeScript
 ```
 ### 方法装饰器
-方法装饰器声明在一个方法的声明之前（紧靠着方法声明）。它会被应用到方法的 属性描述符上，可以用来监视，修改或者替换方法定义。方法装饰器表达式会在运行时当作函数被调用，会接受三个参数:
+方法装饰器声明在一个方法的声明之前（紧靠着方法声明）。它会被应用到方法的 属性描述符上，可以
+用来监视，修改或者替换方法定义。方法装饰器表达式会在运行时当作函数被调用，会接受三个参数:
 
     1: 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
     2: 成员的名字。
@@ -872,9 +937,13 @@ class User {
 let user = new User()
 user.run()            // change methods
 ```
-我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们通过 decorationMethods 方法装饰器 将方法的可枚举属性改变为true。这样我们可以使用 Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 User 类中的 run 方法。
+我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们通过 
+decorationMethods 方法装饰器 将方法的可枚举属性改变为true。这样我们可以使用 
+Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 User 类中的 run 方
+法。
 ### 参数装饰器
-参数装饰器声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。参数装饰器表达式会在运行时当作函数被调用，会接受三个参数：
+参数装饰器声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。
+参数装饰器表达式会在运行时当作函数被调用，会接受三个参数：
 
     1. 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
     2. 成员的名字。
@@ -934,7 +1003,8 @@ class User {
 // method decoration
 // class decoration
 ```
-在上面我们同时使用了类装饰器、方法装饰器、参数装饰器和方法装饰器。通过代码执行的输出，我们可以分析出:
+在上面我们同时使用了类装饰器、方法装饰器、参数装饰器和方法装饰器。通过代码执行的输出，我们
+可以分析出:
 
     1. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个实例成员。
     2. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个静态成员。
@@ -943,14 +1013,20 @@ class User {
 
 
 ## 泛型
-在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下面例如我们想实现一个传入string类型的变量 并返回的方法:
+在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回
+传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下
+面例如我们想实现一个传入string类型的变量 并返回的方法:
 ``` TypeScript
 function Ttest(param: string):string {
     return param
 }
 console.log(Ttest('mario'))
 ```
-看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品经理走了过来并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 string 类型，对于 number、boolean “无能为力”。使用 any 的返回类型也显然违背了 TypeScript 对于数据类型检验的初衷。为每一个类型都重复写一个这样逻辑高度一致的方法也太过于“奢侈”。因此，这时候 我们便需要使用 TypeScript 一个新的模式:泛型。
+看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品经理走了过来
+并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 
+string 类型，对于 number、boolean “无能为力”。使用 any 的返回类型也显然违背了 
+TypeScript 对于数据类型检验的初衷。为每一个类型都重复写一个这样逻辑高度一致的方法也太过于
+“奢侈”。因此，这时候 我们便需要使用 TypeScript 一个新的模式:泛型。
 ``` TypeScript
 function Ttest<T>(param: T): T {
     return param
@@ -958,14 +1034,18 @@ function Ttest<T>(param: T): T {
 console.log(Ttest<string>('mario'))   // mario
 console.log(Ttest(22))        // 22
 ```
-在上面的代码中，我们给 Ttest 方法添加了类型变量T。类型 T 会根据我们传入值的类型，定义T的类
-型，这一过程，我们甚至可以用动态模版语言的方式去理解。这样，我们即保证了对传入值返回值类型的
-判断，又省去了大量重复逻辑的代码。在定义了泛型方法后，我们可以通过明确插入泛型类型的方式通知
+在上面的代码中，我们给 Ttest 方法添加了类型变量T。类型 T 会根据我们传入值的类型，定义T的
+类
+型，这一过程，我们甚至可以用动态模版语言的方式去理解。这样，我们即保证了对传入值返回值类型
+的
+判断，又省去了大量重复逻辑的代码。在定义了泛型方法后，我们可以通过明确插入泛型类型的方式通
+知
 泛型方法该使用何种方式，或者直接传入参数，编译器会自动根据传入的参数的类型帮助我们确定 泛型
 方法的类型。在一些复杂的情况下,编译器可能无法自动分析出传入值的类型，所以一些情况下，需要我
 们用第一种方式去定义泛型方法的类型。
 ### 使用泛型变量
-在上面，我们创建了一个 Ttest 的泛型方法后，在 Ttest 方法中，TypeScript 编译器便要求我们，在该方法体中，把入参当作所有类型参数使用。还是上面的代码:
+在上面，我们创建了一个 Ttest 的泛型方法后，在 Ttest 方法中，TypeScript 编译器便要求我
+们，在该方法体中，把入参当作所有类型参数使用。还是上面的代码:
 ``` TypeScript
 function Ttest<T>(param: T): T {
     console.log(param.length)         // Error 类型“T”上不存在属性“length”。
@@ -974,7 +1054,11 @@ function Ttest<T>(param: T): T {
 console.log(Ttest<string>('mario'))   // mario
 console.log(Ttest(22))                // 22
 ```
-在这个时候当我们想要获取到输入参数的长度时，就算我们的本意是获取到类型是数组或者字符串类型的入参，但 TypeScript 编译器会用所有类型的语法标准去检测我们的代码。因此，在上面的代码中，倘若传入的参数是没有 length方法的 number 类型，则会出现问题。因此我们可以在声明方法时，将入参设置为**元素类型是 T 的数组**。这样.length 方法便可以在方法中是用来，这可以让我们把泛型变量 T 当做类型的一部分使用，而不是整个类型，增加了灵活性。
+在这个时候当我们想要获取到输入参数的长度时，就算我们的本意是获取到类型是数组或者字符串类型
+的入参，但 TypeScript 编译器会用所有类型的语法标准去检测我们的代码。因此，在上面的代码
+中，倘若传入的参数是没有 length方法的 number 类型，则会出现问题。因此我们可以在声明方法
+时，将入参设置为**元素类型是 T 的数组**。这样.length 方法便可以在方法中是用来，这可以让
+我们把泛型变量 T 当做类型的一部分使用，而不是整个类型，增加了灵活性。
 ``` TypeScript
 function Ttest<T>(param: T[]): T[] {
     console.log(param.length)
@@ -1001,7 +1085,8 @@ function User<T>(params: T): T {
 }
 let myIdentity: UserOptions = User;
 ```
-接下来，我们还可以将泛型参数当作整个接口的一个参数，这样，就可以直接通过接口名来了解到具体是哪一个泛型类型了：
+接下来，我们还可以将泛型参数当作整个接口的一个参数，这样，就可以直接通过接口名来了解到具体
+是哪一个泛型类型了：
 ``` TypeScript
 interface UserOptions<T> {
     <T>(arg: T):void
@@ -1026,7 +1111,8 @@ user.setAge(24)
 ```
 泛型类只可以限制实例部分的属性。
 ### 泛型约束
-在上面的例子中，在一个泛型方法中，我们无法直接访问一个泛型变量的 .length 值。但想要实现希望泛型类型拥有 .length 属性，则需要使用**泛型约束**：
+在上面的例子中，在一个泛型方法中，我们无法直接访问一个泛型变量的 .length 值。但想要实现希
+望泛型类型拥有 .length 属性，则需要使用**泛型约束**：
 ``` TypeScript
 interface Constraint {
     length: number,
@@ -1091,7 +1177,8 @@ import * as A from './a';
 console.log(A)                 // { a: 10, emailAddress: 'mario528@163.com' }
 ```
 ### 文件模块的动态查找
-如果了解Node的模块解析策略的话,会很容易理解 TypeScript 的文件模块动态查找策略。如果不了解也没有关系,下面我们再次回顾一下:    
+如果了解Node的模块解析策略的话,会很容易理解 TypeScript 的文件模块动态查找策略。如果不了
+解也没有关系,下面我们再次回顾一下:    
 当我们在模块中引入: import express from 'express'时
 * './node_modules/express'
     * '../node_modules/express'
@@ -1100,7 +1187,9 @@ console.log(A)                 // { a: 10, emailAddress: 'mario528@163.com' }
             * 直到查找到项目的rootpath 
 ___
 ## 命名空间
-在 TypeScript 中,现在的版本推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一个普通的带有名字的 JavaScrpt 对象。首先，让我们来看看下面的这段代码，本章命名空间相关的学习我们都会围绕着这段代码和它的“升级版来展开:
+在 TypeScript 中,现在的版本推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一
+个普通的带有名字的 JavaScrpt 对象。首先，让我们来看看下面的这段代码，本章命名空间相关的学
+习我们都会围绕着这段代码和它的“升级版来展开:
 ``` TypeScript
 // checkIn.ts
 const globalPassword = '528528'
@@ -1137,7 +1226,9 @@ class checkPasswordAvailable implements Password,UserFunc {
 let passTemp = new checkPasswordAvailable('528528')
 console.log(passTemp.isAvailable())
 ```
-上面这段代码很简单，我们在 checkIn.ts 中粗略的实现了用户的手机号、密码校验。但随着需求中越来越多的校验器需求，可能 checkIn.ts 文件会越来越庞大。因此我们需要对代码进行模块化分割。接下来,我们将有关用户信息验证的代码放进名为 Check 的命名空间中:
+上面这段代码很简单，我们在 checkIn.ts 中粗略的实现了用户的手机号、密码校验。但随着需求中
+越来越多的校验器需求，可能 checkIn.ts 文件会越来越庞大。因此我们需要对代码进行模块化分
+割。接下来,我们将有关用户信息验证的代码放进名为 Check 的命名空间中:
 ``` TypeScript
 namespace Check {
     // 内部执行的代码无需对外暴露
@@ -1175,13 +1266,16 @@ namespace Check {
 let passTemp = new Check.checkPasswordAvailable('528528')
 passTemp.isAvailable() // true
 ```
-在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
+在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变
+量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 
+checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
 ___
 ## 环境声明文件
 当你已经看到本章时，相比已经对 TypeScript 的基础知识有了了解。接下来这一章。
 ## 拓展知识点
 ### Reflect
-在本书的数据类型章节中，因为对象中键值为 Symbol 类型的属性无法遍历得到，所以我们使用了一个新的 API: Reflect。通过Reflect的ownKeys方法获取所有属性。 
+在本书的数据类型章节中，因为对象中键值为 Symbol 类型的属性无法遍历得到，所以我们使用了一
+个新的 API: Reflect。通过Reflect的ownKeys方法获取所有属性。 
 #### 什么是 Reflect
 Reflect 是 ES6 中为操作对象提供的新的 API。
 #### 为什么要使用 Reflect
@@ -1278,4 +1372,6 @@ try {
 
 Reflect.defineProperty(httpOptions, 'params', {})   // true
 ```
-我们使用 Object.defineProperty 时，如果遇到错误，编译器会直接抛出错误，所以我们那必须用 try...catch 包裹住住代码。但如果我们使用了 Reflect.defineProperty。则会返回一个Boolean 值反应操作的结果。
+我们使用 Object.defineProperty 时，如果遇到错误，编译器会直接抛出错误，所以我们那必须
+用 try...catch 包裹住住代码。但如果我们使用了 Reflect.defineProperty。则会返回一个
+Boolean 值反应操作的结果。
