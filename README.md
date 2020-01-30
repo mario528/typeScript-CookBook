@@ -4,7 +4,7 @@
 
 编写不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
-    <img src="https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg" width="200"/>
+    <img src="https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg" width="300"/>
 </p>
 
 没有的如果有帮助可以点个star，让我们一起学习，一起进步。
