@@ -1,8 +1,11 @@
 # TypeScript CookBook
 ## 前言
-本文为 TypeScript CookBook。主要内容涉及到 TypeScript 开发的完整知识体系架构，并对一
-些知识进行额外的扩展。 因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指
-出 🙏。
+本书主要内容涉及到 TypeScript 开发的完整知识体系架构，并对一些知识进行额外的扩展。 因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏。
+
+编写不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
+[![1lpZ6A.md.jpg](https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg)](https://imgchr.com/i/1lpZ6A)
+
+没有的如果有帮助可以点个star，让我们一起学习，一起进步。
 ## 开始
 ### 什么是TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了 **类型系统** 以及 **ES6** 
