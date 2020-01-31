@@ -58,9 +58,9 @@ let tBoolean: boolean = false;
 - null
 - undefined
 ##### 扩展 null 和 undefined 的区别
-有 JavaScript 开发经验的开发者应该清楚，null 和 undefined 是一对看似亲密无间，其实
-有有很大不同的属性。当我们通过 == 运算符比较两者时，会发现返回值为 true。使用全等运算符
-时，返回false。所以可知，null 和 undefined 的类型其实是不一样的：
+有 JavaScript 开发经验的开发者应该了解，null 和 undefined 是一对看似亲密无间，其实
+有着很大不同的属性。当我们通过 == 运算符比较两者时，会发现返回值为 true。使用全等运算符
+时，结果返回false。所以可知，null 和 undefined 的类型本质上其实是不一样的：
 
 首先，当一个对象的值为 undefined 时，实际表示该对象已经创建，但还未赋值。当我们获取一个值
 返回值为 null 时，表示空对象指针，现在没有该对象。
@@ -71,7 +71,7 @@ let tBoolean: boolean = false;
 
 在平时的开发中，可能对于一些开发者来说，symbol的使用机会比较少，但 es6 引入 symbol 还是
 有其原因的:
-> 本段源自阮一峰大大的 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门")
+> 本段摘自阮一峰大大的 [ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门"):
 >
 >ES5 的对象属性名都是字符串，这容易造成属性名的冲突。比如，你使用了一个他人提供的对象，但
 又想为这个对象添加新的方法（mixin 模式），新方法的名字就有可能与现有方法产生冲突。如果有一
@@ -84,7 +84,7 @@ Symbol 类型可以转化为 Boolean 或者 String 类型。但无法转化为�
 在ES2019中，Symbol 返回值具有 description 属性
 ``` TypeScript
 let symA = Symbol('mario');
-symA.description // mario
+symA.description  // mario
 ```
 又例如下面的一段代码
 ``` TypeScript
@@ -96,29 +96,28 @@ obj               // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
 Object.keys(obj)  // ['paramB']
 ```
 从上面的代码可以看出，属性名中键名为 Symbol 类型的在 Object.keys、JSON.stringify()、
-for...in、for...of 等遍历中无法获取。但对象中的Symbol类型属性也不是没办法获取，在 
+for...in、for...of 等遍历中无法获取。但对象中的 Symbol 类型属性也不是没办法获取，在 
 Object 下有 getOwnPropertySymbols API 可以获取所有 Symbol 类型属性名。另外，一个新
 的 API 可以一劳永逸的解决输出所有对象属性名 - Reflect.ownKeys()。对 Reflect 类 API 
-不熟悉的同学可以到最后一章扩展知识中学习，里面有对 Reflect 详细的补充。
+不熟悉的同学可以到最后一章扩展知识中学习，里面有对 [Reflect](#拓展知识点) 详细的补充。
 ``` TypeScript
-let a = {};
+let obj = {};
 let paramA = Symbol('firstName')
 obj[paramA] = 'ma'
 obj.paramB = 'jia'
 obj                                // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
-Object.S(obj)                      // [ Symbol(firstName) ]
+Object.getOwnPropertySymbols(obj)  // [ Symbol(firstName) ]
 Reflect.ownKeys(obj)               // [ 'paramB', Symbol(firstName) ]
 ```
-若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 Symbol 值,则直接
-返回该 symbol 值，若没有，则创建一个新的。
-
+若想使用同一个 Symbol 值 可以使用 Symbol.for 方法。如果调用时，有该 
+Symbol 值,则直接返回该 symbol 值，若没有，则创建一个新的。
 | Symbol() | Symbol.for() | Symbol.keyFor
 |--|--|--
 | 无论何时调用，均创建一个新的 Symbol | 当传入一个参数时,首先全局搜索是否有该该 symbol,如果有，则返回该 symbol 值。若没有，则创建一个新的 symbol,在全局登记 | 当传入 symbol 类型的参数在全局登记过，则返回该 Symbol 值的 key ,若传入值在全局未登记，则返回undefined。
 ``` TypeScript
 let paramA = Symbol('paramA');
 let paramB = Symbol.for('b');
-let paramC = Symbol.for('c');
+let paramC = Symbol.for('b');
 paramB === paramC      // true
 Symbol.keyFor(paramA)  // undefined
 Symbol.keyFor(paramB)  // b
@@ -126,25 +125,85 @@ Symbol.keyFor(paramB)  // b
 上面介绍了Symbol在开发中常用的方法，其他的可以在 阮一峰大大的[ECMAScript 6入门](http://es6.ruanyifeng.com/#docs/symbol "ECMAScript 6入门")中继续学习。
 #### **对象数据类型**
 - array 数组
+
+TypeScript 有两种方式定义数组类型: 一种是在元素类型后面接上[],另一种是使用
+我们接下来会学习到的泛型表示: Array<元素类型>。在平时的开发中，我们主要使用到的是第一种表
+示方式。
 ``` TypeScript
+// 元素类型后面接上[]
 :number[] => [1,2,3] 
 :string[] => ['1','2','3']
+// 泛型方式表示
+:Array<number> => [1,2,3]
+:Array<string> => ['1','2','3']
 ```
 - tuple 元组
+
+元组是用来表示一个已知元素数量和元素类型的数组，其中各个元素的类型不必相同。
+值得注意的是，如果我们在给越界的元素赋值时，TypeScript 解释器会使用联合查询
+对可赋值类型进行推断。
 ``` typeScript
 let example: [string, number]  
 example = ['ma',22] // success
 example = [22,'ma'] // error
-example[3] = 'jia'  // success 越界根据类型联合查询判断
+example[3] = 'jia'  // success 越界元素类型根据类型联合查询(string | number)判断
 ```
 - enum 枚举
+
+枚举类型是 TypeScript 对 JavaScript 的一个补充类型。TypeScript 支持基于字符串类型和
+基于数字型类型的枚举。
+#### 数字型枚举
+首先，我们看一下数字类型枚举，我们给 first 的初始化值为1，之后的属性虽然没有初始值，但
+TypeScript 会自动从1开始增长。
 ``` typeScript
-enum Color {
-    first: 1,  // 1
-    second,    // 2
-    third      // 3
+enum Code {
+    first = 1,  // 1
+    second,     // 2
+    third       // 3
 }
 ```
+同样，我们也可以无需给数字类型枚举初始值，这样，TypeScript 解释器会默认给枚举的第一个元素
+设置初始值为0，后面的元素从0开始增长。
+``` typeScript
+enum Code {
+    first,      // 0
+    second,     // 1
+    third       // 2
+}
+```
+我们可以通过枚举的属性来访问枚举成员，和枚举的名字来访问枚举类型。
+``` TypeScript
+enum Response {
+    No = 0,
+    Yes = 1,
+}
+
+function respond(recipient: string, message: Response): void {
+    // ...
+}
+
+respond("Princess Caroline", Response.Yes)
+```
+#### 字符串类型枚举
+在字符串类型枚举中，所有的成员都必须使用字符串类型。
+``` typeScript
+enum Code {
+    first = 'first',    
+    second = 'second',   
+    third = 'third'   
+}
+```
+与数字类型枚举相比，字符串枚举没有自增长的行为，因此字符串枚举可以很好的序列化。字符串枚举
+允许我们提供一个运行时有意义的并且可读的值，独立于枚举成员的名字。
+#### 异类枚举
+异类类型枚举支持混合包含字符串类型和数字类型成员:
+``` TypeScript
+enum Code {
+    first = 0,    
+    second = 'second',   
+}
+```
+但这种类型枚举对我们的开发并没有什么帮助，所以开发中很少用到。
 - any   
 关闭类型检查 兼容所有类型 当声明了一个变量的类型为any后，之后对他的任何操作，返回值的内容
 均为any类型。
@@ -195,11 +254,11 @@ function fusionFun <T, U> (argA: T, argB: U): (T & U) {
   return fusionObj;
 }
 let user = fusionFun({
-  userName: 'majiaao'
+  userName: 'mario'
 }, {
   age: 20
 });
-console.log(user); // { userName: 'majiaao', age: 20 }
+console.log(user); // { userName: 'mario', age: 20 }
 ```
 > ### 类型断言
 TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制

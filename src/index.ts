@@ -556,13 +556,23 @@
 //         return userName
 //     }
 // }
-let httpOptions = {
-    requestUrl:  'http://typeScript/learn',
-    methon: 'post',
-    params: {
-        page: 0
-    }
+// let httpOptions = {
+//     requestUrl:  'http://typeScript/learn',
+//     methon: 'post',
+//     params: {
+//         page: 0
+//     }
+// }
+// console.log('params' in httpOptions)
+// console.log(httpOptions.hasOwnProperty('params'))
+// Reflect.has(httpOptions, 'params')
+// enum Code {
+//     Error = 1,  // 1
+//     second,     // 2
+//     third       // 3
+// }
+enum Code {
+    first = 'first',    
+    second = 'second',   
+    third = 'third'   
 }
-console.log('params' in httpOptions)
-console.log(httpOptions.hasOwnProperty('params'))
-Reflect.has(httpOptions, 'params')
