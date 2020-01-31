@@ -2,7 +2,7 @@
 ## 前言
 本书主要内容涉及到 TypeScript 开发的完整知识体系架构，并对一些知识进行额外的扩展。 因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏。
 
-编写不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
+码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
     <img src="https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg" width="300"/>
 </p>
@@ -23,30 +23,29 @@
 # 开始
 ### 什么是TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了 **类型系统** 以及 **ES6** 
-的支持，它增加了代码的可读性和可维护性，避免了一系列因为 JavaScript 弱类型特性导致的 
+的支持，它增加了代码的可读性和可维护性，避免了因为 JavaScript 弱类型特性导致的一系列 
 bug。
 ### 开发前
-本书所有代码均基于ES6语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
-法。若您对 JavaScript 不是很了解，建议首先系统学习 JavaScript 的相关课程。
+本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
+法。若您对 JavaScript 不是很了解，为了保证您的学习效率，建议首先系统学习 JavaScript 的相关课程。
 ### 开发环境
 #### IDE
-对于 TypeScript 开发者来说，最优秀的 IDE 可能便是 VScode 了。使用 TypeScript 编写的
-VScode可以为我们提供无缝、顺滑的开发体验。
+对于 TypeScript 开发者来说，最优秀的 IDE 可能便是 VScode 了。本身便使用 TypeScript 
+开发的 VScode 可以为我们提供无缝、顺滑的开发体验。所以 TypeScript 官方也是推荐我们使用 
+VScode 来进行开发的。
 #### 版本
-本RP基于 TypeScript 3.7.4 版本进行开发,后续版本更新会进行相对修改。
+本书基于 TypeScript 3.7.4 版本进行开发,后续版本若有破坏性更新或变动会进行相应补充修改。
 
-好了，现在开始我们的TypeScript学习吧 😄
-___
+好了，现在开始我们的TypeScript学习吧 😊
 # 类型
-每当我们接触到一个新的编程语言时，首先都会去学习它的数据类型。正如名字所直观表现的，数据类
-型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数据类型开始这一
+每当我们接触到一个全新的编程语言时，首先都会去学习它的数据类型。正如名字所直观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数据类型开始这一
 段 TypeScript 学习课程吧。
 > ### TypeScript中的数据类型
 TypeScript 支持几乎所有的 JavaScript 语言类型，并且增加了一些新的类型：枚举和元组。
 #### **原始数据类型**
 - number 浮点数类型  
 ``` TypeScript
-let tNumber : number = 10;
+let tNumber: number = 10;
 ```
 - string 字符串类型 
 ``` TypeScript
