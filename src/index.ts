@@ -571,8 +571,26 @@
 //     second,     // 2
 //     third       // 3
 // }
-enum Code {
-    first = 'first',    
-    second = 'second',   
-    third = 'third'   
+// enum Code {
+//     first = 'first',    
+//     second = 'second',   
+//     third = 'third'   
+// }
+// enum FileAccess {
+//     // constant members
+//     None,
+//     Read    = 1 << 1,
+//     Write   = 1 << 2,
+//     ReadWrite  = Read | Write,
+//     // computed member
+//     G = "123".length
+// }
+// console.log(FileAccess.None)
+// function funcVoid(): void {
+//     //   do something
+// }
+function neverFun(): never {
+    while (true) {
+        // do something ....
+    }
 }
