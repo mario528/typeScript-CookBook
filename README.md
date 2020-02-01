@@ -249,9 +249,15 @@ function neverFun(): never {
     throw new Error('something error');
 }
 ```
-> ### 类型推断
-在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类
-型。
+> ### 类型推论
+在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类型。
+``` TypeScript
+let a = 123;
+a = '123'     // Error 不能将类型"123"分配给number类型。
+```
+虽然我们在声明变量a时，并没有声明它的变量类型，但 TypeScript 会通过我们给变量 a 的赋值，
+进行类型推论，自动推断出最符合的类型。在上面，TypeScript 推断出 变量 a 的类型应为 
+number，所以我们之后再次给 a 赋值为字符串类型时便会报错。
 > ### 类型别名
 类型注解
 ``` typeScript

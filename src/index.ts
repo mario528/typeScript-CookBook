@@ -589,8 +589,10 @@
 // function funcVoid(): void {
 //     //   do something
 // }
-function neverFun(): never {
-    while (true) {
-        // do something ....
-    }
-}
+// function neverFun(): never {
+//     while (true) {
+//         // do something ....
+//     }
+// }
+let a = 123;
+a = '123'
