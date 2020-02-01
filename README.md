@@ -7,10 +7,11 @@
     <img src="https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg" width="300"/>
 </p>
 
-没有的同学可以帮忙点个star，让我们一起学习，一起进步。
+没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
 ## 目录
 * [开始](#开始)
 * [类型](#类型)
+* [高级类型](#高级类型)
 * [接口](#接口)
 * [类](#类)
 * [装饰器](#装饰器)
@@ -279,7 +280,12 @@ userAccount = 10;     // true
 userAccount = '10';   // true
 userAccount = false;  // Error
 ```
-> ### 联合查询
+## 小结
+学习到这里，我们完整的学习了 TypeScript 所有的基本类型，通过本章的学习，我们分别了解到了
+: Boolean、String、Number、Undefined、Null、Symbol、Never、Array、Tuple、Enum一
+系列的使用方法
+# 高级类型
+> ### 联合类型
 当希望一个变量用户多个类型可能时 即使用类型的联合查询
 ``` typeScript
 let idCount: string | number;
@@ -295,7 +301,10 @@ console.log(userAccount.length) // success : 5
 const getUserAccountLength = (userAccount: string | number):number => userAccount.length  // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
 ```
 > ### 交叉类型
-从两个对象中创建一个新对象，新对象会拥有着两个对象所有的功能 类似于继承的含义
+交叉类型，顾名思义就是将多个类型合并为一个类型。从两个对象中创建一个新对象，新对象会拥有着两个对象所有的功能，这样看类似于继承的含义。
+
+我们一般在混入需求中使用交叉类型，在下面的代码中，我们需要实现一个融合两个对象并返回的结果
+的方法,此时我们便可以使用设置方法的返回值为传入两个对象类型的交叉类型。
 ``` typeScript
 function fusionFun <T, U> (argA: T, argB: U): (T & U) {
   let fusionObj = <T & U>{};
