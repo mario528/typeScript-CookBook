@@ -594,5 +594,10 @@
 //         // do something ....
 //     }
 // }
-let a = 123;
-a = '123'
+// let a = 123;
+// a = '123'
+enum reverse {
+    first= 10,
+    second = 10
+}
+console.log(reverse[10])
