@@ -323,7 +323,7 @@ let user = fusionFun({
 }, {
   age: 20
 });
-console.log(user); // { userName: 'mario', age: 20 }
+user        // { userName: 'mario', age: 20 }
 ```
 > ### 类型断言
 TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制
