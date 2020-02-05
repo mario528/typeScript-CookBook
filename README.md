@@ -402,7 +402,7 @@ interface User {
     age ?: number
 }
 let user: User = {
-    userName: 'mario',
+    userName: 'mario'
 }
 user.age = 22;
 user      // { userName: 'mario', age: 22 }
