@@ -28,7 +28,10 @@ TypeScript 是 JavaScript 的超集, TypeScript 主要提供了 **类型系统**
 的支持，它增加了代码的可读性和可维护性，避免了因为 JavaScript 弱类型特性导致的一系列 
 bug。
 ## 为什么要使用 TyeScript
-TypeScript 是由 Microsoft 主导开发的开源的编程语言，并且近些年来，Microsoft 也一直极力推崇 TypeScript 的使用。我们都知道，往往大厂主导的开发语言会引领未来软件的开发趋势。因此 TypeScript 必须会是未来几年开发的热门之一。
+TypeScript 是由 Microsoft 主导开发的开源的编程语言，并且近些年来，Microsoft 也一直极
+力推崇 TypeScript。我们都知道，大厂主导的开发语言往往会引领未来软件的开发趋势。因此 
+TypeScript 必然会是未来几年开发的热门之一。同时，Vue、React、Angular 也都高度支持 
+TypeScript。因此作为一个开发者，学习 TypeScript 已经成为一个必然之举。
 ## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
 法。若您对 JavaScript 不是很了解，为了保证您的学习效率，建议首先系统学习 JavaScript 的相关课程。
