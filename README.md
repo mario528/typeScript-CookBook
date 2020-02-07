@@ -23,11 +23,13 @@
 * [环境声明文件](#环境声明文件)
 * [拓展](#拓展知识点)
 # 开始
-### 什么是TypeScript ?
+## 什么是 TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了 **类型系统** 以及 **ES6** 
 的支持，它增加了代码的可读性和可维护性，避免了因为 JavaScript 弱类型特性导致的一系列 
 bug。
-### 开发前
+## 为什么要使用 TyeScript
+TypeScript 是由 Microsoft 主导开发的开源的编程语言，并且近些年来，Microsoft 也一直极力推崇 TypeScript 的使用。我们都知道，往往大厂主导的开发语言会引领未来软件的开发趋势。因此 TypeScript 必须会是未来几年开发的热门之一。
+## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
 法。若您对 JavaScript 不是很了解，为了保证您的学习效率，建议首先系统学习 JavaScript 的相关课程。
 ### 开发环境
@@ -1339,7 +1341,7 @@ ___
 # 命名空间
 在 TypeScript 中,现在的版本推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一
 个普通的带有名字的 JavaScrpt 对象。首先，让我们来看看下面的这段代码，本章命名空间相关的学
-习我们都会围绕着这段代码和它的“升级版来展开:
+习我们都会围绕着这段代码和它的“升级版”来展开:
 ``` TypeScript
 // checkIn.ts
 const globalPassword = '528528'
@@ -1419,6 +1421,7 @@ passTemp.isAvailable() // true
 在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变
 量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 
 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
+### 多个命名空间
 # 三斜杠指令
 # 环境声明文件
 当你已经看到本章时，相比已经对 TypeScript 的基础知识有了了解。接下来这一章。
