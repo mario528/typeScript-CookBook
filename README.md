@@ -30,14 +30,15 @@ bug。
 ## 为什么要使用 TyeScript
 TypeScript 是由 Microsoft 主导开发的开源的编程语言，并且近些年来，Microsoft 也一直极
 力推崇 TypeScript。我们都知道，大厂主导的开发语言往往会引领未来软件的开发趋势。因此 
-TypeScript 必然会是未来几年开发的热门之一。同时，Vue、React、Angular 也都高度支持 
-TypeScript。因此作为一个开发者，学习 TypeScript 已经成为一个必然之举。
+TypeScript 必然会是未来几年开发的热门之一。NPM 上各种流行的包现已使用 TypeScript 编
+写，同时，Vue、React、Angular 三大框架也都高度支持 TypeScript。因此作为一个开发者，学
+习 TypeScript 已经成为一个必然之举。
 ## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
 法。若您对 JavaScript 不是很了解，为了保证您的学习效率，建议首先系统学习 JavaScript 的相关课程。
 ### 开发环境
 #### IDE
-对于 TypeScript 开发者来说，最优秀的 IDE 可能便是 VScode 了。本身便使用 TypeScript 
+对于 TypeScript 开发者来说，最优秀的 IDE 便是 VScode 了。本身便使用 TypeScript 
 开发的 VScode 可以为我们提供无缝、顺滑的开发体验。所以 TypeScript 官方也是推荐我们使用 
 VScode 来进行开发的。
 #### 版本
