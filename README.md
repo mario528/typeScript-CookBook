@@ -1,6 +1,6 @@
 # TypeScript CookBook
 ## 前言
-本书主要内容涉及到 TypeScript 开发的完整知识体系架构，并对一些知识进行额外的扩展。因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏
+本书主要涉及 TypeScript 开发的完整知识体系架构，并且对一些知识进行额外的扩展补充。因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏
 
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
@@ -25,29 +25,29 @@
 # 开始
 ## 什么是 TypeScript ?
 TypeScript 是 JavaScript 的超集, TypeScript 主要提供了 **类型系统** 以及 **ES6** 
-的支持，它增加了代码的可读性和可维护性，避免了因为 JavaScript 弱类型特性导致的一系列 
+的支持，它增加了代码的可读性和可维护性，避免了因 JavaScript 弱类型特性导致的一系列 
 bug。
 ## 为什么要使用 TyeScript
-TypeScript 是由 Microsoft 主导开发的开源的编程语言，并且近些年来，Microsoft 也一直极
-力推崇 TypeScript。我们都知道，大厂主导的开发语言往往会引领未来软件的开发趋势。因此 
-TypeScript 必然会是未来几年开发的热门之一。NPM 上各种流行的包现已使用 TypeScript 编
-写，同时，Vue、React、Angular 三大框架也都高度支持 TypeScript。因此作为一个开发者，学
-习 TypeScript 已经成为一个必然之举。
+TypeScript 是由 Microsoft 主导开发的开源的编程语言。近些年来，微软一直极力推崇在大型
+项目中使用 TypeScript 替代 JavaScript 进行开发。我们都知道，大厂主导的开发语言往往会引
+领未来软件的开发趋势。因此 TypeScript 必然会是未来几年开发的热门之一。NPM 上各种流行的包
+现已使用 TypeScript 编写，同时，Vue、React、Angular 三大框架也都高度支 TypeScript。因此作为一个开发者，学习 TypeScript 已经成为一个必然之举。
 ## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
-法。若您对 JavaScript 不是很了解，为了保证您的学习效率，建议首先系统学习 JavaScript 的相关课程。
+法。若您对 JavaScript 不是很了解，为了保证学习效率，建议您首先系统学习 JavaScript 的相关课程。
 ### 开发环境
 #### IDE
 对于 TypeScript 开发者来说，最优秀的 IDE 便是 VScode 了。本身便使用 TypeScript 
 开发的 VScode 可以为我们提供无缝、顺滑的开发体验。所以 TypeScript 官方也是推荐我们使用 
 VScode 来进行开发的。
 #### 版本
-本书基于 TypeScript 3.7.4 版本进行开发,后续版本若有破坏性更新或变动会进行相应补充修改。
+本书基于 TypeScript 当前最新版本(3.7.4)进行开发，后续版本若有破坏性更新或变动会进行相应补充修改。
 
 好了，现在让我们开始TypeScript学习吧 😊
 # 类型
-每当我们接触到一个全新的编程语言时，首先都会去学习它的数据类型。正如名字所直观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数据类型开始这一
-段 TypeScript 学习课程吧。
+每当我们接触到一个全新的编程语言时，首先都会去学习它的数据类型。正如 TypeScript 名字所直
+观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数
+据类型开始这一段 TypeScript 学习课程吧。
 > ### TypeScript中的数据类型
 TypeScript 支持几乎所有的 JavaScript 语言类型，并且增加了一些新的类型：枚举和元组。
 #### **原始数据类型**
