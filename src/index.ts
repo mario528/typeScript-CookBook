@@ -596,8 +596,19 @@
 // }
 // let a = 123;
 // a = '123'
-enum reverse {
-    first= 10,
-    second = 10
+// enum reverse {
+//     first= 10,
+//     second = 10
+// }
+// console.log(reverse[10])
+type User<T> = {
+    userName: T,
+    relationship: User<T>
 }
-console.log(reverse[10])
+let ma: User<string> = {
+    userName: 'mario',
+    relationship: {
+        userName: 'zhang',
+        relationship: ''
+    }
+}

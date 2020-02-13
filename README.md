@@ -277,10 +277,10 @@ let a = 123;
 a = '123'     // Error 不能将类型"123"分配给number类型。
 ```
 虽然我们在声明变量a时，并没有声明它的变量类型，但 TypeScript 会通过我们给变量 a 的赋值，
-进行类型推论，自动推断出最符合的类型。在上面，TypeScript 推断出 变量 a 的类型应为 
-number，所以我们之后再次给 a 赋值为字符串类型时便会报错。
+进行类型推论，自动推断出最符合的类型。在上面的例子中，TypeScript 推断出 变量 a 的类型应
+为 number，所以我们之后再次给 a 赋值为字符串类型时便会报错。
 > ### 类型别名
-类型注解
+类型别名类似于我们之后会学习到的接口。类型别名会给 TypeScript 的类型起一个新的名字，但是，这一操作并不会创建一个新的类型。
 ``` typeScript
 type UserAccount = string | number;
 let userAccount: UserAccount;
@@ -288,10 +288,24 @@ userAccount = 10;     // true
 userAccount = '10';   // true
 userAccount = false;  // Error
 ```
+在下面的学习中，我们会接触到泛型这一知识。类型别名可以使用泛型来表示:
+``` TypeScript
+let ma: User<string> = {
+    userName: 'mario'
+}
+```
+类型别名甚至可以引用自己:
+``` TypeScript
+type User<T> = {
+    userName: T,
+    relationship: User<T>
+}
+```
 ## 小结
 学习到这里，我们完整的学习了 TypeScript 所有的基本类型，通过本章的学习，我们分别了解到了
 : Boolean、String、Number、Undefined、Null、Symbol、Never、Array、Tuple、Enum一
-系列的使用方法
+系列的使用方法。接着我们了解了 TypeScript 编译器类型推论的规则，以及如何在项目开发中通过
+设置类型别名来简化开发。
 # 高级类型
 > ### 联合类型
 当希望一个变量用户多个类型可能时 即使用类型的联合查询
@@ -309,7 +323,8 @@ console.log(userAccount.length) // success : 5
 const getUserAccountLength = (userAccount: string | number):number => userAccount.length  // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
 ```
 > ### 交叉类型
-交叉类型，顾名思义就是将多个类型合并为一个类型。从两个对象中创建一个新对象，新对象会拥有着两个对象所有的功能，这样看类似于继承的含义。
+交叉类型，顾名思义就是将多个类型合并为一个类型。从两个对象中创建一个新对象，新对象会拥有着
+两个对象所有的功能，这样看类似于我们之后会学习到的继承。
 
 我们一般在混入需求中使用交叉类型，在下面的代码中，我们需要实现一个融合两个对象并返回的结果
 的方法,此时我们便可以使用设置方法的返回值为传入两个对象类型的交叉类型。
