@@ -46,10 +46,11 @@ VScode 来进行开发的。
 好了，现在让我们开始TypeScript学习吧 😊 
 # 类型
 每当我们接触到一个全新的编程语言时，首先都会去学习它的数据类型。正如 TypeScript 名字所直
-观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。所以接下来，让我们从数
-据类型开始这一段 TypeScript 学习课程吧。
+观表现的，数据类型和数据类型校验是 TypeScript 这门语言的灵魂所在。接下来，就让我们从数
+据类型开始这段 TypeScript 的学习课程吧。
 > ### TypeScript中的数据类型
-TypeScript 支持几乎所有的 JavaScript 语言类型，并且增加了一些新的类型：枚举和元组。
+TypeScript 支持几乎 JavaScript 所有的语言类型，并且增加了一些新的类型，例如枚举和元
+组。
 #### **原始数据类型**
 - number 浮点数类型  
 ``` TypeScript
@@ -223,7 +224,7 @@ enum Code {
     5.常量枚举表达式做为二元运算符 +, -, *, /, %, <<, >>, >>>, &, |, ^的操作对象。 若常数枚举表达式求值后为 NaN或 Infinity，则会在编译阶段报错。
 
 #### 反向映射
-在数字类型枚举中，存在反向映射。
+在数字类型枚举中，存在着反向映射:
 ``` TypeScript
 enum reverse {
     first = 10
@@ -270,7 +271,7 @@ function neverFun(): never {
 }
 ```
 > ### 类型推论
-在 TypeScript 中，对于为明确指出类型的代码，TypeScipt 编译器会智能的推断出该变量的类型。
+在 TypeScript 中，对于在代码编写时未明确指出类型的变量，TypeScipt 编译器会智能的推断出该变量的类型。
 ``` TypeScript
 let a = 123;
 a = '123'     // Error 不能将类型"123"分配给number类型。
