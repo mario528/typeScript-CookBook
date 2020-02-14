@@ -307,12 +307,15 @@ type User<T> = {
 系列的使用方法。接着我们了解了 TypeScript 编译器类型推论的规则，以及如何在项目开发中通过
 设置类型别名来简化开发。
 # 高级类型
+我们在上一章节学习了 TypeScript 的数据类型，接下来我们将继续学习 TypeScript 中的高级类
+型。
 > ### 联合类型
-当希望一个变量用户多个类型可能时 即使用类型的联合查询
+当我们希望一个变量拥有多个数据类型的可能性时，我们便能可以使用 TypeScript 高级类型中的联
+合查询:
 ``` typeScript
 let idCount: string | number;
-idCount = 10;
-idCount = '10'
+idCount = 10;     // suceess
+idCount = '10';   // success
 ```
 当 TypeScript 不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共
 有的属性或方法,否则抛出异常。
