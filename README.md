@@ -310,24 +310,50 @@ type User<T> = {
 我们在上一章节学习了 TypeScript 的数据类型，接下来我们将继续学习 TypeScript 中的高级类
 型。
 > ### 联合类型
-当我们希望一个变量拥有多个数据类型的可能性时，我们便能可以使用 TypeScript 高级类型中的联
-合查询:
+可能在学习第一章后，当我们寄希望于一个变量能够拥有多个数据类型的可能性时，首先想到的是使用 
+any 类型:
+``` TypeScript
+type User = any;
+let user: User = 'mario'
+user = 22
+```
+然而使用 any 类型来进行类型赋值明显不是我们使用 TypeScript 的初衷，这时我们便可以使用 
+TypeScript 高级类型中的联合类型。联合类型能够更高效的替代 any 类型。
 ``` typeScript
 let idCount: string | number;
 idCount = 10;     // suceess
 idCount = '10';   // success
 ```
-当 TypeScript 不确定一个联合查询的变量到底具体是哪一个类型时，则只能取联合查询的属性中共
-有的属性或方法,否则抛出异常。
+当 TypeScript 无法确定一个联合查询的变量到底具体是哪一种类型时，则只能取联合查询的属性中
+共有的属性或方法，否则抛出异常。
 ``` TypeScript
 let userAccount: string | number
 userAccount = 'mario'           // TypeScript将userAccount类型推断为string
-console.log(userAccount.length) // success : 5
-const getUserAccountLength = (userAccount: string | number):number => userAccount.length  // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
+userAccount.length              // success : 5
+const getUserAccountLength = (userAccount: string | number):number => 
+userAccount.length              // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
 ```
 > ### 交叉类型
-交叉类型，顾名思义就是将多个类型合并为一个类型。从两个对象中创建一个新对象，新对象会拥有着
-两个对象所有的功能，这样看类似于我们之后会学习到的继承。
+交叉类型，顾名思义就是将多个类型交叉合并为一个类型。从多个对象中创建一个新的对象，这个新的对象会拥有着创造他的多个对象所有的特性。例如：
+``` TypeScript
+interface Person {
+    name: string
+}
+interface Men {
+    sex: string
+}
+interface Women {
+    age: number
+}
+let author: Person & Men & Women;
+author = {
+    name: 'mario',
+    sex: 'men',
+    age: 22
+}
+```
+新的 author 对象拥有 Person & Men & Women 的所有特性。这样看类似于我们之后会学习到的
+继承。
 
 我们一般在混入需求中使用交叉类型，在下面的代码中，我们需要实现一个融合两个对象并返回的结果
 的方法,此时我们便可以使用设置方法的返回值为传入两个对象类型的交叉类型。
@@ -352,8 +378,8 @@ let user = fusionFun({
 user        // { userName: 'mario', age: 20 }
 ```
 > ### 类型断言
-TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制
-被成为类型断言。
+TypeScript 允许改变覆盖其的类型推断 并且按照你所赋予的类型来分析他 这种机制被成为类型断
+言。用通俗的语言讲，类型断言更像是开发者主动的类型选择，而不是类型转换。
 
 首先 让我们看一下下面的代码:
 ``` TypeScript
@@ -363,7 +389,10 @@ user.name = 'mario';
 上面的代码,在 JavaScript 中，我们可以轻松的给对象 user 赋予 name 属性。但在 
 TypeScript 中，会触发'类型“{}”上不存在属性“ name ”。'的错误警告。原因就在于在创建 
 user 的同时 TypeScript 编译器就将 user 的类型推断为空对象{}。因此无法再在 user 上赋
-值。此时, 我们便需要使用类型断言来覆盖 TypeScript 的类型推断:
+值。此时, 我们便需要使用类型断言来覆盖 TypeScript 的类型推断。
+
+使用类型断言有两种方式，分别是<类型>值以及as 类型。在 jsx 中，只支持 as 的断言方式。因此
+在这里，推荐使用：as 类型来表示类型断言。
 ``` TypeScript
 interface User {
     name: string,
@@ -371,11 +400,9 @@ interface User {
 let user = {} as User;
 user.name = 'mario'
 ```
-> ### 类型断言的根本
+#### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类
 型指示, 他的影响仅仅存在与编译语法时。
-> ### 双重断言
-___
 # 接口
 如果你在大学学习或接触过 Java、C# 这类面向对象编程语言的来说, 接口一定不会陌生。但很遗憾,
 由于 JavaScript 是一款弱类型的编程语言, 没有类型声明，interface 也就没有了用武之地。

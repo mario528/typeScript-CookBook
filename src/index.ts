@@ -601,14 +601,36 @@
 //     second = 10
 // }
 // console.log(reverse[10])
-type User<T> = {
-    userName: T,
-    relationship: User<T>
+// type User<T> = {
+//     userName: T,
+//     relationship: User<T>
+// }
+// let ma: User<string> = {
+//     userName: 'mario',
+//     relationship: {
+//         userName: 'zhang',
+//         relationship: ''
+//     }
+// }
+// type User = any;
+// let men: User = 'mario'
+// men = 22
+let someValue: string | number;
+someValue = '10'
+let strLength: number = someValue.length;
+console.log(strLength)
+interface Person {
+    name: string
 }
-let ma: User<string> = {
-    userName: 'mario',
-    relationship: {
-        userName: 'zhang',
-        relationship: ''
-    }
+interface Men {
+    sex: string
+}
+interface Women {
+    age: number
+}
+let author: Person & Men & Women;
+author = {
+    name: 'mario',
+    sex: 'men',
+    age: 22
 }
