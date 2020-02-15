@@ -615,22 +615,22 @@
 // type User = any;
 // let men: User = 'mario'
 // men = 22
-let someValue: string | number;
-someValue = '10'
-let strLength: number = someValue.length;
-console.log(strLength)
-interface Person {
-    name: string
-}
-interface Men {
-    sex: string
-}
-interface Women {
-    age: number
-}
-let author: Person & Men & Women;
-author = {
-    name: 'mario',
-    sex: 'men',
-    age: 22
-}
+// let someValue: string | number;
+// someValue = '10'
+// let strLength: number = someValue.length;
+// console.log(strLength)
+// interface Person {
+//     name: string
+// }
+// interface Men {
+//     sex: string
+// }
+// interface Women {
+//     age: number
+// }
+// let author: Person & Men & Women;
+// author = {
+//     name: 'mario',
+//     sex: 'men',
+//     age: 22
+// }
