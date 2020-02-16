@@ -401,7 +401,26 @@ let user = {} as User;
 user.name = 'mario'
 ```
 #### 类型断言在联合类型中的应用
-在本章的前段已经学习到，联合类型可以拥有多个数据类型的可能性。我们可以通过类型断言确切的了解联合类型到底为何种类型。
+在本章的前段已经学习到，联合类型可以拥有多个数据类型的可能性。我们可以通过类型断言确切的了
+解联合类型到底为何种类型。在平日使用 JavaScript 语言来进行开发的过程中，通常会使用检查成
+员是否存在来区分不同的类型：
+``` JavaScript
+function returnParamsType (params) {
+    if (params.length) return 'string'
+    else return 'number'
+  }
+returnParamsType('mario')    // string
+returnParamsType(22)         // number  
+```
+而在 TypeScript 中，我们可以通过类型断言推断出联合类型的变量具体为何种类型
+``` TypeScript
+interface Men {
+    age: number
+}
+interface Women {
+    name: string
+}
+```
 #### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类
 型指示, 他的影响仅仅存在与编译语法时。

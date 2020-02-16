@@ -27,13 +27,21 @@
 // console.log(obj)        
 // console.log(Object.getOwnPropertySymbols(obj))
 // console.log(Reflect.ownKeys(obj)   )                     // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
-  // [ Symbol(firstName) ]
-  let paramA = Symbol('paramA');
-  let paramB = Symbol.for('b');
-  let paramC = Symbol.for('b');
-       // true
-    // undefined
-    // b
-  console.log(paramB === paramC )
-  console.log(Symbol.keyFor(paramA))
-  console.log(Symbol.keyFor(paramB))
+  // // [ Symbol(firstName) ]
+  // let paramA = Symbol('paramA');
+  // let paramB = Symbol.for('b');
+  // let paramC = Symbol.for('b');
+  //      // true
+  //   // undefined
+  //   // b
+  // console.log(paramB === paramC )
+  // console.log(Symbol.keyFor(paramA))
+  // console.log(Symbol.keyFor(paramB))
+  function returnParamsType (params) {
+    if (params.length) return 'string'
+    else return 'number'
+  }
+  returnParamsType('mario')
+  returnParamsType(22)
+  console.log(returnParamsType('mario'))
+  console.log(returnParamsType(22))

@@ -634,3 +634,9 @@
 //     sex: 'men',
 //     age: 22
 // }
+interface Men {
+    age: number
+}
+interface Women {
+    name: string
+}
