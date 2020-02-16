@@ -420,6 +420,67 @@ interface Men {
 interface Women {
     name: string
 }
+function returnParamsType(params: Men | Women) {
+    if ((params as Men).age) return 'Men'
+    else if ((params as Women).name) return 'Women'
+}
+let userMen: Men = {
+    age: 22
+}
+let userWomen: Women = {
+    name: 'mario'
+}
+returnParamsType(userMen)        // Men
+returnParamsType(userWomen)      // Women
+```
+#### 类型保护
+在上面有关类型判断的例子中，如果方法体足够复杂，我们则需要多次使用类型断言进行判断。
+TypeScript 中的类型保护机制则可以帮助我们省去一系列的类型判断。
+
+要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个 类型谓词。我们还是利用上面
+的例子继续学习:
+``` TypeScript
+interface Men {
+    age: number
+}
+interface Women {
+    name: string
+}
+function isMen(params:Men | Women): params is Men{
+    return (params as Men).age != undefined
+}
+```
+我们定义了一个简单的方法 isMen，params is Men 就是类型谓词，类型谓词格式为：
+``` TypeScript
+paramsName is type
+```
+paramsName 为方法入参之一，type 为需要类型保护的类型。每当我们调用一次类型保护的方法
+(isMen)时，只要这个类型与变量的原始类型是兼容的，TypeScript 就会将变量缩减为那个具体的
+类型。
+
+让我们用类型保护的方式重新编写上一节的代码吧:
+``` TypeScript
+interface Men {
+    age: number
+}
+interface Women {
+    name: string
+}
+let userMen: Men = {
+    age: 22
+}
+let userWomen: Women = {
+    name: 'mario'
+}
+function isMen(params:Men | Women): params is Men{
+    return (params as Men).age != undefined
+}
+function returnParamsType(params: Men | Women) {
+    if (isMen(params)) return 'Men'
+    else if (!isMen(params)) return 'Women'
+}
+returnParamsType(userMen)        // Men
+returnParamsType(userWomen)      // Women
 ```
 #### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类
