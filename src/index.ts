@@ -643,24 +643,37 @@
 // function returnParamsType(params: Men | Women): params is Men {
 //     return (params as Men).age != undefined
 // }
-interface Men {
-    age: number
+// interface Men {
+//     age: number
+// }
+// interface Women {
+//     name: string
+// }
+// let userMen: Men = {
+//     age: 22
+// }
+// let userWomen: Women = {
+//     name: 'mario'
+// }
+// function isMen(params:Men | Women): params is Men{
+//     return (params as Men).age != undefined
+// }
+// function returnParamsType(params: Men | Women) {
+//     if (isMen(params)) return 'Men'
+//     else if (!isMen(params)) return 'Women'
+// }
+// console.log(returnParamsType(userMen))
+// console.log(returnParamsType(userWomen))
+// interface Men {
+//     age: number
+// }
+// interface Women {
+//     name: string
+// }
+
+function returnParamsType(params: string | number) {
+    if (typeof params === 'string') return 'string'
+    else if (typeof params === 'number')  return 'number'
 }
-interface Women {
-    name: string
-}
-let userMen: Men = {
-    age: 22
-}
-let userWomen: Women = {
-    name: 'mario'
-}
-function isMen(params:Men | Women): params is Men{
-    return (params as Men).age != undefined
-}
-function returnParamsType(params: Men | Women) {
-    if (isMen(params)) return 'Men'
-    else if (!isMen(params)) return 'Women'
-}
-console.log(returnParamsType(userMen))
-console.log(returnParamsType(userWomen))
+returnParamsType('mario')        // string
+returnParamsType(22)             // number

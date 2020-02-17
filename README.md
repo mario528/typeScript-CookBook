@@ -436,7 +436,7 @@ returnParamsType(userWomen)      // Women
 #### 类型保护
 在上面有关类型判断的例子中，如果方法体足够复杂，我们则需要多次使用类型断言进行判断。
 TypeScript 中的类型保护机制则可以帮助我们省去一系列的类型判断。
-
+##### 用户自定义的类型保护
 要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个 类型谓词。我们还是利用上面
 的例子继续学习:
 ``` TypeScript
@@ -482,6 +482,21 @@ function returnParamsType(params: Men | Women) {
 returnParamsType(userMen)        // Men
 returnParamsType(userWomen)      // Women
 ```
+##### typeof 类型保护
+在上面的例子中，我们通过自定义的方式实现类型保护，然而，当联合类型的参数可能性过多时，我们
+分别要为每一个可能类型实现一个方法，对于开发者来说，这实在是太痛苦了。好在，TypeScript 可
+以将 typeof 识别为一个类型保护，我们可以直接在代码里检查类型了。
+``` TypeScript
+function returnParamsType(params: string | number) {
+    if (typeof params === 'string') return 'string'
+    else if (typeof params === 'number')  return 'number'
+}
+returnParamsType('mario')        // string
+returnParamsType(22)             // number
+```
+typeof 类型保护只支持我们对“string”、“number”、“boolean” 和 “symbol”类型进行有效判断。
+##### instanceof 类型保护 
+如果您对 JavaScript 的 instanceof 熟悉的话 
 #### 类型断言的根本
 类型断言的根本在于, 他并不会从根本上改变使用者的类型。而是在编译时对编译器提供的一中编译类
 型指示, 他的影响仅仅存在与编译语法时。
