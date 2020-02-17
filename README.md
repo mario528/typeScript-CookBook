@@ -1,6 +1,7 @@
 # TypeScript CookBook
 ## 前言
-本书主要涉及 TypeScript 开发的完整知识体系架构，并且对一些知识进行额外的扩展补充。因为作者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏
+本书主要涉及 TypeScript 开发的完整知识体系架构，并且对一些知识进行额外的扩展补充。因为作
+者也是刚刚毕业，所以文章内有任何问题请谅解并感谢 issues 指出 🙏
 
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
@@ -34,14 +35,16 @@ TypeScript 是由 Microsoft 主导开发的开源的编程语言。近些年来�
 现已使用 TypeScript 编写，同时，Vue、React、Angular 三大框架也都高度支 TypeScript。因此作为一个开发者，学习 TypeScript 已经成为一个必然之举。
 ## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
-法。若您对 JavaScript 不是很了解，为了保证学习效率，建议您首先系统学习 JavaScript 的相关课程。
+法。若您对 JavaScript 不是很了解，为了保证学习效率，建议您首先系统学习 JavaScript 的相
+关课程。
 ### 开发环境
 #### IDE
 对于 TypeScript 开发者来说，最优秀的 IDE 便是 VScode 了。本身便使用 TypeScript 
 开发的 VScode 可以为我们提供无缝、顺滑的开发体验。所以 TypeScript 官方也是推荐我们使用 
 VScode 来进行开发的。
 #### 版本
-本书基于 TypeScript 当前最新版本(3.7.4)进行开发，后续版本若有破坏性更新或变动会进行相应补充修改。
+本书基于 TypeScript 当前最新版本(3.7.4)进行开发，后续版本若有破坏性更新或变动会进行相应
+补充修改。
 
 好了，现在让我们开始TypeScript学习吧 😊 
 # 类型
@@ -271,7 +274,8 @@ function neverFun(): never {
 }
 ```
 > ### 类型推论
-在 TypeScript 中，对于在代码编写时未明确指出类型的变量，TypeScipt 编译器会智能的推断出该变量的类型。
+在 TypeScript 中，对于在代码编写时未明确指出类型的变量，TypeScipt 编译器会智能的推断出
+该变量的类型。
 ``` TypeScript
 let a = 123;
 a = '123'     // Error 不能将类型"123"分配给number类型。
@@ -280,7 +284,8 @@ a = '123'     // Error 不能将类型"123"分配给number类型。
 进行类型推论，自动推断出最符合的类型。在上面的例子中，TypeScript 推断出 变量 a 的类型应
 为 number，所以我们之后再次给 a 赋值为字符串类型时便会报错。
 > ### 类型别名
-类型别名类似于我们之后会学习到的接口。类型别名会给 TypeScript 的类型起一个新的名字，但是，这一操作并不会创建一个新的类型。
+类型别名类似于我们之后会学习到的接口。类型别名会给 TypeScript 的类型起一个新的名字，但
+是，这一操作并不会创建一个新的类型。
 ``` typeScript
 type UserAccount = string | number;
 let userAccount: UserAccount;
@@ -334,7 +339,8 @@ const getUserAccountLength = (userAccount: string | number):number =>
 userAccount.length              // Error 类型“string | number”上不存在属性“length”。类型“number”上不存在属性“length”。
 ```
 > ### 交叉类型
-交叉类型，顾名思义就是将多个类型交叉合并为一个类型。从多个对象中创建一个新的对象，这个新的对象会拥有着创造他的多个对象所有的特性。例如：
+交叉类型，顾名思义就是将多个类型交叉合并为一个类型。从多个对象中创建一个新的对象，这个新的
+对象会拥有着创造他的多个对象所有的特性。例如：
 ``` TypeScript
 interface Person {
     name: string
@@ -494,7 +500,8 @@ function returnParamsType(params: string | number) {
 returnParamsType('mario')        // string
 returnParamsType(22)             // number
 ```
-typeof 类型保护只支持我们对“string”、“number”、“boolean” 和 “symbol”类型进行有效判断。
+typeof 类型保护只支持我们对“string”、“number”、“boolean” 和 “symbol”类型进行有效判
+断。
 ##### instanceof 类型保护 
 如果您对 JavaScript 的 instanceof 熟悉的话 
 #### 类型断言的根本
@@ -1038,7 +1045,8 @@ ___
 涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理
 解为对原有代码的非侵入性扩展或修改。
 ### 补充 函数柯里化 Currying
-函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
+函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入
+参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
 
 让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单求和方法
 ``` TypeScript
