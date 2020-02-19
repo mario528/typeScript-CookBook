@@ -5,7 +5,7 @@
 
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
-    <img src="./assets/reward_qrcode.jpg" width="300"/>
+    <img src="https://github.com/mario528/typeScript-CookBook/blob/master/assets/reward_qrcode.jpg" width="300"/>
 </p>
 
 没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
