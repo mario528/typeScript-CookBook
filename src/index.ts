@@ -671,9 +671,23 @@
 //     name: string
 // }
 
-function returnParamsType(params: string | number) {
-    if (typeof params === 'string') return 'string'
-    else if (typeof params === 'number')  return 'number'
+// function returnParamsType(params: string | number) {
+//     if (typeof params === 'string') return 'string'
+//     else if (typeof params === 'number')  return 'number'
+// }
+// returnParamsType('mario')        // string
+// returnParamsType(22)             // number
+// interface UserList {
+//     readonly [keyIndex: number]: string
+// }
+// let userList: UserList;
+// userList = ['ma','jia','ao']
+// userList[1] = 'ao'
+interface UserInfo {
+    readonly [keyIndex: string]: string
 }
-returnParamsType('mario')        // string
-returnParamsType(22)             // number
+let userInfo: UserInfo;
+userInfo = {
+    "userName": "mario"
+}
+userInfo.userName = 'ao'            // 类型“UserList”中的索引签名仅允许读取

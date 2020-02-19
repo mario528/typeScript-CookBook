@@ -5,7 +5,7 @@
 
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 <p align="center">
-    <img src="https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg" width="300"/>
+    <img src="./assets/reward_qrcode.jpg" width="300"/>
 </p>
 
 没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
@@ -517,7 +517,7 @@ typeof 类型保护只支持我们对“string”、“number”、“boolean”
 类、又那些种类的充电器可以允许与其对接。
 
 在 TypeScript 中也是一样。接口(**interface**)会设定参数的数据类型。并在之后对每一次赋
-值进行类型检验，如果赋值与接口的规格(数据类型)相符，则赋值成功。否则，会抛出异常。
+值进行类型检验，如果赋值与接口的规格(数据类型)相符，则赋值成功。否则，便会抛出异常。
 
 首先，让我们观察下面这段代码，它实现了一个最简单的接口并和内联式进行对比:
 ``` TypeScript
@@ -537,9 +537,9 @@ createNewUser({ userName: 'mario', age: 22})  // Error
 createNewUser({ userName: 'mario'})           // success { userName: 'mario' }
 ```
 我们从上面的代码可以看出, createNewUser 方法使用刚刚定义的接口 UserInfo 对传入的参数进
-行了类型校验,
-倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义的参数，
-TypeScript 类型检查器会抛出错误。
+行了类型校验,倘若入参数据类型不符规定或者传入的参数中包括接口未定义的参数或者缺少接口中定义
+的参数，TypeScript 类型检查器会抛出错误。
+
 通过了上面的学习，我们明白了如何创建一个接口去规范数据类型。
 ### 接口的只读属性
 在接口中，使用 readonly，即可规定该接口参数为只读属性, 使用read-only定义的属性在第一次
@@ -564,9 +564,9 @@ let user: User = {
     userName: 'mario'
 }
 user.age = 22;
-user      // { userName: 'mario', age: 22 }
+user      // success { userName: 'mario', age: 22 }
 ```
-### 额外的属性检查
+### 接口额外的属性检查
 当我们使用了接口的可选属性后，我们很可能会遇到下面这类问题
 ``` TypeScript
 interface UserInfo {
@@ -576,12 +576,12 @@ interface UserInfo {
 function addNewUser (userInfo: UserInfo): void {
   // do something
 }
-addNewUser({ age: 22, name: 'mario' });
+addNewUser({ age: 22, name: 'mario' }); // 对象文字可以只指定已知属性，并且“name”不在类型“UserInfo”中。
 ```
-尽管接口定义了入参的属性和数据类型,并且{ age: 22, name: 'mario' }看似也是合乎类型的。
-但在 TypeScript 解释器看来，
-当赋值对象存在接口不包含的属性时，对象字面量会被特殊对待而且会经过 额外属性检查。随即抛出
-错。对于这种情况，我们可以使用类型断言、添加字符串索引签名解决又或者将参数赋予参数再传入:
+尽管接口定义了入参的属性和数据类型,并且 { age: 22, name: 'mario' } 看似也是合乎类型
+的。但在 TypeScript 解释器看来，当赋值对象存在接口不包含的属性时，对象字面量会被特殊对待
+而且会经过额外属性检查。随即抛出错。对于这种情况，我们可以使用类型断言、添加字符串索引签名
+解决又或者将参数赋予参数再传入:
 ``` TypeScript
 // 1. 添加类型断言
 interface UserInfo {
@@ -617,15 +617,15 @@ let user = {
 }
 createNewUser(user) //success  { userName: 'mario', age: 22 }
 ```
-这三种方式，添加类型断言方法通过类型断言方式通过额外的类型检查、添加字符串索引签名方法通过
-添加字符串索引方式兼容多余属性。而
-第三种通过对象方式传入方法，则是因为通过对象赋值给另一对象根本就不会触发额外的类型检查。
+这三种方式，添加类型断言方法通过类型断言方式直接绕过 TypeScript 额外的类型检查、添加字符
+串索引签名方法通过添加字符串索引方式兼容多余属性。而第三种通过对象方式传入方法，则是因为通
+过对象赋值给另一对象根本就不会触发额外的类型检查。对开发者而言，需要根据不同的业务场景实现
+不同的接口额外的属性检查。
 ### 函数类型接口
-当我们期望通过接口定义函数类型时，我们便用到了函数类型接口。值得注意的是，因为对象类型接口
-对于顺序没有要求，所以要求接口内类型名称
-与传入类型名称保持一致。但由于函数要求传入参数的类型顺序和定义要保持一致，因此函数类型接口
-并不要求参数名与接口里定义的名字相匹配。TypeScript 的类型检查器会根据函数的
-入参 一个个与接口参数进行类型比较。
+我们使用函数类型接口来实现接口定义函数类型。值得注意的是，因为对象类型接口对于顺序没有要
+求，所以要求接口内类型名称与传入类型名称保持一致。但由于函数要求传入参数的类型顺序和定义需
+要保持一致，因此函数类型接口并不要求参数名与接口里定义的名字相匹配。TypeScript 的类型检查
+器会根据函数的入参，一个个与接口参数进行类型比较。
 ``` TypeScript
 interface UserFunc {
     (userName: string, age?: number) : void
@@ -636,9 +636,12 @@ addNewUser = function (name: string, age?: number) {
 }
 addNewUser('mario', 22)
 ```
+在上面，我们定义了一个名为 UserFunc 的函数类型接口，并在接口中定义一个调用签名，其中包括
+入参、返回值等，但不包括方法的具体实现。通过函数实现函数类型接口，从而达到规范函数的目的。
 ### 可索引类型
-当我们想用接口规范数组类型时，需要使用可索引类型接口。可索引类型只支持数字类型签名和字符串
-类型索引签名:
+我们经常会接触到例如 userList[2]、userInfo['userName']的这一类可枚举的数据类型。同样
+的，接口提供了一种可索引类型使我们可以轻松的描述他们。可索引类型接口现只支持字符串类型索引
+以及数字类型索引。让我们看看下面的这个例子:
 ``` TypeScript
 // 数字类型索引签名
 interface UserList {
@@ -647,10 +650,8 @@ interface UserList {
 let userList: UserList;
 userList = ["ma", "jia", "ao"];
 let firstUser: string = userList[0];
-console.log(userList, firstUser)
-
+console.log(userList, firstUser)  // [ 'ma', 'jia', 'ao' ] 'ma'
 // 字符串类型索引签名
-
 interface UserDictionary {
   [userKey: number]: string;
 }
@@ -660,11 +661,30 @@ userDictionary = {
   '1': 'jia',
   '2': 'ao'
 }
-console.log(userDictionary)
+console.log(userDictionary)       // { '0': 'ma', '1': 'jia', '2': 'ao' }
 ```
-> 可索引类型接口待完成
+同时，当我们希望实现可索引类型接口的对象，不可以再次修改时，我们可以在接口一开始定义时，使
+用 readonnly 修饰符，这样，当我们再次修改或添加实现过可索引类型接口的对象时，
+TypeScript 编译器便会抛出错误。
+``` TypeScript
+// 数组类型
+interface UserList {
+    readonly [keyIndex: number]: string
+}
+let userList: UserList;
+userList = ['ma','jia','ao']
+userList[1] = 'ao'            // 类型“UserList”中的索引签名仅允许读取
+// 对象类型
+interface UserList {
+    readonly [keyIndex: number]: string
+}
+let userList: UserList;
+userList = ['ma','jia','ao']
+userList[1] = 'ao'            // 类型“UserInfo”中的索引签名仅允许读取
+```
+由此可知，使用 readonly 修饰符，我们就可以使得索引签名是只读的，不可修改的。
 ### 类类型接口
-TypeScript 可以像 Java、 C#一样， 使用接口去规范类。在 TypeScript 中, 类通过 
+TypeScript 可以像 Java、 C# 一样， 使用接口去强制规范类。在 TypeScript 中, 类通过 
 implements 实现接口:
 ``` TypeScript
 interface UserClass {
@@ -681,8 +701,8 @@ class User implements UserClass {
     }
 }
 ```
-类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，一并需要实现该该接口定义的参
-数和方法，并且保持数据类型一致。
+从上面的例子中我们可以看出，类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，
+一并需要实现该该接口定义的参数和方法，并且保持数据类型一致。
 
 接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
 
