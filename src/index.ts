@@ -683,11 +683,82 @@
 // let userList: UserList;
 // userList = ['ma','jia','ao']
 // userList[1] = 'ao'
-interface UserInfo {
-    readonly [keyIndex: string]: string
+// interface UserInfo {
+//     readonly [keyIndex: string]: string
+// }
+// let userInfo: UserInfo;
+// userInfo = {
+//     "userName": "mario"
+// }
+// userInfo.userName = 'ao'            // 类型“UserList”中的索引签名仅允许读取
+
+// interface constructorInterface {
+//     new (userName: string, age: number):  exampleInerface
+// }
+// interface exampleInerface {
+//     getUserInfo(): string
+// }
+// function createConstructor(constru:constructorInterface,userName: string, age: number ):exampleInerface {
+//     return new constru(userName,age)
+// }
+// class User implements exampleInerface {
+//     public userName: string
+//     public age: number
+//     constructor(userName: string, age: number) {
+//         this.userName = userName
+//         this.age = age
+//     }
+//     getUserInfo (): string {
+//         return `用户${this.userName}，年龄：${this.age}`
+//     }
+// }
+// let user = createConstructor(User, 'mario', 22)
+// console.log(user.getUserInfo())
+// class UserOptions {
+//     public userName: string;
+//     private password: string;
+//     getUserName ():any {}
+//     constructor (userName: string, password: string) {
+//         this.userName = userName
+//         this.password = password
+//     }
+// }
+// interface UserAccount extends UserOptions {
+//     setUserName():void;
+// }
+// class User extends UserOptions implements UserAccount {
+//     constructor (userName: string, password: string) {
+//         super(userName, password);
+//     }
+//     setUserName () {}
+//     getUserName () {
+//         console.log(this.userName)
+//         return this.userName
+//     }
+// } 
+// let user = new User ('mario','528528')
+// user.getUserName()   // success mario
+class SuperUser {
+    public password: string;
+    constructor (password: string) {
+        this.password = password
+    }
 }
-let userInfo: UserInfo;
-userInfo = {
-    "userName": "mario"
+interface UserInterface extends SuperUser {
+    addUser (): boolean
 }
-userInfo.userName = 'ao'            // 类型“UserList”中的索引签名仅允许读取
+class Programmer extends SuperUser implements UserInterface {
+    constructor (password: string) {
+        super(password)
+    }
+    addUser () {
+        // do something
+        return true
+    }
+}
+class User implements UserInterface {
+    addUser () {
+        // do something
+        return true
+    }
+}

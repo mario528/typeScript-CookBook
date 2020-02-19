@@ -704,9 +704,8 @@ class User implements UserClass {
 从上面的例子中我们可以看出，类类型接口与我们即将接触到的抽象类有一些相似。实现该接口的类，
 一并需要实现该该接口定义的参数和方法，并且保持数据类型一致。
 
-接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
-
-在类中，有两种类型，分别是静态部分的类型以及实例部分的类型:
+在类中，有两种类型，分别是静态部分的类型以及实例部分的类型。静态类型指的是这个类本身，而实
+例部分则指的是类实例化出来的对象。
 ``` TypeScript
 // 静态类型
 interface StaticFunc {
@@ -730,9 +729,11 @@ class User implements InstanceFunc {
 let ma = createInstance(User, 'mario', 22)
 ma.innerFunc()
 ```
+接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
+构造函数(constructor)就存在于类的静态部分，所以不在检查的范围内。
 ### 接口的继承
-和之后学习到的类一样，接口也是可以通过 extends 相互继承的, 甚至一个接口可以继承其他的多个
-接口,生成合成接口:
+和之后学习到的类的相互继承一样，接口也是可以通过 extends 实现相互继承的, 甚至一个接口可以
+继承其他的多个接口,生成合成接口:
 ``` TypeScript
 // 单接口继承
 interface User {
@@ -758,13 +759,10 @@ let loginObj = <LoginParams>{}
 loginObj.accountNumber = 1024
 loginObj.password = '528528'
 loginObj.loginAccount = '528528'
-
 ```
 ### 接口继承类
-在上面，类可以实现接口。同样，接口也可以继承类。接口可以继承类的成员但不包括实现,就像我们在
-接口中声明了类需要拥有的成员和方法。值得注意的是，接口同样会继承类的privite成员和protect
-成员。这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被
-这个类或其子类所实现:
+在上面的学习中，我们学习到类可以实现接口。同样，接口也可以继承类。就像接口声明类中的成员和
+方法，但不提供实现一样，接口可以继承类的成员但不包括其具体实现。
 ``` TypeScript
 class UserOptions {
     public userName: string;
@@ -794,7 +792,42 @@ class User implements UserAccount {
 let user = new User ('mario','528528')
 user.getUserName()   // success mario
 ```
-___
+值得注意的是，接口同样会继承类的 privite 成员和 protect 成员。这意味着当你创建了一个接
+口继承了一个拥有私有或受保护的成员的类时，这个接口类型只能被这个类或其子类所实现:
+``` TypeScript
+class SuperUser {
+    private password: string;
+    constructor (password: string) {
+        this.password = password
+    }
+}
+interface UserInterface extends SuperUser {
+    addUser (): boolean
+}
+// Success
+class Programmer extends SuperUser implements UserInterface {
+    constructor (password: string) {
+        super(password)
+    }
+    addUser () {
+        // do something
+        return true
+    }
+}
+// Error
+class User implements UserInterface {
+    addUser () {
+        // do something
+        return true
+    }
+}
+```
+在上面的例子中，我们定义了一个类 SuperUser， 接着我们定义了 UserInterface 接口并继承
+了 SuperUser 类。此时，接口 UserInterface 已经包含了 SuperUser 类的包括私有成员 
+password 的所有成员。我们提前学习一个概念：在类中，private 类型的成员，只得在父类或者其
+子类中拥有。我们新定义了一个 Programmer 类。这个类继承了 SuperUser 类并且正确实现 
+addUser 方法，因此这个类正确实现了接口。而另一个新的 User 类，仅仅只实现了 addUser 方
+法，但其并没有 SuperUser 的 password 私有成员，因此实现接口失败。
 # 类
 在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现
 继承的。在ES6中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接近
