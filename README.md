@@ -831,7 +831,8 @@ addUser 方法，因此这个类正确实现了接口。而另一个新的 User 
 # 类
 在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现
 继承的。在ES6中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接近
-了一些。
+了一些。在下面的学习中。默认您已掌握 JavaScript 原型链继承以及 ES6 Class 语法糖的使
+用，如果对上面的知识不太了解，为保证学习质量，建议您系统学习相关知识。在本书的[拓展章节](#拓展)中，有着对于 JavaScript 继承的完整教程。
 
 ### 基础
 首先让我们学习一下 TypeScript 中最基本的类 下面的代码会定义一个 User (用户)类:
@@ -1738,3 +1739,39 @@ Reflect.defineProperty(httpOptions, 'params', {})   // true
 我们使用 Object.defineProperty 时，如果遇到错误，编译器会直接抛出错误，所以我们那必须
 用 try...catch 包裹住住代码。但如果我们使用了 Reflect.defineProperty。则会返回一个
 Boolean 值反应操作的结果。
+### JavaScript 原型链继承以及 ES6 Class 语法糖
+面向对象语言(OO)具有一个标志就是其存在类的概念，我们通过操作类可以创建任意多个具有相同属性
+和方法的对象。而我们都知道，在 JavaScript 中并没有类的概念，因此我们只能另辟蹊径，使用
+JavaScript 的原型链实现继承。
+#### 原型模式
+有 JavaScript 开发经验的开发者肯定了解，在 JavaScript 的世界中，万物皆对象。函数也是一
+样，我们创建的每一个函数都有一个原型(prototype)属性，prototype 是一个指针，这个指针时刻
+指向一个对象，这个被指向的对象用途是可以由特定类型的所有实例共享的属性和方法。通俗的讲，
+prototype 就是通过调用构造函数而创建的那个对象实例的原型对象。下面我们通过一个例子来了解
+原型模式。
+``` JavaScript
+  function Person () {}
+  Person.prototype.name = 'mario'
+  Person.prototype.age = 22
+  Person.prototype.getUserInfo = function (){
+    console.log(`性别:${this.name}-年龄：${this.age}`);
+  }
+
+  let person1 = new Person()
+  console.log(person1.age)
+  person1.getUserInfo()
+
+  let person2 = new Person()
+  person2.age = 23
+  console.log(person2.age)
+  person2.getUserInfo()
+
+  let person3 = new Person()
+  console.log(person3.age)
+  person3.getUserInfo()
+```
+##### 原型对象
+无论在什么时候，当我们创建了一个新函数，就会根据特定规则为这个函数创建一个 prototype 属
+性，这个属性指向函数的原型对象
+#### 原型链继承
+

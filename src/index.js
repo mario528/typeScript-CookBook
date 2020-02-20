@@ -37,11 +37,32 @@
   // console.log(paramB === paramC )
   // console.log(Symbol.keyFor(paramA))
   // console.log(Symbol.keyFor(paramB))
-  function returnParamsType (params) {
-    if (params.length) return 'string'
-    else return 'number'
+  // function returnParamsType (params) {
+  //   if (params.length) return 'string'
+  //   else return 'number'
+  // }
+  // returnParamsType('mario')
+  // returnParamsType(22)
+  // console.log(returnParamsType('mario'))
+  // console.log(returnParamsType(22))
+  
+  // 构造函数
+  function Person () {}
+  Person.prototype.name = 'mario'
+  Person.prototype.age = 22
+  Person.prototype.getUserInfo = function (){
+    console.log(`性别:${this.name}-年龄：${this.age}`);
   }
-  returnParamsType('mario')
-  returnParamsType(22)
-  console.log(returnParamsType('mario'))
-  console.log(returnParamsType(22))
+
+  let person1 = new Person()
+  console.log(person1.age)
+  person1.getUserInfo()
+
+  let person2 = new Person()
+  person2.age = 23
+  console.log(person2.age)
+  person2.getUserInfo()
+
+  let person3 = new Person()
+  console.log(person3.age)
+  person3.getUserInfo()
