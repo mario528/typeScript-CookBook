@@ -1744,35 +1744,69 @@ Boolean 值反应操作的结果。
 面向对象语言(OO)具有一个标志就是其存在类的概念，我们通过操作类可以创建任意多个具有相同属性
 和方法的对象。而我们都知道，在 JavaScript 中并没有类的概念，因此我们只能另辟蹊径，使用
 JavaScript 的原型链实现继承。
-#### 原型模式
-如果有 JavaScript 开发经验的开发者肯定了解，在 JavaScript 的世界中，万物皆对象。函数也
-是一样的，我们创建的每一个函数都有一个原型(prototype)属性，prototype 是一个指针，这个指
-针时刻指向一个对象，这个被指向的对象用途是可以由特定类型的所有实例共享的属性和方法。通俗的
-讲，prototype 就是通过调用构造函数而创建的那个对象实例的原型对象。下面我们通过一个例子来
-了解原型模式。
+#### 构造函数模式
+JavaScript 中的构造函数可用来创建特定类型的对象。在原生类型中，例如 Object、Array便是
+原生构造函数:
+``` JavaScript
+let person = new Object()
+```
+我们也可以创建自定义的构造函数，从而定义自定义对象类型的属性和方法:
+``` JavaScript
+function Person(name, age, sex) {
+  this.name = name
+  this.age = age
+  this.sex = sex
+  this.getInfo = function () {
+    return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+  }
+}
+let programer = new Person('mario', 22, '男')
+programer.getInfo()         // 姓名:mario,性别: 男,年龄: 22
+```
+在上面的例子中，自定义的构造函数并没有在内部显式的创建对象，直接将属性和方法赋予给了 this 
+对象。
+
+当我们使用 new 运算符调用构造函数时，会经历下面的过程:
+
+1. 创建一个新的对象
+2. 将构造函数的作用域赋予给了这个新的对象
+3. 执行构造函数中的代码逻辑
+4. 返回这个新的对象
+##### constructor 属性
+在本书正文的 Class 中，有一个 constructor 方法，接下来让我们试着学习它。在上面的例子
+中，我们通过自定义的构造函数 Person，定义了一个 programer 方法，我们试着输出 
+programer 的 constructor 属性:
+``` JavaScript
+programer.constructor       // [Function: Person]
+```
+通过输出我们可以明显看出: ***实例的constructor指向他的构造函数***。
+##### 原型模式
+***我们创建的每一个函数都有一个 prototype(prototype) 属性。***
+
+prototype属性是一个指针，它指向一个对象，这个对象的用途是包含可以由特定类型的所有实例共享
+的属性和方法，这样，我们就不必在构造函数中定义对象实例的信息，而是直接将信息添加到原型对象
+上去：
 ``` JavaScript
 function Person () {}
 Person.prototype.name = 'mario'
 Person.prototype.age = 22
-Person.prototype.getUserInfo = function (){
-console.log(`性别:${this.name}-年龄：${this.age}`);
+Person.prototype.sex = 'men'
+Person.prototype.getInfo = function () {
+    return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
 }
 
-let person1 = new Person()
-console.log(person1.age)      // 22
-person1.getUserInfo()         // 性别:mario-年龄：22
-
-let person2 = new Person()
-person2.age = 23
-console.log(person2.age)      // 23
-person2.getUserInfo()         // 性别:mario-年龄：23
-
-let person3 = new Person()
-console.log(person3.age)      // 22
-person3.getUserInfo()         // 性别:mario-年龄：22
+let programer = new Person()
+programer.getInfo()         // 姓名:mario,性别: 男,年龄: 22
 ```
+在上面的例子中,我们将所有属性和方法挂载到了 Person 的 prototype 属性中，它的实例也会拥
+有相同的属性和方法。所有实例对于这些属性和方法是共享使用的，也就是说，所有的实例访问的都是
+同一个属性或者同一个方法。
 ##### 原型对象
-无论在什么时候，当我们创建了一个新函数，就会根据特定规则为这个函数创建一个 prototype 属
-性，这个属性指向函数的原型对象,而每一个原型对象，
-#### 原型链继承
+在上面，我们学习到了，只要我们创建一个新的函数，就会自动为这个函数创建一个 prototype 属
+性。***prototype 属性指向的就是它的原型对象***。紧接着，这个原型对象也会拥有一个 
+constroctor属性，***constructor属性指向的是该原型对象所在的构造函数***。当我们通过构
+造函数创建一个实例时，这个实例也会包含一个内部指针[[Prototype]]。
+***[[Prototype]]指向构造函数的原型对象***。由此我们可以一张关系图来直观的了解他们之间的
+联系。请原谅笔者的绘图技术：(
+![30h9iQ.png](https://s2.ax1x.com/2020/02/27/30h9iQ.png)
 

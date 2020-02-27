@@ -27,42 +27,55 @@
 // console.log(obj)        
 // console.log(Object.getOwnPropertySymbols(obj))
 // console.log(Reflect.ownKeys(obj)   )                     // { paramB: 'jia', [Symbol(firstName)]: 'ma' }
-  // // [ Symbol(firstName) ]
-  // let paramA = Symbol('paramA');
-  // let paramB = Symbol.for('b');
-  // let paramC = Symbol.for('b');
-  //      // true
-  //   // undefined
-  //   // b
-  // console.log(paramB === paramC )
-  // console.log(Symbol.keyFor(paramA))
-  // console.log(Symbol.keyFor(paramB))
-  // function returnParamsType (params) {
-  //   if (params.length) return 'string'
-  //   else return 'number'
-  // }
-  // returnParamsType('mario')
-  // returnParamsType(22)
-  // console.log(returnParamsType('mario'))
-  // console.log(returnParamsType(22))
-  
-  // 构造函数
-  function Person () {}
-  Person.prototype.name = 'mario'
-  Person.prototype.age = 22
-  Person.prototype.getUserInfo = function (){
-    console.log(`性别:${this.name}-年龄：${this.age}`);
+// // [ Symbol(firstName) ]
+// let paramA = Symbol('paramA');
+// let paramB = Symbol.for('b');
+// let paramC = Symbol.for('b');
+//      // true
+//   // undefined
+//   // b
+// console.log(paramB === paramC )
+// console.log(Symbol.keyFor(paramA))
+// console.log(Symbol.keyFor(paramB))
+// function returnParamsType (params) {
+//   if (params.length) return 'string'
+//   else return 'number'
+// }
+// returnParamsType('mario')
+// returnParamsType(22)
+// console.log(returnParamsType('mario'))
+// console.log(returnParamsType(22))
+
+// 构造函数
+// function Person () {}
+// Person.prototype.name = 'mario'
+// Person.prototype.age = 22
+// Person.prototype.getUserInfo = function (){
+//   console.log(`性别:${this.name}-年龄：${this.age}`);
+// }
+
+// let person1 = new Person()
+// console.log(person1.age)
+// person1.getUserInfo()
+
+// let person2 = new Person()
+// person2.age = 23
+// console.log(person2.age)
+// person2.getUserInfo()
+
+// let person3 = new Person()
+// console.log(person3.age)
+// person3.getUserInfo()
+
+function Person(name, age, sex) {
+  this.name = name
+  this.age = age
+  this.sex = sex
+  this.getInfo = function () {
+    return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
   }
-
-  let person1 = new Person()
-  console.log(person1.age)
-  person1.getUserInfo()
-
-  let person2 = new Person()
-  person2.age = 23
-  console.log(person2.age)
-  person2.getUserInfo()
-
-  let person3 = new Person()
-  console.log(person3.age)
-  person3.getUserInfo()
+}
+let programer = new Person('mario', 22, '男')
+console.log(programer.getInfo())
+console.log(programer.constructor)
+console.log(Person.prototype)
