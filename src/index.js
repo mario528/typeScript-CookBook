@@ -76,6 +76,6 @@ function Person(name, age, sex) {
   }
 }
 let programer = new Person('mario', 22, '男')
-console.log(programer.getInfo())
-console.log(programer.constructor)
-console.log(Person.prototype)
+Person.prototype == programer.__proto__
+Person.prototype.constructor == Person
+console.log()

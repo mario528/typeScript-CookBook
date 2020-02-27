@@ -5,9 +5,9 @@
 发
 
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
-<p align="center">
-    <img src="https://github.com/mario528/typeScript-CookBook/blob/master/assets/reward_qrcode.jpg" width="300"/>
-</p>
+
+
+[![1lpZ6A.th.jpg](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)](https://imgchr.com/i/1lpZ6A)
 
 没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
 ## 目录
@@ -1809,4 +1809,8 @@ constroctor属性，***constructor属性指向的是该原型对象所在的构�
 ***[[Prototype]]指向构造函数的原型对象***。由此我们可以一张关系图来直观的了解他们之间的
 联系。请原谅笔者的绘图技术：(
 ![30h9iQ.png](https://s2.ax1x.com/2020/02/27/30h9iQ.png)
-
+我们可以将上面的关系抽象成公式:
+``` JavaScript
+Person.prototype == programer.__proto__     // true
+Person.prototype.constructor == Person      // true
+```
