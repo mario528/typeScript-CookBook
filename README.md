@@ -1813,4 +1813,5 @@ constroctor属性，***constructor属性指向的是该原型对象所在的构�
 ``` JavaScript
 Person.prototype == programer.__proto__     // true
 Person.prototype.constructor == Person      // true
+programer.__proto__.constructor == Person   // true
 ```
