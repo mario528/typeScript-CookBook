@@ -67,16 +67,49 @@
 // console.log(person3.age)
 // person3.getUserInfo()
 
-function Person(name, age, sex) {
-  this.name = name
-  this.age = age
-  this.sex = sex
-  this.getInfo = function () {
-    return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
-  }
+// function Person(name, age, sex) {
+//   this.name = name
+//   this.age = age
+//   this.sex = sex
+//   this.getInfo = function () {
+//     return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+//   }
+// }
+// let programer = new Person('mario', 22, '男')
+// Person.prototype == programer.__proto__
+// Person.prototype.constructor == Person
+// programer.__proto__.constructor == Person
+// console.log(programer.__proto__.constructor == Person)
+// console.log(Object.getPrototypeOf(programer) == Person.prototype)
+
+// function Person () {
+// }
+// Person.prototype.name = 'mario'
+// Person.prototype.age = 22
+// Person.prototype.sex = 'men'
+// Person.prototype.getInfo = function () {
+//     return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+// }
+// let programer = new Person()
+// let productManager = new Person()
+// console.log(productManager.getInfo())               // 姓名:mario,性别: 男,年龄: 22
+// console.log(programer.getInfo())                    // 姓名:mario,性别: 男,年龄: 22
+// programer.job = 'front-end-programer'
+// programer.age = 23
+// console.log(programer.getInfo())                    // 姓名:mario,性别: 男,年龄: 23
+// programer.job = 'front-end-programer' 
+// console.log(productManager.getInfo())               // 姓名:mario,性别: 男,年龄: 22
+// console.log(productManager.job)                     // 
+// console.log(programer.hasOwnProperty('job'))
+function Person () {}
+Person.prototype = {
+    constructor: Person,
+    name: 'mario',
+    age: 22,
+    sex: 'men',
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+    }
 }
-let programer = new Person('mario', 22, '男')
-Person.prototype == programer.__proto__
-Person.prototype.constructor == Person
-programer.__proto__.constructor == Person
-console.log(programer.__proto__.constructor == Person)
+let program = new Person()
+console.log(program.constructor)

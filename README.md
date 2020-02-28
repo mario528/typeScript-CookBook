@@ -7,7 +7,7 @@
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 
 
-[![1lpZ6A.th.jpg](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)](https://imgchr.com/i/1lpZ6A)
+[![赞赏码](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)
 
 没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
 ## 目录
@@ -1814,4 +1814,82 @@ constroctor属性，***constructor属性指向的是该原型对象所在的构�
 Person.prototype == programer.__proto__     // true
 Person.prototype.constructor == Person      // true
 programer.__proto__.constructor == Person   // true
+```
+在此处我们扩展一个 API: Object.getPrototypeOf()。这个API可以获取到传入参数的原型对
+象。
+``` JavaScript
+Object.getPrototypeOf(programer) == Person.prototype  // true
+```
+让我们接着扩展上面的例子，如果我们希望修改实例上的属性内容，又会对整个体系有什么样的影响
+呢？
+``` JavaScript
+function Person () {}
+Person.prototype.name = 'mario'
+Person.prototype.age = 22
+Person.prototype.sex = 'men'
+Person.prototype.getInfo = function () {
+    return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+}
+let programer = new Person()
+let productManager = new Person()
+productManager.getInfo()              // 姓名:mario,性别: 男,年龄: 22
+programer.getInfo()                   // 姓名:mario,性别: 男,年龄: 22
+programer.job = 'front-end-programer'
+programer.age = 23
+programer.getInfo()                   // 姓名:mario,性别: 男,年龄: 23
+programer.job = 'front-end-programer' 
+productManager.getInfo()              // 姓名:mario,性别: 男,年龄: 22
+productManager.job                    // undefined
+```
+由此可见，我们在实例上修改或者添加属性，并不会对原型对象上的属性进行添加或者修改，仅仅是组
+织我们继续向上进行属性的搜索。我们可以通过 hasOwnProperty 判断出获取到的属性值是存在
+于原型还是来自于实例中,结果为 true 则属性存在于实例中，反之，属性则存在于原型上。
+``` JavaScript 
+programer.hasOwnProperty('job')        // true
+programer.hasOwnProperty('name')       // false
+```
+##### 精简的原型语法
+在前面的例子中，我们在给原型对象添加属性和方法时，需要一遍遍的输入 Person.prototype。为
+了避免这一系列不必要的输入，我们可以通过重写原型对象的方式简化操作。
+``` JavaScript
+let Person = {}
+Person.prototype = {
+    name: 'mario',
+    age: 22,
+    sex: 'men',
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+    }
+}
+```
+在上面的例子中，我们为了精简原型语法，将 Person 的原型对象设置成为了一个以对象形式创建的
+全新对象。因此这个新的对象的 constructor 不再指向 Person,而是指向了 Object。下面我们
+通过例子验证一下:
+``` JavaScript
+function Person () {}
+Person.prototype = {
+    name: 'mario',
+    age: 22,
+    sex: 'men',
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+    }
+}
+let program = new Person()
+program.constructor        // [Function: Object]
+```
+因此，当我们将原型对象覆盖后，就需要重置 constructor 属性的指向。
+``` JavaScript
+function Person () {}
+Person.prototype = {
+    constructor: Person,
+    name: 'mario',
+    age: 22,
+    sex: 'men',
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+    }
+}
+let program = new Person()
+program.constructor        // [Function: Person]
 ```
