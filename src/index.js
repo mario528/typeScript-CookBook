@@ -100,8 +100,9 @@
 // programer.job = 'front-end-programer' 
 // console.log(productManager.getInfo())               // 姓名:mario,性别: 男,年龄: 22
 // console.log(productManager.job)                     // 
-// console.log(programer.hasOwnProperty('job'))
+// // console.log(programer.hasOwnProperty('job'))
 function Person () {}
+let program = new Person()
 Person.prototype = {
     constructor: Person,
     name: 'mario',
@@ -111,5 +112,5 @@ Person.prototype = {
         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
     }
 }
-let program = new Person()
 console.log(program.constructor)
+console.log(program.name)

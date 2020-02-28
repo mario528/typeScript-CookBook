@@ -1893,3 +1893,31 @@ Person.prototype = {
 let program = new Person()
 program.constructor        // [Function: Person]
 ```
+##### 原型的动态性
+我们都知道，原型对象和实例之间通过指针连接，而并非一个副本。所以当我们实例访问属性或者方法
+时，会首先在实例中搜索，如果在实例中并未找到，则继续向上在原型对象中寻找。然而，当我们像
+上一个例子中，对原型对象进行了重写，这样就会断开原型和实例之间的联系：
+``` JavaScript
+function Person () {}
+let programer = new Person()
+Person.prototype = {
+    constructor: Person,
+    name: 'mario',
+    age: 22,
+    sex: 'men',
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+    }
+}
+programer.constructor         // [Function: Person]
+programer.name                // undefined
+```
+接让我们分析一下为什么实例 programer 无法获取 name 属性值：
+首先，我们定义了构造函数 Person，在创建 Person 的同时也创建了它的原型对象，Person 通过
+prototype 指向原型对象。接着，我们实例化 Person，得到 programer 实例。注意，此时 
+programer 的 [[prototype]]指向原始的原型对象。紧接着，就像上一节我们学习到的，我们将原
+型对象覆盖，虽然之后重置了 constructor 属性，但 programer 的 [[prototype]] 指针指向
+并未改变，依旧是指向最开始的原型对象的。因此，当我们希望获取 name 属性时，在实例和原始原型
+对象上，都没有该属性，结果返回 undefined。
+
+如果看完上面的这段话您已经觉得头晕目眩得了的话，可以对照着下面的关系图，将上面的内容好好琢磨一下，要知道，只要我们理解了原型链的精髓，才可以更透彻的学习继承的相关知识。
