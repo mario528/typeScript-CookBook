@@ -101,16 +101,95 @@
 // console.log(productManager.getInfo())               // 姓名:mario,性别: 男,年龄: 22
 // console.log(productManager.job)                     // 
 // // console.log(programer.hasOwnProperty('job'))
-function Person () {}
-let program = new Person()
-Person.prototype = {
-    constructor: Person,
-    name: 'mario',
-    age: 22,
-    sex: 'men',
-    getInfo: function() {
-        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+// function Person () {}
+// Person.prototype = {
+//     constructor: Person,
+//     name: 'mario',
+//     age: 22,
+//     sex: 'men',
+//     getInfo: function() {
+//         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
+//     }
+// }
+// let program = new Person()
+// let manager = new Person()
+// program.name = 'majiaao'
+// console.log(manager.name)
+// function Person (name, age, sex) {
+//     this.name = name
+//     this.age = age
+//     this.sex = sex
+//     this.skillList = []
+// }
+// Person.prototype = {
+//     constructor: Person,
+//     getInfo: function() {
+//         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+//     }
+// }
+// let programer = new Person('mario',22,'man');
+// let manager = new Person('li',22,'woman');
+// programer.skillList.push('TypeScript')
+// manager.skillList.push('pr')
+// programer.getInfo()
+// manager.getInfo()
+// function Person (name, age, sex) {
+//     this.name = name
+//     this.age = age
+//     this.sex = sex
+//     this.skillList = []
+//     if (typeof this.getInfo != 'function') {
+//         Person.prototype.getInfo = function () {
+//             return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+//         }
+//     }
+// }
+// function Person (name, age, sex) {
+//     this.name = name
+//     this.age = age
+//     this.sex = sex
+//     this.skillList = []
+//     this.getInfo = function () {
+//         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+//     }
+// }
+// let programer = new Person('mario',22,'man');
+// let manager = new Person('li',22,'woman');
+// console.log(programer.getInfo())
+// console.log(manager.getInfo())
+// function Person (name, age, sex) {
+//     let obj = new Object()
+//     obj.name = name
+//     obj.age = age
+//     obj.sex = sex
+//     obj.getInfo = function () {
+//         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+//     }
+//     return obj
+// }
+// function Person (name, age, sex) {
+//     let obj = new Object()
+//     obj.getInfo = function () {
+//         return `姓名:${name},性别: ${sex},年龄: ${age}`
+//     }
+//     return obj
+// }
+// let programer = Person('mario',22,'man');
+// programer.getInfo()
+// console.log(programer.name)
+function Father (name,age) {
+    this.name = name
+    this.age = age
+    this.getAge = function () {
+        console.log(this.age)
     }
 }
-console.log(program.constructor)
-console.log(program.name)
+function Mother () {
+    this.getName = function () {
+        console.log(this.name,"继承")
+    }
+}
+Father.prototype = new Mother()
+let ma = new Father('mario', 22)
+ma.getName()
+ma.getAge()

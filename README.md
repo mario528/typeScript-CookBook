@@ -7,7 +7,7 @@
 码字不易，如果您本书对您有所帮助，有经济实力的朋友可以请作者一杯咖啡(谢绝学生赞赏)
 
 
-[![赞赏码](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)](https://s2.ax1x.com/2020/01/30/1lpZ6A.th.jpg)
+[![赞赏码](https://s2.ax1x.com/2020/01/30/1lpZ6A.md.jpg)](https://imgchr.com/i/1lpZ6A)
 
 没有的同学可以捧个场帮忙点个star，让我们一起学习，一起进步。
 ## 目录
@@ -346,20 +346,20 @@ userAccount.length              // Error 类型“string | number”上不存在
 interface Person {
     name: string
 }
-interface Men {
+interface Man {
     sex: string
 }
-interface Women {
+interface Woman {
     age: number
 }
-let author: Person & Men & Women;
+let author: Person & Man & Woman;
 author = {
     name: 'mario',
-    sex: 'men',
+    sex: 'man',
     age: 22
 }
 ```
-新的 author 对象拥有 Person & Men & Women 的所有特性。这样看类似于我们之后会学习到的
+新的 author 对象拥有 Person & Man & Woman 的所有特性。这样看类似于我们之后会学习到的
 继承。
 
 我们一般在混入需求中使用交叉类型，在下面的代码中，我们需要实现一个融合两个对象并返回的结果
@@ -421,24 +421,24 @@ returnParamsType(22)         // number
 ```
 而在 TypeScript 中，我们可以通过类型断言推断出联合类型的变量具体为何种类型
 ``` TypeScript
-interface Men {
+interface Man {
     age: number
 }
-interface Women {
+interface Woman {
     name: string
 }
-function returnParamsType(params: Men | Women) {
-    if ((params as Men).age) return 'Men'
-    else if ((params as Women).name) return 'Women'
+function returnParamsType(params: Man | Woman) {
+    if ((params as Man).age) return 'Man'
+    else if ((params as Woman).name) return 'Woman'
 }
-let userMen: Men = {
+let userMan: Man = {
     age: 22
 }
-let userWomen: Women = {
+let userWoman: Woman = {
     name: 'mario'
 }
-returnParamsType(userMen)        // Men
-returnParamsType(userWomen)      // Women
+returnParamsType(userMan)        // Man
+returnParamsType(userWoman)      // Woman
 ```
 #### 类型保护
 在上面有关类型判断的例子中，如果方法体足够复杂，我们则需要多次使用类型断言进行判断。
@@ -447,47 +447,47 @@ TypeScript 中的类型保护机制则可以帮助我们省去一系列的类型
 要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个 类型谓词。我们还是利用上面
 的例子继续学习:
 ``` TypeScript
-interface Men {
+interface Man {
     age: number
 }
-interface Women {
+interface Woman {
     name: string
 }
-function isMen(params:Men | Women): params is Men{
-    return (params as Men).age != undefined
+function isMan(params:Man | Woman): params is Man{
+    return (params as Man).age != undefined
 }
 ```
-我们定义了一个简单的方法 isMen，params is Men 就是类型谓词，类型谓词格式为：
+我们定义了一个简单的方法 isMan，params is Man 就是类型谓词，类型谓词格式为：
 ``` TypeScript
 paramsName is type
 ```
 paramsName 为方法入参之一，type 为需要类型保护的类型。每当我们调用一次类型保护的方法
-(isMen)时，只要这个类型与变量的原始类型是兼容的，TypeScript 就会将变量缩减为那个具体的
+(isMan)时，只要这个类型与变量的原始类型是兼容的，TypeScript 就会将变量缩减为那个具体的
 类型。
 
 让我们用类型保护的方式重新编写上一节的代码吧:
 ``` TypeScript
-interface Men {
+interface Man {
     age: number
 }
-interface Women {
+interface Woman {
     name: string
 }
-let userMen: Men = {
+let userMan: Man = {
     age: 22
 }
-let userWomen: Women = {
+let userWoman: Woman = {
     name: 'mario'
 }
-function isMen(params:Men | Women): params is Men{
-    return (params as Men).age != undefined
+function isMan(params:Man | Woman): params is Man{
+    return (params as Man).age != undefined
 }
-function returnParamsType(params: Men | Women) {
-    if (isMen(params)) return 'Men'
-    else if (!isMen(params)) return 'Women'
+function returnParamsType(params: Man | Woman) {
+    if (isMan(params)) return 'Man'
+    else if (!isMan(params)) return 'Woman'
 }
-returnParamsType(userMen)        // Men
-returnParamsType(userWomen)      // Women
+returnParamsType(userMan)        // Man
+returnParamsType(userWoman)      // Woman
 ```
 ##### typeof 类型保护
 在上面的例子中，我们通过自定义的方式实现类型保护，然而，当联合类型的参数可能性过多时，我们
@@ -1039,8 +1039,8 @@ class User {
         console.log(User._userName)
     }
 }
-let men = new User(22);     // mario
-let women = new User(23);   // mario
+let man = new User(22);     // mario
+let woman = new User(23);   // mario
 ```
 ### 抽象类
 抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员
@@ -1510,7 +1510,7 @@ interface User {
 }
 type Human = {}
 let user: User;
-let men: Human
+let man: Human
 // 变量声明空间
 class User {
     constructor () {
@@ -1518,7 +1518,7 @@ class User {
     }
 }
 let Human = User;
-let men = new Human(); // User
+let man = new Human(); // User
 ```
 ___
 # 模块
@@ -1772,6 +1772,13 @@ programer.getInfo()         // 姓名:mario,性别: 男,年龄: 22
 2. 将构造函数的作用域赋予给了这个新的对象
 3. 执行构造函数中的代码逻辑
 4. 返回这个新的对象
+``` JavaScript
+let programer = new Object();
+programer.__proto__ = Person.prototype;
+Person.call(programer);
+//执行函数代码
+return programer;
+```
 ##### constructor 属性
 在本书正文的 Class 中，有一个 constructor 方法，接下来让我们试着学习它。在上面的例子
 中，我们通过自定义的构造函数 Person，定义了一个 programer 方法，我们试着输出 
@@ -1790,7 +1797,7 @@ prototype属性是一个指针，它指向一个对象，这个对象的用途�
 function Person () {}
 Person.prototype.name = 'mario'
 Person.prototype.age = 22
-Person.prototype.sex = 'men'
+Person.prototype.sex = 'man'
 Person.prototype.getInfo = function () {
     return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
 }
@@ -1826,7 +1833,7 @@ Object.getPrototypeOf(programer) == Person.prototype  // true
 function Person () {}
 Person.prototype.name = 'mario'
 Person.prototype.age = 22
-Person.prototype.sex = 'men'
+Person.prototype.sex = 'man'
 Person.prototype.getInfo = function () {
     return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
 }
@@ -1856,7 +1863,7 @@ let Person = {}
 Person.prototype = {
     name: 'mario',
     age: 22,
-    sex: 'men',
+    sex: 'man',
     getInfo: function() {
         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
     }
@@ -1870,7 +1877,7 @@ function Person () {}
 Person.prototype = {
     name: 'mario',
     age: 22,
-    sex: 'men',
+    sex: 'man',
     getInfo: function() {
         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
     }
@@ -1885,7 +1892,7 @@ Person.prototype = {
     constructor: Person,
     name: 'mario',
     age: 22,
-    sex: 'men',
+    sex: 'man',
     getInfo: function() {
         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
     }
@@ -1904,7 +1911,7 @@ Person.prototype = {
     constructor: Person,
     name: 'mario',
     age: 22,
-    sex: 'men',
+    sex: 'man',
     getInfo: function() {
         return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age}`
     }
@@ -1920,4 +1927,96 @@ programer 的 [[prototype]]指向原始的原型对象。紧接着，就像上�
 并未改变，依旧是指向最开始的原型对象的。因此，当我们希望获取 name 属性时，在实例和原始原型
 对象上，都没有该属性，结果返回 undefined。
 
-如果看完上面的这段话您已经觉得头晕目眩得了的话，可以对照着下面的关系图，将上面的内容好好琢磨一下，要知道，只要我们理解了原型链的精髓，才可以更透彻的学习继承的相关知识。
+如果看完上面的这段话您已经觉得头晕目眩得了的话，可以对照着下面的关系图，将上面的内容好好琢
+磨一下，要知道，只要我们理解了原型链的精髓，才可以更透彻的学习继承的相关知识。
+
+重写原型前
+![重写原型前](https://s2.ax1x.com/2020/02/29/3yQbcR.md.png)
+
+重写原型后
+![重写原型后](https://s2.ax1x.com/2020/02/29/3ytVQe.md.png)
+#### 原型对象的缺陷
+其实从上面我们可以看出，所有的实例都是共享原型对象上的属性的。如果一个实例修改了原型对象上
+的引用类型属性后，其他所有实例访问该属性，返回的均会是修改后的结果。并且原型对象模式也并不
+支持传递参数。因此为了解决原型对象的局限性，我们提出了几类组合方案。
+#### 构造函数原型模式组合方案
+既然实例修改原型上的引用类型属性会导致影响所有实例，那么，我们可以组合使用构造函数原型模
+式，构造函数模式用于定义实例的属性，原型模式来定义方法和需要所有实例共享的属性。这样的设计
+方案使得每个实例都会有一个自己的属性副本，同时共享着同样的方法引用，这样做大大节省了内存的
+消耗:
+``` JavaScript
+function Person (name, age, sex) {
+    this.name = name
+    this.age = age
+    this.sex = sex
+    this.skillList = []
+}
+Person.prototype = {
+    constructor: Person,
+    getInfo: function() {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+    }
+}
+let programer = new Person('mario',22,'man');
+let manager = new Person('li',22,'woman');
+programer.skillList.push('TypeScript')
+manager.skillList.push('pr')
+programer.getInfo()   // 姓名:mario,性别: man,年龄: 22,技能:TypeScript
+manager.getInfo()     // 姓名:li,性别: woman,年龄: 22,技能:pr
+```
+#### 动态原型模式
+动态原型模式通过检查某个应该存在的方法是否有效，来决定是否初始化原型:
+``` JavaScript
+function Person (name, age, sex) {
+    this.name = name
+    this.age = age
+    this.sex = sex
+    this.skillList = []
+    if (typeof this.getInfo != 'function') {
+        Person.prototype.getInfo = function () {
+            return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+        }
+    }
+}
+```
+#### 寄生构造模式
+寄生构造模式的基本思想是创建一个函数，该函数的作用仅仅是封装创建对象的代码，然后再返回这个新创建的对象:
+``` JavaScript
+function Person (name, age, sex) {
+    let obj = new Object()
+    obj.name = name
+    obj.age = age
+    obj.sex = sex
+    obj.getInfo = function () {
+        return `姓名:${this.name},性别: ${this.sex},年龄: ${this.age},技能:${this.skillList}`
+    }
+    return obj
+}
+```
+寄生构造模式在本质上其实和工厂模式一摸一样，区别就在于寄生构造模式在函数题最后添加来return语句，这样我们可以重写调
+用构造函数时返回的值。
+#### 稳妥构造函数模式
+稳妥构造函数模式顾名思义，其用于一些安全环境中。为了内部数据不被改变，该方法不使用 this 或 new。内部可以定义 
+private、protected 类型的私有变量或方法。
+``` JavaScript
+function Person (name, age, sex) {
+    let obj = new Object()
+    // 内部可以定义私有变量或方法
+    obj.getInfo = function () {
+        return `姓名:${name},性别: ${sex},年龄: ${age}`
+    }
+    return obj
+}
+let programer = Person('mario',22,'man');
+programer.getInfo()           // 姓名:mario,性别: man,年龄: 22
+programer.name                // undefined
+```
+### 继承
+在学习了原型链和设计模式后，接下来，我们开始正式学习继承，有了前几节的学习铺垫，相信您在学习本章会轻松很多。
+#### 原型链继承
+我们之前学习了构造函数，原型对象，实例之间的关系。那么让我们试着想一下，如果我们让一个原型对象作为另一个构造方法的原
+实例，那么结果如何呢？此时，原型对象便包含一个指向继承方法的原型对象的指针，被继承原型函数又有一个指向构造方法的指
+针，这样层层递进，完成了所谓的原型链。我们用代码描述一下上面的步骤：
+``` JavaScript
+
+```
