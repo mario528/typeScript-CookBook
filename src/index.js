@@ -177,19 +177,49 @@
 // let programer = Person('mario',22,'man');
 // programer.getInfo()
 // console.log(programer.name)
-function Father (name,age) {
-    this.name = name
+// function SuperType (username) {
+//     this.username = username
+// }
+// function SubType (age) {
+//     this.age = age
+// }
+// // SubType 继承 SuperType
+// SubType.prototype = new SuperType('mario')
+// SuperType.prototype.getUserName = function () {
+//     return this.username
+// }
+// let user = new SubType(22)
+// console.log(user.getUserName())
+// console.log(user.age)
+// function SuperType (userName) {
+//     this.userName = userName
+// }
+// SuperType.prototype.getUserName = function () {
+//     console.log(this.userName)
+// }
+// function SubType (age) {
+//     this.age = age
+// }
+// SubType.prototype = new SuperType('mario')
+// let user = new SubType(22)
+// user.getUserName()
+function SuperType ( userName ) {
+    this.userName = userName
+}
+SuperType.getUserName = function () {
+    console.log(this.userName, "父类方法")
+}
+function SubType (age) {
     this.age = age
-    this.getAge = function () {
-        console.log(this.age)
-    }
 }
-function Mother () {
-    this.getName = function () {
-        console.log(this.name,"继承")
-    }
+// SubType 继承 SuperType
+SubType.prototype = new SuperType('mario')
+SubType.prototype.getUserAge = function () {
+    console.log(this.age)
 }
-Father.prototype = new Mother()
-let ma = new Father('mario', 22)
-ma.getName()
-ma.getAge()
+SubType.prototype.getUserName = function () {
+    console.log(this.userName, "覆盖父类方法")
+}
+let user = new SubType(22);
+user.getUserName()
+user.getUserAge()

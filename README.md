@@ -2014,9 +2014,56 @@ programer.name                // undefined
 ### 继承
 在学习了原型链和设计模式后，接下来，我们开始正式学习继承，有了前几节的学习铺垫，相信您在学习本章会轻松很多。
 #### 原型链继承
-我们之前学习了构造函数，原型对象，实例之间的关系。那么让我们试着想一下，如果我们让一个原型对象作为另一个构造方法的原
-实例，那么结果如何呢？此时，原型对象便包含一个指向继承方法的原型对象的指针，被继承原型函数又有一个指向构造方法的指
-针，这样层层递进，完成了所谓的原型链。我们用代码描述一下上面的步骤：
+我们之前学习了构造函数，原型对象，实例之间的关系。那么让我们试着想一下，如果我们让一个子类的原型对象作为父类的
+实例，那么此时，原型对象便包含一个指向继承方法的原型对象的指针，被继承原型函数又有一个指向构造方法的指针，这样层层递
+进，完成了原型链继承。我们用代码描述一下上面的步骤：
 ``` JavaScript
+function SuperType (username) {
+    this.username = username
+}
+function SubType (age) {
+    this.age = age
+}
+// SubType 继承 SuperType
+SubType.prototype = new SuperType('mario')
+SuperType.prototype.getUserName = function () {
+    return this.username
+}
+let user = new SubType(22)
+user.getUserName()      // mario
+user.age                // 22
+```
+在上面，我们两个类：作为父类的 SuperType 以及作为子类的 SubType。子类 SubType 为了实现继承 SuperType，将父
+类的原型赋予给自己的原型对象，此时，子类的原型中的有了[[prototype]]这样一个指向父类的原型对象的指针。这样，基于原
+型搜索机制，子类SubType 便拥有了父类 SuperType 的所有属性和方法。
 
+![3gILnO.md.png](https://s2.ax1x.com/2020/03/01/3gILnO.md.png)
+
+在 JavaScript 中，万物皆对象。所有引用类型都默认通过原型链继承了 Object，所有的函数默认都是 Object 的实例。所以
+所有对象的原型内部都有一个指向 Object 原型对象的指针。
+![32VI54.md.png](https://s2.ax1x.com/2020/03/01/32VI54.md.png)
+#### 添加或覆盖方法
+当子类需要覆盖父类的某个方法，或者添加父类中不存在的某个方法时，需要将给原型添加方法的代码放到替换原型的语句之后。
+``` JavaScript
+function SuperType ( userName ) {
+    this.userName = userName
+}
+SuperType.getUserName = function () {
+    console.log(this.userName, "父类方法")
+}
+function SubType (age) {
+    this.age = age
+}
+// SubType 继承 SuperType
+SubType.prototype = new SuperType('mario')
+// 添加新的方法
+SubType.prototype.getUserAge = function () {
+    console.log(this.age)
+}
+SubType.prototype.getUserName = function () {
+    console.log(this.userName, "覆盖父类方法")
+}
+let user = new SubType(22);
+user.getUserName()           // mario 覆盖父类方法
+user.getUserAge()            // 22
 ```
