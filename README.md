@@ -2048,7 +2048,7 @@ user.age                // 22
 function SuperType ( userName ) {
     this.userName = userName
 }
-SuperType.getUserName = function () {
+SuperType.prototype.getUserName = function () {
     console.log(this.userName, "父类方法")
 }
 function SubType (age) {
@@ -2066,4 +2066,71 @@ SubType.prototype.getUserName = function () {
 let user = new SubType(22);
 user.getUserName()           // mario 覆盖父类方法
 user.getUserAge()            // 22
+```
+看到这里，请您先在脑海里思考一下，为何需要将给原型添加方法的代码放到替换原型的语句之后。读者可以自己思考一下再继续向
+下学习: 我们本意是扩展新的方法和覆盖父类的方法，然而当代码执行到 SubType.prototype = new SuperType('mario')
+时 子类的原型对象被重置，这导致之前的一系列操作做了无用功。所以接下来操作添加修改的方法，返回的均是 undefined了。
+到这里，如果上面的解释和你脑海中是一致的，那么恭喜你，你已经透彻的了解到原型链继承的精髓了。
+#### 原型链的问题
+关于原型链，我们知道，当原型中存在引用类型的值时，会出现所有实例共享同一数据的问题。当我们通过原型来实现继承时，原型
+实际上会变成另一个类型的实例，于是，原先的实例属性也就顺理成章的成为了现在的原型属性了。
+``` JavaScript
+function SuperType () {
+    this.skillList = ['javaScript', 'TypeScript', 'Python', 'Java']
+}
+function SubType () {}
+SubType.prototype = new SuperType()
+let programer = new SubType()
+programer.skillList.push('GO')
+programer.skillList            // [ 'javaScript', 'TypeScript', 'Python', 'Java', 'GO' ]
+let manager = new SubType()
+manager.skillList              // [ 'javaScript', 'TypeScript', 'Python', 'Java', 'GO' ]
+```
+在上面的这个例子中，我们在父类的构造函数 SuperType 中定义了一个引用类型数组属性 skillList。 此时所有 
+SuperType 的实例都会拥有自己的 skillList 属性。当 SubType 继承了 SuperType 后，由于原型链继承的规则，
+SubType 的原型对象作为 SuperType 的实例，因此 SubType 的原型对象也拥有了 skillList 这个属性
+(SubType.prototype.skillList)。所以所有 SubType 的实例都会沿着原型链共享该属性。因此当一个实例修改该属性的时
+候，会影响到其他实例。因此我们在日常实践中很少单独使用原型链继承。
+#### 借用构造函数继承
+为了解决原型链的问题，我们使用借用构造函数的模式实现继承。这种模式的主要思想是子类的构造函数中调用父类的构造函数。其
+本质是在未来要创建的实例环境中，调用父类的构造函数，这样一来，便会继续调用执行父类构造函数中所有的初始化代码，这样一
+来，所有的实例就会有自己的属性副本了。
+``` JavaScript
+function SuperType () {
+    this.skillList = ['javaScript', 'TypeScript', 'Python', 'Java']
+}
+function SubType () {
+    SuperType.call(this)
+}
+let programer = new SuperType()
+programer.skillList = [1]
+let manager = new SuperType()
+programer.skillList            // [ 1 ]
+manager.skillList              // [ 'javaScript', 'TypeScript', 'Python', 'Java' ]
+```
+##### 借用构造函数继承-传递参数
+借用构造函数继承可以在子类的构造函数中，向父类的构造函数传递参数：
+``` JavaScript
+function SuperType (userName, age) {
+    this.userName = userName
+    this.age = age
+    this.skillList = ['javaScript', 'TypeScript', 'Python', 'Java']
+}
+function SubType () {
+    SuperType.call(this,'mario',22)
+}
+let programer = new SubType()
+programer.skillList = [1]
+let manager = new SubType()
+programer.skillList                         // [ 1 ]
+manager.skillList                           // [ 'javaScript', 'TypeScript', 'Python', 'Java' ]
+console.log(manager.userName, manager.age)  // mario 22
+```
+##### 缺点
+仅仅使用构造函数使得我们所有的方法都需要在构造方法中定义，这样的话函数的复用性就无从谈起了。并且父类原型对象中的方法
+在这种模式下子类是无法调用的。
+#### 组合继承模式
+组合继承，是将原型链继承与借用构造函数继承技术相结合的继承模式。该继承模式的本质是通过原型链继承父类原型中的属性和方
+法，通过借用构造函数继承模式实现对构造函数中，也就是实例属性的继承。通过组合继承模式实现函数复用·实例属性区分。
+``` JavaScript
 ```
