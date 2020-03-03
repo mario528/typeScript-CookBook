@@ -2131,6 +2131,100 @@ console.log(manager.userName, manager.age)  // mario 22
 在这种模式下子类是无法调用的。
 #### 组合继承模式
 组合继承，是将原型链继承与借用构造函数继承技术相结合的继承模式。该继承模式的本质是通过原型链继承父类原型中的属性和方
-法，通过借用构造函数继承模式实现对构造函数中，也就是实例属性的继承。通过组合继承模式实现函数复用·实例属性区分。
+法，通过借用构造函数继承模式实现对构造函数中，也就是实例属性的继承。通过组合继承模式实现函数复用的实例属性区分。
 ``` JavaScript
+function SuperType (userName) {
+    this.userName = userName
+    this.skillList = ['computer']
+}
+SuperType.prototype.getUserInfo = function() {
+    console.log(this.userName,this.skillList)
+}
+function SubType (name,age) {
+    this.age = age
+    // 继承父类属性
+    SuperType.call(this, name)
+}
+// 继承父类原型中的方法
+SubType.prototype = new SuperType()
+SubType.prototype.constructor = SubType
+SubType.prototype.getUserAge = function () {
+    console.log(this.age)
+}
+let programer = new SubType('mario', 22)
+let manager = new SubType('li', 23)
+programer.skillList.push('TypeScript')
+manager.skillList.push('PR')
+programer.getUserInfo()      // mario [ 'computer', 'TypeScript' ]
+programer.getUserAge()       // 22
+manager.getUserInfo()        // li [ 'computer', 'PR' ]
+manager.getUserAge()         // 23
+```
+在上面的例子中，在父类中，我们定义了两个属性 userName、skillList，并在其原型对象上挂载了 getUserInfo 方法。子
+类 SubType 首先在其构造函数中，定义了 age 属性，并且调用 父类 SuperType 构造函数并传入参数，执行其代码。紧接着
+通过原型链继承，将父类的实例赋予给子类原型对象。子类对象中拥有[[prototype]]指针指向父类原型对象。因为我们将子类的
+原型对象重置，所以我们最好将其原型对象的 constructor 重新指向子类。经过这些操作，子类便完全继承了父类的属性和方法
+了。组合继承是 JavaScript 中最常用的继承模式。
+#### 原生式继承模式
+原生式继承模式并没有严格意义的构造函数，通过原型便可以创建新的对象：
+``` JavaScript
+function copy (obj) {
+    let innerFunc = function () {}   //  模拟构造函数
+    innerFunc.prototype = obj
+    return new innerFunc()
+}
+let obj = {
+    name: 'mario',
+    age: 22,
+    getUserName() {
+        console.log(this.name)
+    }
+}
+let user = copy(obj)
+user.getUserName()                  // mario
+```
+在上面的例子中，我们首先定义一个函数，向这个函数中传入参数。在函数体内部，定义了一个模拟的构造函数，将传入的对象作为
+这个模拟的构造函数的原型对象。并返回这个模拟的构造函数的一个实例，此时，返回的实例基于原型链继承，可以拥有所有父类的
+属性，整个过程其实相当于一次浅拷贝。
+
+使用组合继承模式的基础是我们需要一个对象进行模版。ES6 使用 Object.create 规范了原型式继承模式，直接浅拷贝实现即
+可。
+``` JavaScript
+let obj = {
+    name: 'mario',
+    age: 22,
+    getUserName() {
+        console.log(this.name)
+    }
+}
+let user = Object.create(obj)
+user.getUserName()                  // mario
+```
+#### 寄生式继承
+寄生式继承与寄生构造函数模式和工厂模式相似，即创建一个仅用于封装继承过程的函数，这个函数的功能仅仅是在内部通过操作增
+强对象并返回这个对象:
+``` JavaScript
+function createOtherObj (obj) {
+    let tempObj = Object.create(obj)
+    tempObj.getUserInfo = function () {
+        console.log(tempObj.name)
+    }
+    return tempObj
+}
+let obj = {
+    name: 'mario',
+    age: 22,
+    skillList: [],
+    getUserName() {
+        console.log(this.name)
+    }
+}
+let copyObj = createOtherObj(obj)
+copyObj.getUserInfo()               // mario
+```
+#### 寄生组合式继承
+在前面，我们学习到了组合继承模式是 JavaScript 中最常用的继承模式，但这种设计模式会导致一个问题，该继承模式会调用两
+次父类的构造函数。这导致每次调用子类的构造函数都会重写属性。
+``` JavaScript
+ 
 ```

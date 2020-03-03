@@ -234,17 +234,97 @@
 // let manager = new SuperType()
 // console.log(programer.skillList)
 // console.log(manager.skillList)
+// function SuperType (userName, age) {
+//     this.userName = userName
+//     this.age = age
+//     this.skillList = ['javaScript', 'TypeScript', 'Python', 'Java']
+// }
+// function SubType () {
+//     SuperType.call(this,'mario',22)
+// }
+// let programer = new SubType()
+// programer.skillList = [1]
+// let manager = new SubType()
+// console.log(programer.skillList)
+// console.log(manager.skillList)
+// console.log(manager.userName, manager.age)
+// function SuperType (userName) {
+//     this.userName = userName
+//     this.skillList = ['computer']
+// }
+// SuperType.prototype.getUserInfo = function() {
+//     console.log(this.userName,this.skillList)
+// }
+// function SubType (name,age) {
+//     this.age = age
+//     // 继承父类属性
+//     SuperType.call(this, name)
+// }
+// // 继承父类原型上的方法
+// SubType.prototype = new SuperType()
+// // SubType.prototype.constructor = SubType
+// SubType.prototype.getUserAge = function () {
+//     console.log(this.age)
+// }
+// let programer = new SubType('mario', 22)
+// let manager = new SubType('li', 23)
+// programer.skillList.push('TypeScript')
+// manager.skillList.push('PR')
+// programer.getUserInfo()
+// programer.getUserAge()
+// manager.getUserInfo()
+// manager.getUserAge()
+// console.log(SubType.prototype.constructor)
+// function copy (obj) {
+//     let innerFunc = function () {}   //  模拟构造函数
+//     innerFunc.prototype = obj
+//     return new innerFunc()
+// }
+// let obj = {
+//     name: 'mario',
+//     age: 22,
+//     skillList: [],
+//     getUserName() {
+//         console.log(this.name)
+//     }
+// }
+// let ma = copy(obj)
+// let li = copy(obj)
+// ma.skillList.push('1')
+// console.log(li.skillList)
+// let obj = {
+//     name: 'mario',
+//     age: 22,
+//     skillList: [],
+//     getUserName() {
+//         console.log(this.name)
+//     }
+// }
+// let ma = Object.create(obj)
+// console.log(ma.name)
+// function createOtherObj (obj) {
+//     let tempObj = Object.create(obj)
+//     tempObj.getUserInfo = function () {
+//         console.log(tempObj.name)
+//     }
+//     return tempObj
+// }
+// let obj = {
+//     name: 'mario',
+//     age: 22,
+//     skillList: [],
+//     getUserName() {
+//         console.log(this.name)
+//     }
+// }
+// let copyObj = createOtherObj(obj)
+// copyObj.getUserInfo()
+
 function SuperType (userName, age) {
     this.userName = userName
     this.age = age
-    this.skillList = ['javaScript', 'TypeScript', 'Python', 'Java']
+    this.skillList = ['computer']
 }
 function SubType () {
-    SuperType.call(this,'mario',22)
+    SuperType.call(this)            // 调用父类 SuperType
 }
-let programer = new SubType()
-programer.skillList = [1]
-let manager = new SubType()
-console.log(programer.skillList)
-console.log(manager.skillList)
-console.log(manager.userName, manager.age)
