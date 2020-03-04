@@ -332,8 +332,12 @@ function SubType (sex) {
     SuperType.call(this)            // 调用父类 SuperType
     this.sex = sex
 }
-SubType.prototype = new SuperType()
-SubType.prototype.constructor = SubType;
+function initCopyPrototype (superType, subType) {
+    let tempObj = Object.create(superType.prototype)
+    tempObj.constructor = subType
+    subType.prototype = tempObj
+}
+initCopyPrototype(SuperType, SubType)
 SubType.prototype.getUserSex = function () {
     console.log(this.sex)
 }

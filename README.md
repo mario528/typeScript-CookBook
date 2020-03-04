@@ -2244,3 +2244,36 @@ SubType.prototype.getUserSex = function () {
     console.log(this.sex)
 }
 ```
+在上面的例子中，第一次调用父类构造函数时，在 SubType 的原型对象上挂载了 userName、age 以及 
+skillList。第二次在SubType 构造函数中调用 SuperType 构造函数，使得 SubType 的实例中同样
+增加了 userName、age 以及 skillList。在原型对象上和实例上都挂载相同的属性这明显浪费了内存，
+因为实例上的属性会屏蔽其原型对象的同名属性。
+
+为了解决这种问题，我们使用寄生组合式继承模式。所谓寄生组合模式继承，即通过借用构造函数来继承属
+性，通过原型链的混成形
+式来继承方法。我们不再需要在子类的构造函数中调用父类构造函数，因为我们仅仅只是需要父类的原型对象
+副本而已，
+``` JavaScript
+function SuperType (userName, age) {
+    this.userName = userName
+    this.age = age
+    this.skillList = ['computer']
+}
+SuperType.prototype.getUserInfo = function () {
+    console.log(this.getUserInfo)
+}
+function SubType (sex) {
+    SuperType.call(this)            // 调用父类 SuperType
+    this.sex = sex
+}
+function initCopyPrototype (superType, subType) {
+    let tempObj = Object.create(superType.prototype)     // 创建父类原型对象副本
+    tempObj.constructor = subType                        // 增强对象
+    subType.prototype = tempObj                          // 将父类原型对象赋予子类
+}
+initCopyPrototype(SuperType, SubType)
+SubType.prototype.getUserSex = function () {
+    console.log(this.sex)
+}
+```
+这样的继承模式使得我们只会调用一次父类的构造函数，避免了子类的原型对象上添加更多没必要的参数。
