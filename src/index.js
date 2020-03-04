@@ -325,6 +325,15 @@ function SuperType (userName, age) {
     this.age = age
     this.skillList = ['computer']
 }
-function SubType () {
+SuperType.prototype.getUserInfo = function () {
+    console.log(this.getUserInfo)
+}
+function SubType (sex) {
     SuperType.call(this)            // 调用父类 SuperType
+    this.sex = sex
+}
+SubType.prototype = new SuperType()
+SubType.prototype.constructor = SubType;
+SubType.prototype.getUserSex = function () {
+    console.log(this.sex)
 }

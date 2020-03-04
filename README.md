@@ -2226,5 +2226,21 @@ copyObj.getUserInfo()               // mario
 在前面，我们学习到了组合继承模式是 JavaScript 中最常用的继承模式，但这种设计模式会导致一个问题，该继承模式会调用两
 次父类的构造函数。这导致每次调用子类的构造函数都会重写属性。
 ``` JavaScript
- 
+ function SuperType (userName, age) {
+    this.userName = userName
+    this.age = age
+    this.skillList = ['computer']
+}
+SuperType.prototype.getUserInfo = function () {
+    console.log(this.getUserInfo)
+}
+function SubType (sex) {
+    SuperType.call(this)            // 第2次 调用父类 SuperType
+    this.sex = sex
+}
+SubType.prototype = new SuperType() // 第1次 调用父类 SuperType
+SubType.prototype.constructor = SubType;
+SubType.prototype.getUserSex = function () {
+    console.log(this.sex)
+}
 ```
