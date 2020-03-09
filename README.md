@@ -33,7 +33,8 @@ bug。
 TypeScript 是由 Microsoft 主导开发的开源的编程语言。近些年来，微软一直极力推崇在大型
 项目中使用 TypeScript 替代 JavaScript 进行开发。我们都知道，大厂主导的开发语言往往会引
 领未来软件的开发趋势。因此 TypeScript 必然会是未来几年开发的热门之一。NPM 上各种流行的包
-现已使用 TypeScript 编写，同时，Vue、React、Angular 三大框架也都高度支 TypeScript。因此作为一个开发者，学习 TypeScript 已经成为一个必然之举。
+现已使用 TypeScript 编写，同时，Vue、React、Angular 三大框架也都高度支 TypeScript。因此作为一个开发
+者，学习 TypeScript 已经成为一个必然之举。
 ## 开发前
 本书所有代码均基于 ES6 语法，建议您在阅读本书前，需熟悉掌握 JavaScript 开发以及 ES6 语
 法。若您对 JavaScript 不是很了解，为了保证学习效率，建议您首先系统学习 JavaScript 的相
@@ -2043,7 +2044,8 @@ SuperType，将父类的原型赋予给自己的原型对象，此时，子类�
 例。所以所有对象的原型内部都有一个指向 Object 原型对象的指针。
 ![32VI54.md.png](https://s2.ax1x.com/2020/03/01/32VI54.md.png)
 #### 添加或覆盖方法
-当子类需要覆盖父类的某个方法，或者添加父类中不存在的某个方法时，需要将给原型添加方法的代码放到替换原型的语句之后。
+当子类需要覆盖父类的某个方法，或者添加父类中不存在的某个方法时，需要将给原型添加方法的代码放到替换原型的语句
+之后。
 ``` JavaScript
 function SuperType ( userName ) {
     this.userName = userName
