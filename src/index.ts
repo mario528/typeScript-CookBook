@@ -738,27 +738,43 @@
 // } 
 // let user = new User ('mario','528528')
 // user.getUserName()   // success mario
-class SuperUser {
-    public password: string;
-    constructor (password: string) {
-        this.password = password
+// class SuperUser {
+//     public password: string;
+//     constructor (password: string) {
+//         this.password = password
+//     }
+// }
+// interface UserInterface extends SuperUser {
+//     addUser (): boolean
+// }
+// class Programmer extends SuperUser implements UserInterface {
+//     constructor (password: string) {
+//         super(password)
+//     }
+//     addUser () {
+//         // do something
+//         return true
+//     }
+// }
+// class User implements UserInterface {
+//     addUser () {
+//         // do something
+//         return true
+//     }
+// }
+class User {
+    protected userName: string;
+    constructor (userName: string) {
+        this.userName = userName
+    }
+    getUserName () {
+        console.log(this.userName)
     }
 }
-interface UserInterface extends SuperUser {
-    addUser (): boolean
-}
-class Programmer extends SuperUser implements UserInterface {
-    constructor (password: string) {
-        super(password)
-    }
-    addUser () {
-        // do something
-        return true
+class Programmer extends User {
+    constructor (name: string) {
+        super(name)
     }
 }
-class User implements UserInterface {
-    addUser () {
-        // do something
-        return true
-    }
-}
+let user = new Programmer('ma')
+user.userName
