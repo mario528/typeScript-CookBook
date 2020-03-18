@@ -955,8 +955,7 @@ user.getUserInfo()    // mario 22
 从上面的代码可以看出，SuperClass 定义的 protected 类型的成员变量，并不同于 private 类
 型的成员变量， 在它的子类 SonClass 中，也可以使用。
 
-类中也可以拥有 protected 类型的构造方法, protected 类型的构造方法不能在包含它的类外被
-实例化，但是可以被继承:
+类中也可以拥有 protected 类型的构造方法, 值得注意的是，由于protected 类型的限制，该构造方法不允许被实例化，但是可以被继承:
 ``` TypeScript
 class User {
     protected userName: string;
@@ -992,6 +991,24 @@ let user = new User('mario')
 console.log(user)
 user.userName = 'majiaao'      // Error Cannot assign to 'userName' because it is a read-only property.
 ```
+#### 参数属性
+每当我们定义一个类时，反复的定义类以及在其构造函数中赋值就显得很冗杂了，此时我们可以使用参数属性，从而一次性
+的完成参数的定义和初始化。
+``` TypeScript
+class Person {
+    constructor (protected psw: string) {}
+}
+class Programmer extends Person {
+    constructor (protected password: string) {
+        super(password)
+    }
+    getUserPsw () :string {
+        return this.psw
+    }
+}
+let programmer = new Programmer('123')
+console.log(programmer.getUserPsw())         // 123
+```
 #### 存取器
 TypeScript支持通过 getters/setters 来截取对对象成员的访问。 它能帮助你有效的控制对对
 象成员的访问。提起 getters/setters 方法，很多人肯定会想起 在 Vue 老版本中使用到的 
@@ -1003,8 +1020,7 @@ Object.defineProperty 需要三个参数 object、 propName、 descriptor。obje
 | value | enumerable | writable | configurable | get | set
 |--|--|--|--|--|--|
 | 属性值 | 是否可枚举 默认 false | 是否可以被重新赋值 默认false => 只读 | 1.属性是否
-可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存
-取器 修改值的时候的方法
+可以被删除 2.属性的特性在第一次设置之后可否被重新定义特性 | 存取器 取值的时候的方法 | 存取器 修改值的时候的方法
 接下来，我们来学习一下 TypeScript 中 存取器:
 ``` TypeScript
 let channelCode = '528528'

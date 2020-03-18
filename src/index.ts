@@ -762,19 +762,32 @@
 //         return true
 //     }
 // }
-class User {
-    protected userName: string;
-    constructor (userName: string) {
-        this.userName = userName
+// class User {
+//     protected userName: string;
+//     constructor (userName: string) {
+//         this.userName = userName
+//     }
+//     getUserName () {
+//         console.log(this.userName)
+//     }
+// }
+// class Programmer extends User {
+//     constructor (name: string) {
+//         super(name)
+//     }
+// }
+// let user = new Programmer('ma')
+// user.userName
+class Person {
+    constructor (protected psw: string) {}
+}
+class Programmer extends Person {
+    constructor (protected password: string) {
+        super(password)
     }
-    getUserName () {
-        console.log(this.userName)
+    getPsw () :string {
+        return this.psw
     }
 }
-class Programmer extends User {
-    constructor (name: string) {
-        super(name)
-    }
-}
-let user = new Programmer('ma')
-user.userName
+let programmer = new Programmer('123')
+console.log(programmer.getPsw())
