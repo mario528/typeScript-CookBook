@@ -1061,8 +1061,9 @@ let man = new User(22);     // mario
 let woman = new User(23);   // mario
 ```
 ### 抽象类
-抽象类做为其它派生类的基类使用。 它们一般不会直接被实例化。 不同于接口，抽象类可以包含成员
-的实现细节。 abstract 关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+抽象类做为其它派生类的基类使用。 抽象类不能直接被实例化。但与接口对于类实现的约束类似，子类也必须实现抽象类中
+的抽象方法。但不同于接口的是，抽象类可以包含成员的实现细节。 abstract 关键字是用于定义抽象类和在抽象类内部
+定义抽象方法。子类必须实现其抽象类中的抽象方法。
 ``` TypeScript
 abstract class User {
     abstract setUserName (newValue: string): boolean;
@@ -1075,7 +1076,7 @@ class sonClass extends User {
     constructor(userName: string) {
         super(userName)
     }
-    setUserName (newValue: string) {
+    setUserName (newValue: string): Boolean {
         this._userName = newValue
         console.log(this._userName)
         return true
@@ -1085,9 +1086,35 @@ let user = new sonClass('mario');
 user.getUserName()
 user.setUserName('majiaao')
 ```
-在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass作为子类继承了User 抽象、
-类。在抽象类中实现了 getUserName 方法，可以供子类使用。而在抽象类中定义的 setUserName 
-则必须的子类中定义实现。并且，在子类可以覆盖实现抽象类中实现的方法。
+在上面的代码中，首先我们定义了一个抽象类 User。接着，sonClass类 作为子类继承了User 抽象类。继承了抽象类中
+实现的 getUserName 方法。而在抽象类中定义的抽象方法 setUserName 则必须的子类中定义实现。并且，在子类可以
+覆盖实现抽象类中实现的方法。
+### 构造函数
+当我们声明一个类时，其实也就声明了类的实例的类型。
+``` TypeScript
+class Person {
+    constructor (public userName: string) {}
+    getUserName ():string {
+        return this.userName
+    }
+}
+let user: Person
+user = new Person('mario')
+user.getUserName()           // mario
+```
+在上面的例子中，let user: Person 表示 Person类的实例的类型是 Person。 当我们使用 class 定义一个类的时候，转化为js原生代码是下面的内容:
+``` JavaScript
+var Person = /** @class */ (function () {
+    function Person(userName) {
+        this.userName = userName;
+    }
+    Person.prototype.getUserName = function () {
+        return this.userName;
+    };
+    return Person;
+}());
+```
+我们根据原生的代码可以看出 Person 的返回值，是一个名为 Person 的构造函数。类具有实例部分和静态部分。
 ### 将类当作接口使用
 类也可以像接口一样使用 接口继承类，从而形成新的接口规范。
 ``` TypeScript

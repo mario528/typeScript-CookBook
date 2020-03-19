@@ -778,16 +778,55 @@
 // }
 // let user = new Programmer('ma')
 // user.userName
-class Person {
-    constructor (protected psw: string) {}
-}
-class Programmer extends Person {
-    constructor (protected password: string) {
-        super(password)
+// class Person {
+//     constructor (protected psw: string) {}
+// }
+// class Programmer extends Person {
+//     constructor (protected password: string) {
+//         super(password)
+//     }
+//     getPsw () :string {
+//         return this.psw
+//     }
+// }
+// let programmer = new Programmer('123')
+// console.log(programmer.getPsw())
+// class User {
+//     static _userName: string = 'mario'
+//     constructor (public age: number) {
+//         console.log(User._userName)
+//     }
+// }
+// let man = new User(22);     // mario
+// let woman = new User(23);   // mario
+// abstract class Person {
+//     abstract getUserPsw (userName: string): string;
+//     constructor() {}
+// }
+// class Programmer extends Person {
+//     getUserPsw(userName: string): string {
+//         throw new Error("Method not implemented.");
+//     }
+//     constructor() {
+//         super()
+//     }
+// }
+// let person = new Programmer()
+// class Person {
+//     constructor (public userName: string) {}
+//     getUserName ():string {
+//         return this.userName
+//     }
+// }
+class Greeter {
+    static standardGreeting = "Hello, there";
+    greeting!: string;
+    greet() {
+        if (this.greeting) {
+            return "Hello, " + this.greeting;
+        }
+        else {
+            return Greeter.standardGreeting;
+        }
     }
-    getPsw () :string {
-        return this.psw
-    }
 }
-let programmer = new Programmer('123')
-console.log(programmer.getPsw())
