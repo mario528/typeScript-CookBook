@@ -818,15 +818,44 @@
 //         return this.userName
 //     }
 // }
-class Greeter {
-    static standardGreeting = "Hello, there";
-    greeting!: string;
-    greet() {
-        if (this.greeting) {
-            return "Hello, " + this.greeting;
-        }
-        else {
-            return Greeter.standardGreeting;
-        }
+// class Greeter {
+//     static standardGreeting = "Hello, there";
+//     greeting!: string;
+//     greet() {
+//         if (this.greeting) {
+//             return "Hello, " + this.greeting;
+//         }
+//         else {
+//             return Greeter.standardGreeting;
+//         }
+//     }
+// }
+
+// function getSystemInfo (params: number): Boolean {
+//     // do something ...
+//     return true
+// }
+// function getSystemInfo (userName: string, age: number, ...job: string[]): string {
+//     return `姓名:${userName},年龄: ${age},工作:${job.join(',')}`
+// }
+// getSystemInfo('mario', 22, "研发工程师", "前端工程师", "后端工程师")
+// function getUserInfo (params) {
+//     if (typeof params == 'number') {
+//         return params + 1
+//     }else if (typeof params == 'string') {
+//         return 'super' + params
+//     }
+// }
+// console.log(getUserInfo(22))
+// console.log(getUserInfo('mario'))
+function getUserInfo(params:number) :number;
+function getUserInfo(params:string) :string;
+function getUserInfo(params: any) {
+    if (typeof params == 'number') {
+        return params + 1
+    }else if (typeof params == 'string') {
+        return 'super' + params
     }
 }
+console.log(getUserInfo('mario'))
+console.log(getUserInfo(22))

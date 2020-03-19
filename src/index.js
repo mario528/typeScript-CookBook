@@ -787,17 +787,30 @@
 //         return this.userName
 //     }
 // }
-var Greeter = /** @class */ (function () {
-    function Greeter() {
+// var Greeter = /** @class */ (function () {
+//     function Greeter() {
+//     }
+//     Greeter.prototype.greet = function () {
+//         if (this.greeting) {
+//             return "Hello, " + this.greeting;
+//         }
+//         else {
+//             return Greeter.standardGreeting;
+//         }
+//     };
+//     Greeter.standardGreeting = "Hello, there";
+//     return Greeter;
+// }());
+// let getSystemInfo = function (params) {
+//     // do something ...
+// }
+
+function getUserInfo (params) {
+    if (typeof params == 'number') {
+        return params + 1
+    }else if (typeof params == 'string') {
+        return 'super' + params
     }
-    Greeter.prototype.greet = function () {
-        if (this.greeting) {
-            return "Hello, " + this.greeting;
-        }
-        else {
-            return Greeter.standardGreeting;
-        }
-    };
-    Greeter.standardGreeting = "Hello, there";
-    return Greeter;
-}());
+}
+console.log(getUserInfo(22))
+console.log(getUserInfo('mario'))

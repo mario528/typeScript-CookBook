@@ -15,6 +15,7 @@
 * [类型](#类型)
 * [高级类型](#高级类型)
 * [接口](#接口)
+* [函数](#函数)
 * [类](#类)
 * [装饰器](#装饰器)
 * [泛型](#泛型)
@@ -830,6 +831,116 @@ password 的所有成员。我们提前学习一个概念：在类中，private 
 子类中拥有。我们新定义了一个 Programmer 类。这个类继承了 SuperUser 类并且正确实现 
 addUser 方法，因此这个类正确实现了接口。而另一个新的 User 类，仅仅只实现了 addUser 方
 法，但其并没有 SuperUser 的 password 私有成员，因此实现接口失败。
+# 函数
+函数是任何编程语言的基础，函数将一个代码块独立出来。TypeScript 是 JavaScript 的超类，因此 TypeScript 
+有关函数的知识点我们浅尝辄止，本章我们主要介绍在 TypeScript 中的特性和模式。
+### 函数类型
+在 JavaScript 中， 有具名函数和匿名函数两种，您可以根据具体开发情形进行选择。
+``` JavaScript
+// 匿名函数
+let getSystemInfo = function (params) {
+    // do something ...
+    return true
+}
+// 具名函数
+function getSystemInfo (params) {
+    // do something ...
+    return true
+}
+```
+因为 TypeScript 增加了类型系统，所以我们需要对上面的函数进行改造。相对来说，具名函数在使用上更加便利。
+``` TypeScript
+// 具名函数
+function getSystemInfo (params: number): Boolean {
+    // do something ...
+    return true
+}
+// 匿名函数
+let getSystemInfo: (params: number) => Boolean = (params: number) : Boolean => {
+    // do something ...
+    return true
+}
+```
+在 TypeScript 中类型分为参数类型和返回类型两种。值得注意的是，在匿名函数中函数和返回值类型之前使用( => )
+符号。
+### 类型推断
+因为类型推断的存在，我们可以简化你匿名函数的定义方式:
+``` TypeScript
+// 匿名函数
+let getSystemInfo = (params: number) : Boolean => {
+    // do something ...
+    return true
+}
+```
+TypeScript 解释器会自动根据语法推断当前类型。
+### 可选参数和默认参数
+#### 可选参数
+在 TypeScript 中，传递给一个函数的参数个数必须与函数期望的参数个数一致。当我们想使一个参数视情况传入时，可
+以使用可选参数。
+``` TypeScript
+function getSystemInfo (userName: string, age: number, job ?: string): string {
+    if (job) {
+        return `姓名:${userName},年龄: ${age},工作:${job}`
+    } else {
+        return `姓名:${userName},年龄: ${age}`
+    }
+}
+getSystemInfo('mario', 22, '研发工程师')   // 姓名:mario,年龄: 22,职位:研发工程师
+getSystemInfo('mario', 22)               // 姓名:mario,年龄: 22
+```
+同时值得注意的是，我们需要将可选参数放在函数期望参数的最后。
+#### 默认参数
+当我们期望一个已经定义的参数当其未传入数据时，可以有一个默认值而不是 undefined 时，我们可以使用默认参数。默
+认参数其实已经在 JavaScript es6 版本中被广泛使用。
+``` TypeScript
+function getSystemInfo (userName: string, age: number, job = '后端开发工程师'): string {
+    if (job) {
+        return `姓名:${userName},年龄: ${age},工作:${job}`
+    } else {
+        return `姓名:${userName},年龄: ${age}`
+    }
+}
+getSystemInfo('mario', 22, '研发工程师')   // 姓名:mario,年龄: 22,职位:研发工程师
+getSystemInfo('mario', 22)               // 姓名:mario,年龄: 22,职位:后端开发工程师
+```
+### 剩余参数
+在上面的例子中，我们对函数的参数都是表示一个参数的，然而当实际开发中，我们可能会遇到多个入参，我们可以使用扩
+展运算符进行统一录入。
+``` TypeScript
+function getSystemInfo (userName: string, age: number, ...job: string[]): string {
+    return `姓名:${userName},年龄: ${age},工作:${job.join(',')}`
+}
+getSystemInfo('mario', 22, "研发工程师", "前端工程师", "后端工程师")  // 姓名:mario,年龄: 22,工作:研发工程师,前端工程师,后端工程师
+```
+### 函数重载
+当我们需要一个函数根据不同的参数进行不同的操作时，我们需要使用函数重载。在 JavaScript 中，我们可以根据入参
+的不同类型返回不同的值。
+``` JavaScript
+function getUserInfo (params) {
+    if (typeof params == 'number') {
+        return params + 1
+    }else if (typeof params == 'string') {
+        return 'super' + params
+    }
+}
+getUserInfo(22)           // 23
+getUserInfo('mario')      // supermario
+```
+在 TypeScript 中，我们为一个函数提供多个函数类型定义来进行函数重载，而 TypeScript 解释器会自动根据这个函
+数列表去调用相符合的函数。
+``` TypeScript
+function getUserInfo(params:number) :number;
+function getUserInfo(params:string) :string;
+function getUserInfo(params: any) {
+    if (typeof params == 'number') {
+        return params + 1
+    }else if (typeof params == 'string') {
+        return 'super' + params
+    }
+}
+getUserInfo('mario')      // supermario
+getUserInfo(22)           // 23
+```
 # 类
 在 C#、Java是基于类的继承并且由类构建出对象, 而在 JavaScript 中则是通过函数和原型链实现
 继承的。在 ES6 中，使用了 Class 语法糖，使得 JavaScript 与其他面向对象的编程语言更为接
@@ -1102,7 +1213,8 @@ let user: Person
 user = new Person('mario')
 user.getUserName()           // mario
 ```
-在上面的例子中，let user: Person 表示 Person类的实例的类型是 Person。 当我们使用 class 定义一个类的时候，转化为js原生代码是下面的内容:
+在上面的例子中，let user: Person 表示 Person类的实例的类型是 Person。 当我们使用 class 定义一个类的时
+候，转化为js原生代码是下面的内容:
 ``` JavaScript
 var Person = /** @class */ (function () {
     function Person(userName) {
@@ -1129,7 +1241,6 @@ interface Point3d extends Point {
 
 let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
-___
 # 装饰器
 随着 TypeScript 和 ES6 里引入了类的，在一些场景下我们需要额外的特性来支持标注或修改类及
 其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方
