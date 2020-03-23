@@ -1642,7 +1642,7 @@ User('22')           // Success
 User(['22'])         // Success
 User({length: 22})   // Success
 ```
-### 在泛型里使用类类型
+### 在泛型中使用类类型
 在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如：
 ``` TypeScript
 function create<T>(c: {new(): T; }): T {
