@@ -16,8 +16,8 @@
 * [接口](#接口)
 * [函数](#函数)
 * [类](#类)
-* [装饰器](#装饰器)
 * [泛型](#泛型)
+* [装饰器](#装饰器)
 * [声明空间](#声明空间)
 * [模块](#模块)
 * [命名空间](#命名空间)
@@ -1240,6 +1240,146 @@ interface Point3d extends Point {
 
 let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
+# 泛型
+在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回
+传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下
+面的例子中我们想实现一个传入 string 类型的变量 并返回其值的方法:
+``` TypeScript
+function Ttest(param: string):string {
+    return param
+}
+console.log(Ttest('mario'))           // mario
+```
+看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品走了过来
+并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 
+string 类型，对于 number、boolean...其他类型 “无能为力”。这是你可能会灵机一动，想到可
+以使用 any 的返回类型。但这样显然违背了 TypeScript 对于数据类型检验的初衷。为每一个类型
+都重复写一个这样逻辑高度一致的方法也太过于“奢侈”。因此，这时候 我们便需要使用 TypeScript 
+一个新的模式:泛型。
+``` TypeScript
+function Ttest<T>(param: T): T {
+    return param
+}
+console.log(Ttest<string>('mario'))   // mario
+console.log(Ttest(22))                // 22
+```
+在上面的代码中，我们给 Ttest 方法添加了类型变量T。类型 T 会根据我们传入值的类型，定义 T 的
+类型，这一过程，我们甚至可以用动态模版语言的方式去理解。这样，我们即保证了对传入值返回值类型
+的判断，又省去了大量重复逻辑的代码。在定义了泛型方法后，我们可以通过明确插入泛型类型的方式通
+知泛型方法该使用何种方式，或者直接传入参数，编译器会自动根据传入的参数的类型帮助我们确定 泛型
+方法的类型。在一些复杂的情况下,编译器可能无法自动分析出传入值的类型，所以一些情况下，需要我
+们用第一种方式去定义泛型方法的类型。
+### 使用泛型变量
+在上面，我们创建了一个 Ttest 的泛型方法后，在 Ttest 方法中，TypeScript 编译器便要求我
+们，在该方法体中，把入参当作所有类型参数使用。还是使用上面的例子:
+``` TypeScript
+function Ttest<T>(param: T): T {
+    console.log(param.length)         // Error 类型“T”上不存在属性“length”。
+    return param
+}
+console.log(Ttest<string>('mario'))   // mario
+console.log(Ttest(22))                // 22
+```
+在这个时候当我们想要获取到输入参数的长度时，即使我们的本意是获取到类型是数组或字
+符串类型的入参，但 TypeScript 编译器会用最坏的情况，或者说所有类型的语法标准去
+检测我们的代码。因此，在上面的代码中，倘若传入的参数是没有 length 方法的 
+number 类型，则会出现问题。对此我们可以在声明方法
+时，将入参设置为**元素类型是 T 的数组**。这样.length 方法便可以在方法中是用
+来，这可以让我们把泛型变量 T 当做类型的一部分使用，而不是整个类型，增加了灵活性。之后我们还会介
+绍另一种方式解决这类问题。
+``` TypeScript
+function Ttest<T>(param: T[]): T[] {
+    console.log(param.length)
+    return param
+}
+console.log(Ttest<string>(['mario']))   // mario
+```
+### 泛型类型
+泛型函数的类型与非泛型函数的类型没什么不同，只是有一个类型参数在最前面，像函数声明一样：
+``` TypeScript
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let myIdentity: <T>(arg: T) => T = identity;
+```
+接下来，我们来实现一个泛型接口:
+``` TypeScript
+interface UserOptions {
+    <T>(arg: T): T
+}
+function User<T>(params: T): T {
+    return params
+}
+let myIdentity: UserOptions = User;
+```
+接下来，我们还可以将泛型参数当作整个接口的一个参数，这样，就可以直接通过接口名来了解到具体
+是哪一个泛型类型了：
+``` TypeScript
+interface UserOptions<T> {
+    <T>(arg: T):void
+}
+function User<T>(param: T) {
+    // do something...    
+}
+let user: UserOptions<string> = User
+```
+### 泛型类
+泛型类和泛型接口使用类似，都是在接口名或类名后使用 <>,内添加泛型类型:
+``` TypeScript
+class User<T> {
+    constructor(public age: T) {}
+    setAge (newAgeData: T) {
+        this.age = newAgeData;
+    }
+}
+let user = new User<number>(22)
+user.age = 23
+user.setAge(24)
+```
+泛型类只可以限制实例部分的属性。
+### 泛型约束
+在上面的例子中我们接触到，在一个泛型方法中，我们无法直接访问一个泛型变量的 .length 值。但想要实
+现希望泛型类型拥有 .length 属性，则需要使用**泛型约束**：
+``` TypeScript
+interface Constraint {
+    length: number,
+}
+function User<T extends Constraint> (userList: T): void{
+    console.log(userList.length)
+}
+User(22)             // Error
+User('22')           // Success
+User(['22'])         // Success
+User({length: 22})   // Success
+```
+在上面，我们首先定义了一个接口来制定约束条件，在这个接口中，我们明确的规定了泛型所需要拥有的属性 
+length，在泛型函数中，使用 extedns 实现该接口对泛型进行约束。
+### 在泛型中使用类类型
+在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如：
+``` TypeScript
+function create<T>(c: {new(): T }): T {
+    return new c();
+}
+```
+这里在 TypeScript 学习中，是一个难点，难度在于需要我们明确的了解下面这段代码的含义。
+create 方法的参数是一个类类型，他的返回值是这个类类型的实例。这样解释，就好理解多了，
+``` TypeScript
+c: {new(): T; }
+```
+在这里等价于 c:new() => T。这样我们就可以看出，类类型其实就是在规范类型必须为其类的实例。
+``` TypeScript
+class User {
+    constructor (public userName: string) {
+    }
+    getUserInfo (): string {
+        return this.userName
+    }
+}
+function createInstance <T>(sub: new () => T):T {
+    return new sub()
+}
+```
 # 装饰器
 随着 TypeScript 和 ES6 里引入了类的，在一些场景下我们需要额外的特性来支持标注或修改类及
 其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方
@@ -1255,34 +1395,12 @@ let point3d: Point3d = {x: 1, y: 2, z: 3};
 ### 我们为什么要使用装饰器?
 正如上面我们所讲到的，装饰器是用于执行原有代码前，添加额外的预处理逻辑的。所以，当开发中，
 涉及到节流、防抖、类型判断等，都可以使用装饰器实现而不用对原有代码逻辑进行修改。我们可以理
-解为对原有代码的非侵入性扩展或修改。
-### 补充 函数柯里化 Currying
-函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入
-参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。
-
-让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单求和方法
-``` TypeScript
-// 常规模式
-function getSum(paramA:number, paramB: number):number {
-    return paramA + paramB
-}
-getSum(1, 2)              // 3
-
-// 函数柯里化模式
-function getSumByCurrying(paramA: number):any {
-    return function (paramB:number):number {
-        return paramA + paramB
-    }
-}
-getSumByCurrying(1)(1)    // 3
-```
-上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，接下来，我
-们继续深入了解函数柯里化。
-
-可能有的同学在面试中，面试官会提出如何实现连续求和的面试题，这就使用到了函数柯里化。
-``` TypeScript
-问: 如何实现getSumByCurrying(1)(2)(3)(4)(5).....(n) 连续求和
-```
+解为对原有代码的非侵入性扩展或修改。其实装饰器已经广泛运用在日常开发中，使用 TypeScript 进行 Vue
+开发的同学应该接触过 vue-class-component vue-property-decorator 这两个装饰器，他们的作用便是
+强化增强 Vue 组件。
+### 底层原理
+装饰器的底层实现是通过函数柯里化，对于函数柯里化不了解的同学，可以在[拓展](#拓展知识点)一章中进行系统的学
+习。
 ### 装饰器执行的时机
 ### 装饰器工厂
 如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个
@@ -1529,135 +1647,6 @@ class User {
     3. 参数装饰器应用到构造函数。
     4. 类装饰器应用到类。
 
-
-# 泛型
-在 TypeScript 中，我们对数据类型有着期望和规定。比如我们希望实现一个这样的方法：函数返回
-传入值,这个要求看上去很简单，我们只需要事先根据传入值的类型，设置好函数的返回值类型即可。下
-面的例子中我们想实现一个传入 string 类型的变量 并返回其值的方法:
-``` TypeScript
-function Ttest(param: string):string {
-    return param
-}
-console.log(Ttest('mario'))           // mario
-```
-看到这个需求，你兴高采烈的写下了上面这段代码，以为万事大吉了。然而，这时候产品走了过来
-并带来了新的需求，她希望这个需求也可以获取到各种类型的数据，很显然，当前的方法只适用于 
-string 类型，对于 number、boolean...其他类型 “无能为力”。这是你可能会灵机一动，想到可
-以使用 any 的返回类型。但这样显然违背了 TypeScript 对于数据类型检验的初衷。为每一个类型
-都重复写一个这样逻辑高度一致的方法也太过于“奢侈”。因此，这时候 我们便需要使用 TypeScript 
-一个新的模式:泛型。
-``` TypeScript
-function Ttest<T>(param: T): T {
-    return param
-}
-console.log(Ttest<string>('mario'))   // mario
-console.log(Ttest(22))                // 22
-```
-在上面的代码中，我们给 Ttest 方法添加了类型变量T。类型 T 会根据我们传入值的类型，定义 T 的
-类型，这一过程，我们甚至可以用动态模版语言的方式去理解。这样，我们即保证了对传入值返回值类型
-的判断，又省去了大量重复逻辑的代码。在定义了泛型方法后，我们可以通过明确插入泛型类型的方式通
-知泛型方法该使用何种方式，或者直接传入参数，编译器会自动根据传入的参数的类型帮助我们确定 泛型
-方法的类型。在一些复杂的情况下,编译器可能无法自动分析出传入值的类型，所以一些情况下，需要我
-们用第一种方式去定义泛型方法的类型。
-### 使用泛型变量
-在上面，我们创建了一个 Ttest 的泛型方法后，在 Ttest 方法中，TypeScript 编译器便要求我
-们，在该方法体中，把入参当作所有类型参数使用。还是使用上面的例子:
-``` TypeScript
-function Ttest<T>(param: T): T {
-    console.log(param.length)         // Error 类型“T”上不存在属性“length”。
-    return param
-}
-console.log(Ttest<string>('mario'))   // mario
-console.log(Ttest(22))                // 22
-```
-在这个时候当我们想要获取到输入参数的长度时，即使我们的本意是获取到类型是数组或字
-符串类型的入参，但 TypeScript 编译器会用最坏的情况，或者说所有类型的语法标准去
-检测我们的代码。因此，在上面的代码中，倘若传入的参数是没有 length 方法的 
-number 类型，则会出现问题。对此我们可以在声明方法
-时，将入参设置为**元素类型是 T 的数组**。这样.length 方法便可以在方法中是用
-来，这可以让我们把泛型变量 T 当做类型的一部分使用，而不是整个类型，增加了灵活性。之后我们还会介
-绍另一种方式解决这类问题。
-``` TypeScript
-function Ttest<T>(param: T[]): T[] {
-    console.log(param.length)
-    return param
-}
-console.log(Ttest<string>(['mario']))   // mario
-```
-### 泛型类型
-泛型函数的类型与非泛型函数的类型没什么不同，只是有一个类型参数在最前面，像函数声明一样：
-``` TypeScript
-function identity<T>(arg: T): T {
-    return arg;
-}
-
-let myIdentity: <T>(arg: T) => T = identity;
-```
-接下来，我们来实现一个泛型接口:
-``` TypeScript
-interface UserOptions {
-    <T>(arg: T): T
-}
-function User<T>(params: T): T {
-    return params
-}
-let myIdentity: UserOptions = User;
-```
-接下来，我们还可以将泛型参数当作整个接口的一个参数，这样，就可以直接通过接口名来了解到具体
-是哪一个泛型类型了：
-``` TypeScript
-interface UserOptions<T> {
-    <T>(arg: T):void
-}
-function User<T>(param: T) {
-    // do something...    
-}
-let user: UserOptions<string> = User
-```
-### 泛型类
-泛型类和泛型接口使用类似，都是在接口名或类名后使用 <>,内添加泛型类型:
-``` TypeScript
-class User<T> {
-    constructor(public age: T) {}
-    setAge (newAgeData: T) {
-        this.age = newAgeData;
-    }
-}
-let user = new User<number>(22)
-user.age = 23
-user.setAge(24)
-```
-泛型类只可以限制实例部分的属性。
-### 泛型约束
-在上面的例子中我们接触到，在一个泛型方法中，我们无法直接访问一个泛型变量的 .length 值。但想要实
-现希望泛型类型拥有 .length 属性，则需要使用**泛型约束**：
-``` TypeScript
-interface Constraint {
-    length: number,
-}
-function User<T extends Constraint> (userList: T): void{
-    console.log(userList.length)
-}
-User(22)             // Error
-User('22')           // Success
-User(['22'])         // Success
-User({length: 22})   // Success
-```
-在上面，我们首先定义了一个接口来制定约束条件，在这个接口中，我们明确的规定了泛型所需要拥有的属性 
-length，在泛型函数中，使用 extedns 实现该接口对泛型进行约束。
-### 在泛型中使用类类型
-在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如：
-``` TypeScript
-function create<T>(c: {new(): T; }): T {
-    return new c();
-}
-```
-这里在 TypeScript 学习中，是一个难点，难度在于需要我们明确的了解下面这段代码的含义。
-create 方法的参数是一个类类型，他的返回值是这个类类型的实例。这样解释，就好理解多了，
-``` TypeScript
-c: {new(): T; }
-```
-在这里等价于 c:new() => T。这样我们就可以看出，类类型其实就是在规范类型必须为其类的实例。
 # 声明空间
  - 类型声明空间
  - 变量声明空间
@@ -2444,3 +2433,34 @@ SubType.prototype.getUserSex = function () {
 ```
 这样的继承模式使得我们只会调用一次父类的构造函数，避免了子类的原型对象上添加更多没必要的参
 数。
+### 闭包
+### 函数柯里化 Currying
+函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入
+参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。这解决了参数无法同时存在时的情况。
+让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单经典的求和方法
+``` TypeScript
+// 常规模式
+function getSum(paramA:number, paramB: number):number {
+    return paramA + paramB
+}
+getSum(1, 2)              // 3
+
+// 函数柯里化模式
+function getSumByCurrying(paramA: number):any {
+    return function (paramB:number):number {
+        return paramA + paramB
+    }
+}
+getSumByCurrying(1)(1)    // 3
+```
+#### 通用方式
+``` JavaScript
+
+```
+
+上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，但这样看上去有些多此一举，不要着急，接下来，我们继续深入了解函数柯里化。
+
+可能有的同学在面试中，面试官会提出如何实现连续求和的面试题，这里就可以使用函数柯里化。
+``` TypeScript
+问: 如何实现getSumByCurrying(1)(2)(3)(4)(5).....(n) 连续求和
+```

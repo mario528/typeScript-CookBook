@@ -848,14 +848,25 @@
 // }
 // console.log(getUserInfo(22))
 // console.log(getUserInfo('mario'))
-function getUserInfo(params:number) :number;
-function getUserInfo(params:string) :string;
-function getUserInfo(params: any) {
-    if (typeof params == 'number') {
-        return params + 1
-    }else if (typeof params == 'string') {
-        return 'super' + params
+// function getUserInfo(params:number) :number;
+// function getUserInfo(params:string) :string;
+// function getUserInfo(params: any) {
+//     if (typeof params == 'number') {
+//         return params + 1
+//     }else if (typeof params == 'string') {
+//         return 'super' + params
+//     }
+// }
+// console.log(getUserInfo('mario'))
+// console.log(getUserInfo(22))
+class User {
+    constructor (public userName: string) {
+    }
+    getUserInfo (): string {
+        console.log(this.userName)
+        return this.userName
     }
 }
-console.log(getUserInfo('mario'))
-console.log(getUserInfo(22))
+function createInstance <T>(sub: new () => T):T {
+    return new sub()
+}

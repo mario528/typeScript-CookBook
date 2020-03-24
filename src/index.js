@@ -805,12 +805,14 @@
 //     // do something ...
 // }
 
-function getUserInfo (params) {
-    if (typeof params == 'number') {
-        return params + 1
-    }else if (typeof params == 'string') {
-        return 'super' + params
+// function curryFunc () {
+//     return 
+// }
+function curry (fn) {
+    let args = Array.prototype.slice.call(arguments, 1)
+    return function () {
+        let innerArgs = Array.prototype.slice.call(arguments)
+        let finalArgs = args.concat(innerArgs)
+        return fn.apply(null, finalArgs)
     }
 }
-console.log(getUserInfo(22))
-console.log(getUserInfo('mario'))
