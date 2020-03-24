@@ -808,11 +808,18 @@
 // function curryFunc () {
 //     return 
 // }
-function curry (fn) {
-    let args = Array.prototype.slice.call(arguments, 1)
-    return function () {
-        let innerArgs = Array.prototype.slice.call(arguments)
-        let finalArgs = args.concat(innerArgs)
-        return fn.apply(null, finalArgs)
+function getSumByCurry () {
+    let arr = [0]
+    return function getSum() {
+        // 外部传来的叠加参数
+        let outInputArguments = Array.prototype.slice.call(arguments)
+        arr = arr.concat(outInputArguments)
+        if (outInputArguments.length === 0) {
+            console.log(arr.reduce((a,b) => a + b))
+            return arr.reduce((a,b) => a + b)
+        }else {
+            return getSum
+        }
     }
 }
+getSumByCurry(0)(1)(2)(3)(4)(5)()

@@ -2437,6 +2437,7 @@ SubType.prototype.getUserSex = function () {
 ### 函数柯里化 Currying
 函数柯里化高阶函数的一个特殊用法,就是将方法接受的多参数转换为接受单一参数的一种模式: 多入
 参 => 单一入参 => 返回一个接受余下参数且返回结果的新函数。这解决了参数无法同时存在时的情况。
+如果您接触过函数式编程的话，会发现函数柯里化不可或缺，我们可以使用函数柯里化处理许多复杂的业务逻辑。
 让我们来举一个例子了解一下函数柯里化，我们用常规模式和函数柯里化模式实现一个最简单经典的求和方法
 ``` TypeScript
 // 常规模式
@@ -2455,12 +2456,46 @@ getSumByCurrying(1)(1)    // 3
 ```
 #### 通用方式
 ``` JavaScript
-
+function curry (fn) {
+    // 获取柯里化函数的指针
+    let args = Array.prototype.slice.call(arguments, 1)
+    return function () {
+        // 匿名函数如参
+        let innerArguments = Array.prototype.slice.call(arguments)
+        let allArgs = args.concat(innerArguments)
+        return fn.apply(null, allArgs) 
+    }
+}
+let add = function (arg1, arg2) {
+    return arg1 + arg2
+}
+curry(add, 1)(2)
 ```
 
-上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，但这样看上去有些多此一举，不要着急，接下来，我们继续深入了解函数柯里化。
+上面是一个最简单的函数柯里化例子，通过这个例子，我们初步认识到了何为函数柯里化，但这样看上去有些多此一举，不
+要着急，接下来，我们继续深入了解函数柯里化。
 
-可能有的同学在面试中，面试官会提出如何实现连续求和的面试题，这里就可以使用函数柯里化。
-``` TypeScript
+下面的是面试中经常遇到的函数柯里化问题：
+``` JavaScript
 问: 如何实现getSumByCurrying(1)(2)(3)(4)(5).....(n) 连续求和
+```
+如果按照我们例一的模式，我们需要连续返回n-1个匿名函数，这样看实在是不太优雅，这样，让我们对于上面的例子进行
+修改：
+``` JavaScript
+function getSumByCurry () {
+    // 记录入参
+    let arr = [0]
+    return function getSum() {
+        // 外部传来的叠加参数
+        let outInputArguments = Array.prototype.slice.call(arguments)
+        arr = arr.concat(outInputArguments)
+        if (outInputArguments.length === 0) {
+            console.log(arr.reduce((a,b) => a + b))
+            return arr.reduce((a,b) => a + b)
+        }else {
+            return getSum
+        }
+    }
+}
+getSumByCurry(0)(1)(2)(3)(4)(5)()          // 15
 ```
