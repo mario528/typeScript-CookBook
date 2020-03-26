@@ -137,19 +137,30 @@
 // }
 // let ma = new UserType('mario')
 // console.log(ma.userInfoName)
-function paramsFormat(params: any) {
-    return function (target: any, attr: any) {
-        console.log(target, attr, params)
-        target[attr] = params
+// function paramsFormat(params: any) {
+//     return function (target: any, attr: any) {
+//         console.log(target, attr, params)
+//         target[attr] = params
+//     }
+// }
+// class UserInfo {
+//     @paramsFormat('superMario')
+//     public userName: string | undefined
+//     constructor (userName: string) {
+//         this.userName = userName 
+//     }
+//     getUserName() {
+//         console.log(this.userName)
+//     }
+// }
+namespace Check {
+    export interface PhoneNumber {
+        phoneNumber: string
     }
-}
-class UserInfo {
-    @paramsFormat('superMario')
-    public userName: string | undefined
-    constructor (userName: string) {
-        this.userName = userName 
+    export interface Password {
+        password: string | number
     }
-    getUserName() {
-        console.log(this.userName)
+    export interface UserFunc {
+        isAvailable (): boolean
     }
 }

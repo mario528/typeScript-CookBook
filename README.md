@@ -18,7 +18,6 @@
 * [类](#类)
 * [泛型](#泛型)
 * [装饰器](#装饰器)
-* [声明空间](#声明空间)
 * [模块](#模块)
 * [命名空间](#命名空间)
 * [三斜杠指令](#三斜杠指令)
@@ -1724,9 +1723,8 @@ class User {
 let Human = User;
 let man = new Human(); // User
 ```
-___
 # 模块
-typeScript 中的模块 在 TypeScript 中，推荐使用ES模块语法
+模块中的代码会在其自身的作用域中执行，而并非全局作用域。这就意味着，模块中的变量、方法、类只有在对外暴露且外部导入的情况下，才是可见可用的。在TypeScript 中，推荐使用ES模块语法 （export）
 ``` typeScript
 // a.ts 导出
 export let a = 10;
@@ -1755,7 +1753,7 @@ console.log(A)                 // { a: 10, emailAddress: 'mario528@163.com' }
             * 直到查找到项目的rootpath 
 ___
 # 命名空间
-在 TypeScript 中,现在的版本推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一
+在 TypeScript 最新的版本中推荐我们使用命名空间。实质上,命名空间是位于全局命名空间下的一
 个普通的带有名字的 JavaScrpt 对象。首先，让我们来看看下面的这段代码，本章命名空间相关的学
 习我们都会围绕着这段代码和它的“升级版”来展开:
 ``` TypeScript
@@ -1835,9 +1833,89 @@ let passTemp = new Check.checkPasswordAvailable('528528')
 passTemp.isAvailable() // true
 ```
 在 TypeScript 中, namespace 拥有和匿名函数一样的独立的作用域。在命名空间内部使用的变
-量、方法、类，就无需对外暴露了。而在上面的代码中，checkPasswordAvailable 和 
+量、方法、类，在命名空间外部均无法访问。而在上面的代码中，checkPasswordAvailable 和 
 checkPhoneAvailbale 需要在外部实例化。因此需要对外export暴露。
 ### 多个命名空间
+随着我们的代码随着业务越来越复杂，上面的命名空间 Check 也就越来越难以维护，出于
+项目架构和代码整洁性的考虑，我们继续对 Check 模块进行拆分，将不同功能的代码拆分
+到多个文件中。
+``` TypeScript
+// Validation.ts
+namespace Check {
+    export interface PhoneNumber {
+        phoneNumber: string
+    }
+    export interface Password {
+        password: string | number
+    }
+    export interface UserFunc {
+        isAvailable (): boolean
+    }
+}
+// CheckPhoneAvailbale.ts
+/// <reference path="Validation.ts" />
+namespace CheckPhone {
+    const globalPassword = '528528'
+    let globalPhoneREG = /^1[34578]\d{9}$/
+    export class checkPhoneAvailbale implements PhoneNumber,UserFunc {
+        phoneNumber: string
+        constructor (phoneNumber: string) {
+            this.phoneNumber = phoneNumber
+        }
+        isAvailable () {
+            return globalPhoneREG.test(this.phoneNumber)
+        }
+    }
+}
+// CheckPasswordAvailable.ts
+/// <reference path="Validation.ts" />
+namespace checkPasswordAvailable {
+    export class checkPasswordAvailable implements Password,UserFunc {
+        password: number | string;
+        constructor (password: string | number) {
+            this.password = password;
+        }
+        isAvailable () {
+            return this.password == globalPassword
+        }
+    }
+}
+// index.ts
+/// <reference path="Validation.ts" />
+/// <reference path="CheckPhoneAvailbale.ts" />
+/// <reference path="CheckPasswordAvailable.ts" />
+let passTemp = new CheckPasswordAvailable.checkPasswordAvailable('528528')
+passTemp.isAvailable()      // true
+``` 
+### 别名
+我们可以通过:
+``` TypeScript
+import a = x.y.z
+```
+给常用的对象起一个别名，例如下面的命名空间
+``` TypeScript
+namespace A {
+    export namespace B {
+        export namespace C {
+            export class Test {
+                constructor () {}
+                test () {
+                    return 'test'
+                }
+            }
+        }
+    }
+}
+import TestFunc = A.B.C
+```
+在上面的代码中，如果不使用别名，我们需要
+``` TypeScript
+let test = new A.B.C.Test()
+```
+而使用别名后，我们可以直接进行调用：
+``` TypeScript
+let test = new TestFunc.Test()
+```
 # 三斜杠指令
 # 环境声明文件
 当你已经看到本章时，相比已经对 TypeScript 的基础知识有了了解。接下来这一章。
