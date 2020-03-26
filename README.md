@@ -1401,10 +1401,10 @@ function createInstance <T>(sub: new () => T):T {
 ### 底层原理
 装饰器的底层实现是通过函数柯里化，对于函数柯里化不了解的同学，可以在[拓展](#拓展知识点)一章中进行系统的学
 习。
-### 装饰器执行的时机
 ### 装饰器工厂
-如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器工厂是一个
-简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所学习到的函数柯里化。
+如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。装饰器
+工厂是一个简单的方法，它会在方法调用时返回一个装饰器，这其实就是使用了上面我们所
+学习到的函数柯里化。装饰器工厂在最外层接受传入的参数，在闭包返回的匿名函数中，默认传入当前方法或类。
 ``` TypeScript
 // 装饰器工厂函数
 function decorationFactory(params:any):any {
@@ -1462,7 +1462,7 @@ class A {
 
 求值的结果会被当作装饰器由下至上依次调用。
 ### 类装饰器
-类装饰器在类声明前被声明，类装饰器应用于类的构造函数，可以用来监控、增加、替换类的定义。
+类装饰器需要在类声明前被声明，类装饰器应用于类的构造函数，可以用来监控、增加、替换类的定义。
 
 类装饰器表达式会当作函数被调用，类的构造函数会作为其唯一的参数。如果类装饰器返回一个值，它
 会使用提供的构造函数来替换类的说明。
@@ -1471,6 +1471,9 @@ function decorationFun (params: string):Function {
     console.log(params)            // mario
     return function (target: any) {
         console.log(target)        // [Function: User]
+        target.prototype.getUserAge = function () {
+            // do something
+        }
     }
 }
 
@@ -1535,6 +1538,35 @@ class User {
 let user = new User()
 user.getUserName()           // typeScript
 ```
+### 访问器装饰器
+访问器装饰器声明在一个访问器声明前，其用于监控，修改或替换一个访问器的定义，在 TypeScript 中不允许同一个装饰器同时装饰一个成员的 set 和 get 访问器。访问器装饰器表达式会在运行时当作函数被调用，传入下列3个参数：
+
+    1.对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+    2.成员的名字。
+    3.成员的属性描述符。
+下面，我们通过一段代码来学习通过访问器装饰器实现对访问器的修改：
+``` TypeScript
+function configurableFunc(value: any) {
+    return function (target: any, key: string, desc: any) {
+        console.log(target, key, desc)
+        desc.get = function (params: any) {
+            return value
+        }
+    }
+}
+class UserType {
+    public _userInfoName: string
+    constructor(userInfoName: string) {
+        this._userInfoName = userInfoName
+    }
+    @configurableFunc('superMario')
+    get userInfoName () {
+        return this._userInfoName
+    }
+}
+let ma = new UserType('mario')
+console.log(ma.userInfoName)         // superMario
+```
 ### 方法装饰器
 方法装饰器声明在一个方法的声明之前（紧靠着方法声明）。它会被应用到方法的 属性描述符上，可以
 用来监视，修改或者替换方法定义。方法装饰器表达式会在运行时当作函数被调用，会接受三个参数:
@@ -1575,8 +1607,31 @@ user.run()            // change methods
 ```
 我们在类成员类型中存取器章节时，学习到了成员的属性描述符。在上面的例子中，我们通过 
 decorationMethods 方法装饰器 将方法的可枚举属性改变为true。这样我们可以使用 
-Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 User 类中的 run 方
-法。
+Object.keys() 得到该方法。接着我们又使用 decorationFun 装饰器通过成员属性描述符的 value 属性修改了 
+User 类中的 run 方法。
+### 属性装饰器
+属性装饰器需要在一个属性声明之前定义，属性装饰器表达式会在运行时当作函数被调用，会接受两个参数：
+
+    1.对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
+    2.成员的名字。
+下面我们还是通过一个简单的例子来了解属性装饰器:
+``` TypeScript
+function paramsFormat(params: any) {
+    return function (target: any, attr: any) {
+        console.log(target)
+        target.attr = params
+    }
+}
+class UserInfo {
+    @paramsFormat('superMario')
+    public userName: string | undefined
+    constructor (userName: string) {
+        this.userName = userName 
+    }
+}
+let ma = new UserInfo('mario')
+ma.userName          // superMario
+```
 ### 参数装饰器
 参数装饰器声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。
 参数装饰器表达式会在运行时当作函数被调用，会接受三个参数：
@@ -1584,7 +1639,7 @@ Object.keys() 得到该方法。接着我们又使用 decorationFun 修改了 Us
     1. 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象。
     2. 成员的名字。
     3. 参数在函数参数列表中的索引。
-参数装饰器在平时应用的比较少，因此我们不做过深的研究。
+参数装饰器主要作用是给方法增加参数，在平时应用的比较少，因此我们不做过深的研究。
 ``` TypeScript
 function decorationParams(params:string) {
     return function (target: any, propertyKey: string | symbol, parameterIndex: number) {
@@ -1642,11 +1697,10 @@ class User {
 在上面我们同时使用了类装饰器、方法装饰器、参数装饰器和方法装饰器。通过代码执行的输出，我们
 可以分析出:
 
-    1. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个实例成员。
-    2. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个静态成员。
+    1. 参数装饰器，然后依次是方法装饰器，访问器装饰器，或属性装饰器应用到每个实例成员。
+    2. 参数装饰器，然后依次是方法装饰器，访问器装饰器，或属性装饰器应用到每个静态成员。
     3. 参数装饰器应用到构造函数。
     4. 类装饰器应用到类。
-
 # 声明空间
  - 类型声明空间
  - 变量声明空间
