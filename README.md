@@ -21,6 +21,7 @@
 * [模块](#模块)
 * [命名空间](#命名空间)
 * [三斜杠指令](#三斜杠指令)
+* [混入](#混入)
 * [环境声明文件](#环境声明文件)
 * [拓展](#拓展知识点)
 # 开始
@@ -1915,6 +1916,59 @@ let test = new A.B.C.Test()
 而使用别名后，我们可以直接进行调用：
 ``` TypeScript
 let test = new TestFunc.Test()
+```
+# 混入
+熟悉 Vue 开发的同学可能接触到过混入这一概念，mixin 这一特性大大的提高了 Vue 组件的复用性。同样，在
+TypeScript 中同样存在着这样的特性。
+``` TypeScript
+class Person {
+    constructor (public job: string) {}
+    makeMoney (): void {
+        console.log('make money~')
+    }
+}
+class Husky {
+    constructor (public dismantle: boolean) {}
+    haveRest (): void {
+        this.dismantle = false
+    }
+    doJob (): void {
+        this.dismantle = true
+    }
+}
+```
+接着，我们定义一个类，我们希望这个类可以融合 Person 以及 Husky 两个类：
+``` TypeScript
+class FrenziedBoy implements Person, Husky {
+    public job: string = 'developer'
+    public dismantle: boolean = true
+    constructor () {}
+    // Husky
+    makeMoney(): void {}
+    haveRest(): void {}
+    // Person
+    doJob(): void {}
+}
+```
+值得注意的是，FrenziedBoy 并不是通过 extend 继承 Person, Husky 这两个类，而是将这两个类作为了接口，仅
+仅使用其类型而并非实现。但这又意味着我们必须要在 FrenziedBoy 中实现接口，遗憾的是这又不满足我们 mixin 的
+目的，因此我们只需要在 FrenziedBoy 类中提前创建要 mixin 的占位属性即可。
+
+接着我们通过 mixinFunction 函数实现类的混入。最终，通过遍历，之前提前设置的占位的属性便被替换成了真正实现
+的代码。
+``` TypeScript
+function mixinFunction( Home: any, mixinList: any[] ) {
+    mixinList.forEach(element => {
+        Object.keys(element.prototype).forEach(item => {
+            Home.prototype[item] = element.prototype[item]
+        })
+    })
+}
+mixinFunction(FrenziedBoy, [Person, Husky])
+let boy = new FrenziedBoy()
+boy.makeMoney()
+boy.haveRest()
+boy.doJob()
 ```
 # 三斜杠指令
 # 环境声明文件

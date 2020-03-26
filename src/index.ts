@@ -859,14 +859,53 @@
 // }
 // console.log(getUserInfo('mario'))
 // console.log(getUserInfo(22))
-class User {
-    constructor (public userName: string) {
-    }
-    getUserInfo (): string {
-        console.log(this.userName)
-        return this.userName
+// class User {
+//     constructor (public userName: string) {
+//     }
+//     getUserInfo (): string {
+//         console.log(this.userName)
+//         return this.userName
+//     }
+// }
+// function createInstance <T>(sub: new () => T):T {
+//     return new sub()
+// }
+class Person {
+    constructor (public job: string) {}
+    makeMoney (): void {
+        console.log('make money~')
     }
 }
-function createInstance <T>(sub: new () => T):T {
-    return new sub()
+class Husky {
+    constructor (public dismantle: boolean) {}
+    haveRest (): void {
+        console.log(this.dismantle)
+        this.dismantle = false
+    }
+    doJob (): void {
+        console.log(this.dismantle)
+        this.dismantle = true
+    }
 }
+class FrenziedBoy implements Person, Husky {
+    public job: string = 'developer'
+    public dismantle: boolean = true
+    constructor () {}
+    // Husky
+    makeMoney(): void {}
+    haveRest(): void {}
+    // Person
+    doJob(): void {}
+}
+function mixinFunction( Home: any, mixinList: any[] ) {
+    mixinList.forEach(element => {
+        Object.keys(element.prototype).forEach(item => {
+            Home.prototype[item] = element.prototype[item]
+        })
+    })
+}
+mixinFunction(FrenziedBoy, [Person, Husky])
+let boy = new FrenziedBoy()
+boy.makeMoney()
+boy.haveRest()
+boy.doJob()
